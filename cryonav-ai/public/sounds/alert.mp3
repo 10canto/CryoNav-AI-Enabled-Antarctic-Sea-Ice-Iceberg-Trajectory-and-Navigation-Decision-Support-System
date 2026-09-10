@@ -1,0 +1,3 @@
+/* Placeholder audio file for CryoNav AI emergency warning sound.
+   The application uses Web Audio API synthesizer for cross-browser 3-beep emergency alert audio,
+   and can also load audio from /sounds/alert.mp3 when a customized sound file is provided. */

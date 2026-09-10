@@ -1,0 +1,107 @@
+{
+  "predictions": [
+    {
+      "iceberg_id": "ICE-047",
+      "trajectory": [
+        {
+          "time": "1h",
+          "position": {
+            "lat": -65.148,
+            "lon": -64.473
+          },
+          "uncertainty_radius_km": 1
+        },
+        {
+          "time": "2h",
+          "position": {
+            "lat": -65.144,
+            "lon": -64.468
+          },
+          "uncertainty_radius_km": 2
+        },
+        {
+          "time": "4h",
+          "position": {
+            "lat": -65.136,
+            "lon": -64.458
+          },
+          "uncertainty_radius_km": 3
+        },
+        {
+          "time": "6h",
+          "position": {
+            "lat": -65.128,
+            "lon": -64.448
+          },
+          "uncertainty_radius_km": 5
+        },
+        {
+          "time": "12h",
+          "position": {
+            "lat": -65.104,
+            "lon": -64.418
+          },
+          "uncertainty_radius_km": 8
+        }
+      ]
+    },
+    {
+      "iceberg_id": "ICE-048",
+      "trajectory": [
+        {
+          "time": "2h",
+          "position": {
+            "lat": -65.378,
+            "lon": -64.635
+          },
+          "uncertainty_radius_km": 2
+        },
+        {
+          "time": "6h",
+          "position": {
+            "lat": -65.364,
+            "lon": -64.621
+          },
+          "uncertainty_radius_km": 4
+        },
+        {
+          "time": "12h",
+          "position": {
+            "lat": -65.336,
+            "lon": -64.593
+          },
+          "uncertainty_radius_km": 7
+        }
+      ]
+    },
+    {
+      "iceberg_id": "ICE-049",
+      "trajectory": [
+        {
+          "time": "2h",
+          "position": {
+            "lat": -65.218,
+            "lon": -64.508
+          },
+          "uncertainty_radius_km": 2
+        },
+        {
+          "time": "6h",
+          "position": {
+            "lat": -65.204,
+            "lon": -64.494
+          },
+          "uncertainty_radius_km": 4
+        },
+        {
+          "time": "12h",
+          "position": {
+            "lat": -65.176,
+            "lon": -64.466
+          },
+          "uncertainty_radius_km": 8
+        }
+      ]
+    }
+  ]
+}

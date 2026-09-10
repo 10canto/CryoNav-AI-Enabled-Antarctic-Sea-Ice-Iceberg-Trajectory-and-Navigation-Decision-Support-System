@@ -1,0 +1,78 @@
+{
+  "predictions": [
+    {
+      "iceberg_id": "ICE-047",
+      "trajectory": [
+        {
+          "time": "6h",
+          "position": {
+            "lat": -65.185,
+            "lon": -64.508
+          },
+          "uncertainty_radius_km": 2
+        },
+        {
+          "time": "12h",
+          "position": {
+            "lat": -65.172,
+            "lon": -64.493
+          },
+          "uncertainty_radius_km": 4
+        },
+        {
+          "time": "18h",
+          "position": {
+            "lat": -65.158,
+            "lon": -64.478
+          },
+          "uncertainty_radius_km": 6
+        },
+        {
+          "time": "24h",
+          "position": {
+            "lat": -65.145,
+            "lon": -64.463
+          },
+          "uncertainty_radius_km": 9
+        },
+        {
+          "time": "36h",
+          "position": {
+            "lat": -65.118,
+            "lon": -64.433
+          },
+          "uncertainty_radius_km": 14
+        }
+      ]
+    },
+    {
+      "iceberg_id": "ICE-048",
+      "trajectory": [
+        {
+          "time": "6h",
+          "position": {
+            "lat": -65.405,
+            "lon": -64.675
+          },
+          "uncertainty_radius_km": 3
+        },
+        {
+          "time": "12h",
+          "position": {
+            "lat": -65.398,
+            "lon": -64.662
+          },
+          "uncertainty_radius_km": 5
+        },
+        {
+          "time": "24h",
+          "position": {
+            "lat": -65.384,
+            "lon": -64.636
+          },
+          "uncertainty_radius_km": 10
+        }
+      ]
+    }
+  ]
+}

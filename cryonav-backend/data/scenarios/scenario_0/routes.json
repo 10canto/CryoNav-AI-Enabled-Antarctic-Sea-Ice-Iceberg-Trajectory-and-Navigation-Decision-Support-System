@@ -1,0 +1,263 @@
+{
+  "metadata": {
+    "generated": "2024-01-15T10:00:00Z",
+    "voyage_type": "India-Antarctica Research Expedition",
+    "ship_type": "Ice-strengthened research vessel (1A ice class)",
+    "ship_name": "R/V Bharati Pioneer",
+    "imo_number": 9482103,
+    "season": "Austral summer (December-February)",
+    "scenario": 0,
+    "scenario_name": "Safe Voyage - Optimal Summer Baseline",
+    "data_sources": "IMO Polar Code Guidelines, NSIDC Sea Ice Index, NOAA OSCAR Ocean Currents, IHO/IOC GEBCO Bathymetry, Indian Antarctic Programme historical expedition logs"
+  },
+  "voyage_info": {
+    "start": {
+      "name": "Chennai Port, India",
+      "port_code": "INMAA",
+      "lat": 13.0827,
+      "lon": 80.2707,
+      "berth": "Jawahar Dock (East Quay 4)"
+    },
+    "end": {
+      "name": "Maitri Research Station, Antarctica",
+      "region": "Schirmacher Oasis, Queen Maud Land",
+      "lat": -70.7644,
+      "lon": 11.7386,
+      "shelf_fast_ice_landing": "Lazarev Ice Shelf / Princess Astrid Coast"
+    },
+    "season": "December (Austral Summer)",
+    "ice_conditions": "Favorable - minimum seasonal ice extent, open leads along 10-15°E meridian",
+    "total_distance_range_km": "10,500 - 12,200 km",
+    "voyage_duration_range_days": "28 - 34 days",
+    "weather_window_requirement": "72-hour calm weather window (<20 kts wind) required before entering pack ice at 64°S"
+  },
+  "maritime_constraints": {
+    "vessel_polar_class": "1A Ice Class (DNV ICE-1A / Polar Class 6 equivalent)",
+    "service_speed_open_water_knots": 15.5,
+    "safe_speed_ice_navigation_knots": 8.5,
+    "minimum_turn_radius_nm": 5.0,
+    "fuel_consumption_open_ocean_liters_per_day": 5500,
+    "fuel_consumption_ice_breaking_liters_per_day": 8000,
+    "safety_fuel_reserve_percentage": 15,
+    "acc_drift_speed_knots": 1.2
+  },
+  "routes": [
+    {
+      "id": "safest",
+      "type": "safest",
+      "name": "Eastern Ice-Avoidance Route",
+      "color": "#10b981",
+      "polyline_style": "solid",
+      "distance_km": 12200,
+      "distance_nm": 6587,
+      "duration_days": 34.0,
+      "avg_speed_knots": 15.0,
+      "fuel_liters": 185000,
+      "risk_score": 12,
+      "safety_rating_stars": 5,
+      "description": "Maximum ice avoidance route. Wide eastern detour around Iceberg Alley (40-60°E) and Prince Edward Islands. Lowest collision probability.",
+      "key_features": [
+        "Passes wide east of Prince Edward Islands (46.7°S, 37.8°E)",
+        "Wide 350 km berth clear of main iceberg concentration corridor (40-60°E)",
+        "Gradual southern descent through the Roaring Forties and Furious Fifties",
+        "Enters pack ice at 66°S where ice concentration is lowest (<30%)"
+      ],
+      "waypoints": [
+        {"seq": 1, "lat": 13.0827, "lon": 80.2707, "label": "Chennai Port - DEPARTURE", "phase": "Indian Ocean Transit", "notes": "Port clearance & pilot disembarkation"},
+        {"seq": 2, "lat": 8.5, "lon": 82.0, "label": "Sri Lanka East Pass", "phase": "Indian Ocean Transit", "notes": "Clear of Great Basses Reef shipping lane"},
+        {"seq": 3, "lat": 0.0, "lon": 85.0, "label": "Equator Crossing", "phase": "Indian Ocean Transit", "notes": "Entering South Equatorial Current domain"},
+        {"seq": 4, "lat": -10.0, "lon": 88.0, "label": "Mid-Indian Ocean Checkpoint", "phase": "Indian Ocean Transit", "notes": "Southeast trade wind belt"},
+        {"seq": 5, "lat": -20.0, "lon": 90.0, "label": "Southern Indian Ocean Gyre", "phase": "Indian Ocean Transit", "notes": "Deep ocean transit, average depth 4,500m"},
+        {"seq": 6, "lat": -30.0, "lon": 85.0, "label": "Subtropical Convergence Approach", "phase": "Indian Ocean Transit", "notes": "Sea temperature drop from 22°C to 14°C"},
+        {"seq": 7, "lat": -40.0, "lon": 75.0, "label": "Roaring Forties Entry", "phase": "Southern Ocean Crossing", "notes": "Prevailing westerly swells (H_s = 4.5m)"},
+        {"seq": 8, "lat": -45.0, "lon": 65.0, "label": "Prince Edward Islands Eastern Clearance", "phase": "Southern Ocean Crossing", "notes": "Clear of Marion Island shelf shallows by 320 nm"},
+        {"seq": 9, "lat": -50.0, "lon": 50.0, "label": "Furious Fifties - Eastern Arc", "phase": "Southern Ocean Crossing", "notes": "Barometric pressure gradient monitoring"},
+        {"seq": 10, "lat": -55.0, "lon": 35.0, "label": "Iceberg Monitoring Outer Perimeter", "phase": "Southern Ocean Crossing", "notes": "Continuous marine X-band radar watch enabled"},
+        {"seq": 11, "lat": -58.0, "lon": 25.0, "label": "Antarctic Convergence Approach", "phase": "Southern Ocean Crossing", "notes": "Surface water temperature reaches +1.5°C"},
+        {"seq": 12, "lat": -60.0, "lon": 20.0, "label": "Polar Front Crossing", "phase": "Southern Ocean Crossing", "notes": "60°S latitude boundary of Antarctic Treaty System"},
+        {"seq": 13, "lat": -63.0, "lon": 17.0, "label": "Marginal Ice Zone Outer Boundary", "phase": "Antarctic Approach", "notes": "First scattered bergy bits & growlers"},
+        {"seq": 14, "lat": -66.0, "lon": 14.5, "label": "Pack Ice Edge Passage", "phase": "Antarctic Approach", "notes": "Entering 3/10 open drift ice; speed reduced to 10 kts"},
+        {"seq": 15, "lat": -68.5, "lon": 12.5, "label": "Princess Astrid Coast Coastal Lead", "phase": "Antarctic Approach", "notes": "Navigating shore lead inside fast ice barrier"},
+        {"seq": 16, "lat": -70.7644, "lon": 11.7386, "label": "Maitri Station Fast-Ice Anchorage - ARRIVAL", "phase": "Antarctic Approach", "notes": "Vessel moored to fast ice barrier at Lazarev Shelf"}
+      ],
+      "fuel_breakdown": {
+        "open_water_transit_liters": 148500,
+        "ice_navigation_liters": 16500,
+        "maneuvering_and_port_liters": 4500,
+        "safety_reserve_liters": 15500,
+        "total_liters": 185000
+      },
+      "time_breakdown": {
+        "open_ocean_days": 27.0,
+        "ice_navigation_days": 3.5,
+        "weather_buffer_days": 2.5,
+        "departure_arrival_operations_days": 1.0,
+        "total_days": 34.0
+      }
+    },
+    {
+      "id": "fastest",
+      "type": "fastest",
+      "name": "Direct Southern Route",
+      "color": "#f59e0b",
+      "polyline_style": "dashed",
+      "distance_km": 10500,
+      "distance_nm": 5670,
+      "duration_days": 28.0,
+      "avg_speed_knots": 15.5,
+      "fuel_liters": 168000,
+      "risk_score": 38,
+      "safety_rating_stars": 3,
+      "description": "Most direct orthodromic route. Transits straight across the 40-50°E sector through Iceberg Alley. Saves 6 days but increases ice hazard exposure.",
+      "key_features": [
+        "Near Great Circle route from South of India directly to Queen Maud Land",
+        "Direct crossing through Iceberg Alley (40-50°E, 55-60°S)",
+        "Early pack ice entry at 64°S",
+        "Cuts overall transit time to 28 days"
+      ],
+      "waypoints": [
+        {"seq": 1, "lat": 13.0827, "lon": 80.2707, "label": "Chennai Port - DEPARTURE", "phase": "Indian Ocean Transit", "notes": "Departure heading 175° SSW"},
+        {"seq": 2, "lat": 5.0, "lon": 78.0, "label": "Southwest of Sri Lanka", "phase": "Indian Ocean Transit", "notes": "Clear of international container corridor"},
+        {"seq": 3, "lat": -5.0, "lon": 75.0, "label": "Chagos Trench Crossing", "phase": "Indian Ocean Transit", "notes": "Deep equatorial basin"},
+        {"seq": 4, "lat": -15.0, "lon": 70.0, "label": "Direct South Meridian Track", "phase": "Indian Ocean Transit", "notes": "Steady 16 kts passage"},
+        {"seq": 5, "lat": -25.0, "lon": 65.0, "label": "Mid-Indian Ocean Direct", "phase": "Indian Ocean Transit", "notes": "Intersection with Southern Indian Ridge"},
+        {"seq": 6, "lat": -35.0, "lon": 55.0, "label": "Roaring Forties Direct Gate", "phase": "Southern Ocean Crossing", "notes": "High swell encounters; watch for rogue waves"},
+        {"seq": 7, "lat": -42.0, "lon": 45.0, "label": "West of Prince Edward Fracture Zone", "phase": "Southern Ocean Crossing", "notes": "Deep trench clearance between Prince Edward and Crozet"},
+        {"seq": 8, "lat": -50.0, "lon": 35.0, "label": "Furious Fifties Direct Line", "phase": "Southern Ocean Crossing", "notes": "Entering cold sub-Antarctic waters (3°C)"},
+        {"seq": 9, "lat": -55.0, "lon": 28.0, "label": "Iceberg Alley TRANSIT CORRIDOR", "phase": "Southern Ocean Crossing", "notes": "High iceberg density; daylight lookouts mandatory"},
+        {"seq": 10, "lat": -60.0, "lon": 22.0, "label": "Antarctic Convergence Quick Cross", "phase": "Southern Ocean Crossing", "notes": "Frequent sea fog; visibility < 1 nm"},
+        {"seq": 11, "lat": -64.0, "lon": 18.0, "label": "Early Ice Zone Entry", "phase": "Antarctic Approach", "notes": "Encountering 4/10 to 6/10 pack ice"},
+        {"seq": 12, "lat": -67.5, "lon": 14.0, "label": "Dense Pack Ice Lead Navigation", "phase": "Antarctic Approach", "notes": "Ice speed reduced to 8 kts; searchlight navigation"},
+        {"seq": 13, "lat": -70.7644, "lon": 11.7386, "label": "Maitri Station Fast-Ice Anchorage - ARRIVAL", "phase": "Antarctic Approach", "notes": "Direct arrival at fast ice mooring point"}
+      ],
+      "fuel_breakdown": {
+        "open_water_transit_liters": 132000,
+        "ice_navigation_liters": 22000,
+        "maneuvering_and_port_liters": 4000,
+        "safety_reserve_liters": 10000,
+        "total_liters": 168000
+      },
+      "time_breakdown": {
+        "open_ocean_days": 22.5,
+        "ice_navigation_days": 3.5,
+        "weather_buffer_days": 1.0,
+        "departure_arrival_operations_days": 1.0,
+        "total_days": 28.0
+      }
+    },
+    {
+      "id": "fuel",
+      "type": "fuel_efficient",
+      "name": "Current-Assisted Western Route",
+      "color": "#f97316",
+      "polyline_style": "dotted",
+      "distance_km": 11200,
+      "distance_nm": 6048,
+      "duration_days": 31.0,
+      "avg_speed_knots": 15.0,
+      "fuel_liters": 152000,
+      "risk_score": 23,
+      "safety_rating_stars": 4,
+      "description": "Exploits favorable Southern Ocean currents (Antarctic Circumpolar Current eddies & Agulhas Return flow) to minimize engine load and fuel burn.",
+      "key_features": [
+        "Rides favorable ocean current vectors between 35°S and 48°S",
+        "Saves 33,000 liters of marine diesel fuel compared to eastern route",
+        "Avoids shallow bank of Prince Edward Islands via western flank",
+        "Moderate ice exposure at 64°S with favorable drift"
+      ],
+      "waypoints": [
+        {"seq": 1, "lat": 13.0827, "lon": 80.2707, "label": "Chennai Port - DEPARTURE", "phase": "Indian Ocean Transit", "notes": "Course set for Nine Degree Channel clearance"},
+        {"seq": 2, "lat": 6.0, "lon": 76.0, "label": "Arabian Sea Exit & Maldives Gap", "phase": "Indian Ocean Transit", "notes": "Passing through equatorial shipping fairway"},
+        {"seq": 3, "lat": -5.0, "lon": 70.0, "label": "South Equatorial Current Intercept", "phase": "Indian Ocean Transit", "notes": "Slight westward push from equatorial flow"},
+        {"seq": 4, "lat": -15.0, "lon": 65.0, "label": "Mascarene Basin Transit", "phase": "Indian Ocean Transit", "notes": "Passing east of Mauritius & Reunion"},
+        {"seq": 5, "lat": -25.0, "lon": 55.0, "label": "Madagascar Basin / Agulhas Return Zone", "phase": "Indian Ocean Transit", "notes": "Intercepting favorable eastward current eddies"},
+        {"seq": 6, "lat": -35.0, "lon": 40.0, "label": "Southwest Indian Ridge Passage", "phase": "Southern Ocean Crossing", "notes": "Catching 1.2 knot eastward/southeastward component"},
+        {"seq": 7, "lat": -40.0, "lon": 30.0, "label": "Prince Edward Western Passage", "phase": "Southern Ocean Crossing", "notes": "Clear of Marion Island shelf on the western side"},
+        {"seq": 8, "lat": -45.0, "lon": 20.0, "label": "ACC Assistance Zone Entry", "phase": "Southern Ocean Crossing", "notes": "Strong eastward Antarctic Circumpolar Current flow"},
+        {"seq": 9, "lat": -48.0, "lon": 12.0, "label": "Maximum Current Assist Corridors", "phase": "Southern Ocean Crossing", "notes": "Vessel speed-over-ground boosted by +1.4 kts"},
+        {"seq": 10, "lat": -52.0, "lon": 8.0, "label": "ACC Departure Turn South", "phase": "Southern Ocean Crossing", "notes": "Vessel turns southward towards Queen Maud Land"},
+        {"seq": 11, "lat": -56.0, "lon": 10.0, "label": "Bouvet Island Eastern Clearance", "phase": "Southern Ocean Crossing", "notes": "Passing 180 nm east of Bouvet Island"},
+        {"seq": 12, "lat": -60.0, "lon": 11.0, "label": "Antarctic Convergence - Western Gate", "phase": "Southern Ocean Crossing", "notes": "Sharp oceanographic boundary crossing"},
+        {"seq": 13, "lat": -64.0, "lon": 11.5, "label": "Pack Ice Edge - 11°E Meridian Lead", "phase": "Antarctic Approach", "notes": "Following natural bathymetric polynya channel"},
+        {"seq": 14, "lat": -68.0, "lon": 11.7, "label": "Princess Astrid Ice Shelf Approach", "phase": "Antarctic Approach", "notes": "Open water pool along ice barrier"},
+        {"seq": 15, "lat": -70.7644, "lon": 11.7386, "label": "Maitri Station Fast-Ice Anchorage - ARRIVAL", "phase": "Antarctic Approach", "notes": "Mooring along fast ice edge off Schirmacher Oasis"}
+      ],
+      "fuel_breakdown": {
+        "open_water_transit_liters": 122000,
+        "ice_navigation_liters": 17000,
+        "maneuvering_and_port_liters": 3500,
+        "safety_reserve_liters": 9500,
+        "total_liters": 152000
+      },
+      "time_breakdown": {
+        "open_ocean_days": 25.5,
+        "ice_navigation_days": 3.0,
+        "weather_buffer_days": 1.5,
+        "departure_arrival_operations_days": 1.0,
+        "total_days": 31.0
+      }
+    }
+  ],
+  "environmental_zones": {
+    "ocean_currents": {
+      "acc_speed_range_knots": "0.5 - 1.5 knots (eastward)",
+      "south_equatorial_current_knots": "0.8 knots (westward)",
+      "agulhas_return_current_knots": "1.2 - 2.0 knots (east-southeast)"
+    },
+    "wind_regimes": {
+      "equatorial_doldrums": "0-10°S, winds light & variable (<10 kts)",
+      "southeast_trades": "10-30°S, steady SE winds 15-20 kts",
+      "roaring_forties": "40-50°S, prevailing Westerlies 25-35 kts with frequent storm gales",
+      "furious_fifties": "50-60°S, persistent Westerlies 30-45 kts, significant wave height 6-10m",
+      "coastal_katabatic_winds": "68-71°S, off Antarctic plateau, intermittent gusts exceeding 50 kts"
+    },
+    "ice_concentration_by_latitude": {
+      "sub_55_south": "0% (open water, occasional drift icebergs)",
+      "55_to_60_south": "0 - 5% (Iceberg Alley transit zone)",
+      "60_to_64_south": "10 - 25% (marginal ice zone, loose brash and bergy bits)",
+      "64_to_68_south": "30 - 60% (medium first-year pack ice with open leads)",
+      "68_to_71_south": "70 - 90% (heavy fast ice barrier along Queen Maud Land)"
+    }
+  },
+  "hazards": [
+    {
+      "id": "HAZ-01",
+      "name": "Iceberg Alley (Weddell/Enderby Drift Corridor)",
+      "bounds": {"lat_min": -62.0, "lat_max": -55.0, "lon_min": 40.0, "lon_max": 60.0},
+      "type": "Iceberg Concentration Field",
+      "severity": "High",
+      "notes": "Large tabular bergs calving from Amery and Riiser-Larsen shelves drifting northwest"
+    },
+    {
+      "id": "HAZ-02",
+      "name": "Prince Edward Islands Sub-Antarctic Shallows",
+      "coordinates": {"lat": -46.7, "lon": 37.8},
+      "type": "Isolated Island & Shallow Shoals",
+      "severity": "Moderate",
+      "notes": "Isolated rocky shelves, localized magnetic anomalies, sudden dense fog"
+    },
+    {
+      "id": "HAZ-03",
+      "name": "Bouvet Island Remote Hazard",
+      "coordinates": {"lat": -54.4, "lon": 3.4},
+      "type": "Isolated Island Hazard",
+      "severity": "Moderate",
+      "notes": "Uninhabited volcanic island with heavy wave surges and grounding icebergs"
+    },
+    {
+      "id": "HAZ-04",
+      "name": "Riiser-Larsen / Lazarev Ice Shelf Calving Margin",
+      "coordinates": {"lat": -70.2, "lon": 12.0},
+      "type": "Active Calving Front",
+      "severity": "High",
+      "notes": "Fast ice breakup zone and potential multi-year pressure ridges"
+    }
+  ],
+  "safe_anchorages_and_ports_of_refuge": [
+    {"name": "Port Louis, Mauritius", "lat": -20.1609, "lon": 57.5012, "facility": "Full bunkering and dry-dock repairs"},
+    {"name": "Port Réunion (Pointe des Galets)", "lat": -20.9333, "lon": 55.2833, "facility": "Emergency maritime support"},
+    {"name": "Port Elizabeth (Gqeberha), South Africa", "lat": -33.9608, "lon": 25.6022, "facility": "Deepwater polar staging port"},
+    {"name": "Marion Island (Research Station Anchorage)", "lat": -46.8770, "lon": 37.8560, "facility": "Emergency shelter from westerly gales only"},
+    {"name": "Kerguelen Islands (Port-aux-Français)", "lat": -49.3500, "lon": 70.2167, "facility": "Sheltered fjord anchorage in severe Southern Ocean storms"}
+  ]
+}

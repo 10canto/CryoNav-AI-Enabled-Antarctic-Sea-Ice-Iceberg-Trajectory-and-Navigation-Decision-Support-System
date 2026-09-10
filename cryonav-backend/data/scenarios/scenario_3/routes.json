@@ -1,0 +1,203 @@
+{
+  "metadata": {
+    "generated": "2024-01-30T09:00:00Z",
+    "voyage_type": "India-Antarctica Research Expedition",
+    "ship_type": "Ice-strengthened research vessel (1A ice class)",
+    "ship_name": "R/V Bharati Pioneer",
+    "imo_number": 9482103,
+    "season": "Austral summer (December-February)",
+    "scenario": 3,
+    "scenario_name": "Emergency Reroute: Catastrophic Ice Shelf Calving & Direct Channel Blockade",
+    "data_sources": "RADARSAT Constellation Mission, TerraSAR-X, Indian Antarctic Expedition Maitri Base Radar"
+  },
+  "voyage_info": {
+    "start": {
+      "name": "Chennai Port, India",
+      "port_code": "INMAA",
+      "lat": 13.0827,
+      "lon": 80.2707
+    },
+    "end": {
+      "name": "Maitri Research Station, Antarctica",
+      "lat": -70.7644,
+      "lon": 11.7386
+    },
+    "season": "December (Austral Summer)",
+    "ice_conditions": "Emergency: Massive calving of Lazarev / Riiser-Larsen ice shelf front; 0-20°E locked in impassable iceberg melange",
+    "active_scenario_alert": "CRITICAL EMERGENCY - Direct approach corridors to Maitri (0-20°E) completely blocked by calved iceberg barrier. Routes B and C unnavigable."
+  },
+  "emergency_event": {
+    "event_type": "Major Ice Shelf Calving & Fast-Ice Breakup",
+    "affected_sector": "70°S to 68°S, 0°E to 20°E (Princess Astrid Coast / Lazarev Ice Shelf)",
+    "calved_ice_area_sq_km": 1450,
+    "debris_characterization": "Over 60 tabular berg fragments, heavy growler fields, and compressional stamukhi ridges up to 12m thick",
+    "navigational_status": {
+      "route_b": "BLOCKED - Impassable wall of grounded tabular icebergs. Severe hull breach hazard.",
+      "route_c": "BLOCKED - Heavy stamukhi pressure ridge closed off fast ice lead at 11°E.",
+      "route_a": "ONLY VIABLE ROUTE - Extended eastern hook around calving field via 22-26°E with designated icebreaker rendezvous."
+    },
+    "icebreaker_escort": {
+      "escort_vessel": "Polar Icebreaker I/B Krasin / SA Agulhas II support",
+      "rendezvous_coordinates": {"lat": -68.5, "lon": 22.0},
+      "escort_distance_km": 150,
+      "escort_protocol": "Escort vessel carves channel through 8/10 consolidated floes into sheltered fast-ice staging bay"
+    }
+  },
+  "routes": [
+    {
+      "id": "safest",
+      "type": "safest",
+      "name": "Eastern Ice-Avoidance Route (Extended Icebreaker Escort)",
+      "color": "#10b981",
+      "polyline_style": "solid",
+      "distance_km": 12750,
+      "distance_nm": 6884,
+      "duration_days": 36.0,
+      "avg_speed_knots": 14.2,
+      "fuel_liters": 198000,
+      "risk_score": 18,
+      "safety_rating_stars": 5,
+      "status": "ONLY_VIABLE_OPTION",
+      "description": "The only safe and viable expedition route. Loops far east around the 0-20°E calving field, meeting an icebreaker escort at 68.5°S, 22.0°E for the final 150 km convoy.",
+      "key_features": [
+        "Sole navigable route into Maitri following the catastrophic calving event",
+        "Extended eastern hook adds +550 km and 2 days voyage time",
+        "Mandatory icebreaker rendezvous at 68.5°S, 22.0°E for the final 150 km passage",
+        "Safe 18% risk score under escort convoy protocol"
+      ],
+      "waypoints": [
+        {"seq": 1, "lat": 13.0827, "lon": 80.2707, "label": "Chennai Port - DEPARTURE"},
+        {"seq": 2, "lat": 8.5, "lon": 82.0, "label": "Sri Lanka East Pass"},
+        {"seq": 3, "lat": 0.0, "lon": 85.0, "label": "Equator Crossing"},
+        {"seq": 4, "lat": -10.0, "lon": 88.0, "label": "Mid-Indian Ocean Checkpoint"},
+        {"seq": 5, "lat": -20.0, "lon": 90.0, "label": "Southern Indian Ocean Gyre"},
+        {"seq": 6, "lat": -30.0, "lon": 86.0, "label": "Approaching Roaring Forties"},
+        {"seq": 7, "lat": -40.0, "lon": 78.0, "label": "Roaring Forties East Corridor"},
+        {"seq": 8, "lat": -46.0, "lon": 68.0, "label": "Prince Edward Far-East Clearance"},
+        {"seq": 9, "lat": -51.0, "lon": 55.0, "label": "Furious Fifties East Gate"},
+        {"seq": 10, "lat": -56.0, "lon": 42.0, "label": "Sub-Antarctic Ice Watch Sector"},
+        {"seq": 11, "lat": -60.0, "lon": 32.0, "label": "Antarctic Convergence Eastern Arc"},
+        {"seq": 12, "lat": -63.5, "lon": 26.0, "label": "Outer Pack Ice Edge (East of Calving Hazard)"},
+        {"seq": 13, "lat": -66.5, "lon": 24.0, "label": "Extended Eastern Approach Channel"},
+        {"seq": 14, "lat": -68.5, "lon": 22.0, "label": "ICEBREAKER RENDEZVOUS WAYPOINT (Escort Begin)", "notes": "Convoy formation with heavy polar icebreaker"},
+        {"seq": 15, "lat": -69.8, "lon": 16.5, "label": "Escorted Channel Transit Through Fast Ice", "notes": "Speed controlled to 6 knots behind lead vessel"},
+        {"seq": 16, "lat": -70.7644, "lon": 11.7386, "label": "Maitri Station Emergency Discharge Berth - ARRIVAL", "notes": "Secured to consolidated fast ice barrier"}
+      ],
+      "fuel_breakdown": {
+        "open_water_transit_liters": 156000,
+        "ice_navigation_liters": 24000,
+        "escort_convoy_liters": 4000,
+        "safety_reserve_liters": 14000,
+        "total_liters": 198000
+      },
+      "time_breakdown": {
+        "open_ocean_days": 27.5,
+        "ice_navigation_days": 4.5,
+        "icebreaker_escort_days": 1.0,
+        "weather_buffer_days": 2.0,
+        "departure_arrival_operations_days": 1.0,
+        "total_days": 36.0
+      }
+    },
+    {
+      "id": "fastest",
+      "type": "fastest",
+      "name": "Direct Southern Route [BLOCKED - IMPASSABLE]",
+      "color": "#ef4444",
+      "polyline_style": "dashed",
+      "distance_km": 10500,
+      "distance_nm": 5670,
+      "duration_days": 0,
+      "avg_speed_knots": 0,
+      "fuel_liters": 0,
+      "risk_score": 98,
+      "safety_rating_stars": 0,
+      "status": "BLOCKED_IMPASSABLE",
+      "description": "ROUTE CANCELLED. Direct track into Princess Astrid Coast is completely barred by grounded tabular berg field and pressure ridges. Navigation strictly prohibited.",
+      "key_features": [
+        "100% BLOCKED by catastrophic calving barrier at 70°S, 11-15°E",
+        "Risk score 98% (catastrophic hull rupture / besetting guaranteed)",
+        "Passage revoked by Indian Antarctic Expedition Maritime Authority",
+        "Vessels must divert to Route A"
+      ],
+      "waypoints": [
+        {"seq": 1, "lat": 13.0827, "lon": 80.2707, "label": "Chennai Port - DEPARTURE"},
+        {"seq": 2, "lat": 5.0, "lon": 78.0, "label": "Southwest Indian Ocean"},
+        {"seq": 3, "lat": -5.0, "lon": 75.0, "label": "South of Equator"},
+        {"seq": 4, "lat": -15.0, "lon": 70.0, "label": "Direct South Track"},
+        {"seq": 5, "lat": -25.0, "lon": 65.0, "label": "Mid-Indian Ocean Direct"},
+        {"seq": 6, "lat": -35.0, "lon": 55.0, "label": "Roaring Forties Entry"},
+        {"seq": 7, "lat": -42.0, "lon": 45.0, "label": "West of Prince Edward"},
+        {"seq": 8, "lat": -50.0, "lon": 35.0, "label": "Furious Fifties"},
+        {"seq": 9, "lat": -55.0, "lon": 28.0, "label": "Iceberg Alley"},
+        {"seq": 10, "lat": -60.0, "lon": 22.0, "label": "Antarctic Convergence"},
+        {"seq": 11, "lat": -64.0, "lon": 18.0, "label": "TERMINATION POINT - BLOCKED BY ICEBERG WALL", "notes": "Passage prohibited beyond this point"}
+      ],
+      "fuel_breakdown": {
+        "open_water_transit_liters": 0,
+        "ice_navigation_liters": 0,
+        "maneuvering_and_port_liters": 0,
+        "safety_reserve_liters": 0,
+        "total_liters": 0
+      },
+      "time_breakdown": {
+        "open_ocean_days": 0,
+        "ice_navigation_days": 0,
+        "weather_buffer_days": 0,
+        "departure_arrival_operations_days": 0,
+        "total_days": 0
+      }
+    },
+    {
+      "id": "fuel",
+      "type": "fuel_efficient",
+      "name": "Current-Assisted Western Route [BLOCKED - IMPASSABLE]",
+      "color": "#ef4444",
+      "polyline_style": "dotted",
+      "distance_km": 11200,
+      "distance_nm": 6048,
+      "duration_days": 0,
+      "avg_speed_knots": 0,
+      "fuel_liters": 0,
+      "risk_score": 95,
+      "safety_rating_stars": 0,
+      "status": "BLOCKED_IMPASSABLE",
+      "description": "ROUTE CANCELLED. The western channel along the 11°E meridian is locked in compressed multi-year fast-ice stamukhi ridges. Non-navigable.",
+      "key_features": [
+        "Western entrance channel at 68-70°S locked by compressional stamukhi ridges",
+        "Risk score 95% (severe besetting risk, zero escape leads)",
+        "Master ordered to abort western course",
+        "Must divert east to rendezvous with icebreaker escort"
+      ],
+      "waypoints": [
+        {"seq": 1, "lat": 13.0827, "lon": 80.2707, "label": "Chennai Port - DEPARTURE"},
+        {"seq": 2, "lat": 6.0, "lon": 76.0, "label": "Arabian Sea Exit"},
+        {"seq": 3, "lat": -5.0, "lon": 70.0, "label": "South Equatorial Current"},
+        {"seq": 4, "lat": -15.0, "lon": 65.0, "label": "Southern Indian Ocean"},
+        {"seq": 5, "lat": -25.0, "lon": 55.0, "label": "Agulhas Current Region"},
+        {"seq": 6, "lat": -35.0, "lon": 40.0, "label": "Westward Track Begin"},
+        {"seq": 7, "lat": -40.0, "lon": 30.0, "label": "Prince Edward West Pass"},
+        {"seq": 8, "lat": -45.0, "lon": 20.0, "label": "ACC Assist Zone"},
+        {"seq": 9, "lat": -48.0, "lon": 12.0, "label": "Maximum Current Assist"},
+        {"seq": 10, "lat": -52.0, "lon": 8.0, "label": "Turn South - ACC Exit"},
+        {"seq": 11, "lat": -56.0, "lon": 10.0, "label": "Southern Approach Begin"},
+        {"seq": 12, "lat": -60.0, "lon": 11.0, "label": "Antarctic Convergence"},
+        {"seq": 13, "lat": -65.0, "lon": 11.2, "label": "TERMINATION POINT - FAST-ICE STAMUKHI BLOCKADE", "notes": "No navigable leads into Maitri from western flank"}
+      ],
+      "fuel_breakdown": {
+        "open_water_transit_liters": 0,
+        "ice_navigation_liters": 0,
+        "maneuvering_and_port_liters": 0,
+        "safety_reserve_liters": 0,
+        "total_liters": 0
+      },
+      "time_breakdown": {
+        "open_ocean_days": 0,
+        "ice_navigation_days": 0,
+        "weather_buffer_days": 0,
+        "departure_arrival_operations_days": 0,
+        "total_days": 0
+      }
+    }
+  ]
+}

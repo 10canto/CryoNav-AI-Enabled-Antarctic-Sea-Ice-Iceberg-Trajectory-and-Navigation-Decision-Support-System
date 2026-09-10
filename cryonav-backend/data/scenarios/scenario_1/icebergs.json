@@ -1,0 +1,17 @@
+{
+  "icebergs": [
+    {
+      "id": "ICE-047",
+      "position": {
+        "lat": -65.234,
+        "lon": -64.567
+      },
+      "size_meters": {
+        "length": 800,
+        "width": 600
+      },
+      "confidence": 0.92,
+      "detection_time": "2024-01-15T17:30:00Z"
+    }
+  ]
+}

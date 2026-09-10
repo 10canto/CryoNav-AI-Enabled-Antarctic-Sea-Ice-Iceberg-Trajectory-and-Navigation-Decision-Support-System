@@ -1,0 +1,6 @@
+{
+  "name": "CryoNav AI",
+  "description": "Antarctic ship navigation dashboard prototype providing real-time ice analysis, iceberg drift predictions, and AI route optimization.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

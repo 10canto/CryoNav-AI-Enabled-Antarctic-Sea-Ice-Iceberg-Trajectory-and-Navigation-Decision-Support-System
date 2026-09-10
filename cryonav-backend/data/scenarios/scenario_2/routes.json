@@ -1,0 +1,218 @@
+{
+  "metadata": {
+    "generated": "2024-01-25T18:00:00Z",
+    "voyage_type": "India-Antarctica Research Expedition",
+    "ship_type": "Ice-strengthened research vessel (1A ice class)",
+    "ship_name": "R/V Bharati Pioneer",
+    "imo_number": 9482103,
+    "season": "Austral summer (December-February)",
+    "scenario": 2,
+    "scenario_name": "Dangerous Conditions: Violent Southern Ocean Cyclone & Convergent Pack Ice",
+    "data_sources": "ECMWF High-Resolution Weather Model, AMSR2 Sea Ice Concentration, Sentinel-1 Synthetic Aperture Radar"
+  },
+  "voyage_info": {
+    "start": {
+      "name": "Chennai Port, India",
+      "port_code": "INMAA",
+      "lat": 13.0827,
+      "lon": 80.2707
+    },
+    "end": {
+      "name": "Maitri Research Station, Antarctica",
+      "lat": -70.7644,
+      "lon": 11.7386
+    },
+    "season": "December (Austral Summer)",
+    "ice_conditions": "Severe: Convergent pack ice compression along 15-35°E; active sub-polar gale",
+    "active_scenario_alert": "Severe Category-4 Southern Ocean Cyclonic Gale (52-58°S, 30-50°E) combined with high-density iceberg cluster in Alley"
+  },
+  "hazard_zones": [
+    {
+      "id": "STORM-CYC-01",
+      "name": "Sub-Antarctic Frontal Cyclone (Gale Warning)",
+      "type": "Extreme Weather / High Seas",
+      "bounds": {"lat_min": -58.0, "lat_max": -52.0, "lon_min": 30.0, "lon_max": 50.0},
+      "central_pressure_hpa": 942,
+      "sustained_wind_knots": "50 - 65 knots (Storm Force 10 to 11)",
+      "significant_wave_height_meters": 11.5,
+      "impact": "Direct transit completely impassable. High risk of structural damage or green water on deck."
+    },
+    {
+      "id": "PACK-ICE-DENSE",
+      "name": "Compressed Pack Ice Belt (Pressure Ridges)",
+      "type": "Heavy Sea Ice",
+      "bounds": {"lat_min": -65.0, "lat_max": -60.0, "lon_min": 15.0, "lon_max": 35.0},
+      "ice_concentration_percentage": "80 - 90% (8/10 to 9/10 multi-year floes)",
+      "ice_thickness_meters": 1.8,
+      "impact": "Severe besetting risk for 1A vessel without icebreaker escort."
+    },
+    {
+      "id": "ICEBERG-SWARM",
+      "name": "Iceberg Alley High-Density Cluster",
+      "type": "Multiple Tabular Icebergs & Bergy Bits",
+      "bounds": {"lat_min": -60.0, "lat_max": -55.0, "lon_min": 35.0, "lon_max": 55.0},
+      "active_iceberg_count": 18,
+      "impact": "Radar clutter from high waves makes smaller growlers virtually invisible on radar."
+    }
+  ],
+  "routes": [
+    {
+      "id": "safest",
+      "type": "safest",
+      "name": "Eastern Ice-Avoidance Route (Storm Bypass)",
+      "color": "#10b981",
+      "polyline_style": "solid",
+      "distance_km": 12350,
+      "distance_nm": 6668,
+      "duration_days": 34.5,
+      "avg_speed_knots": 14.8,
+      "fuel_liters": 189000,
+      "risk_score": 15,
+      "safety_rating_stars": 5,
+      "status": "STRONGLY_RECOMMENDED",
+      "description": "Minor eastward deflection (+150 km) maintains a 400+ km buffer from the gale center and stays well clear of compressed pack ice.",
+      "key_features": [
+        "Skirts 400 km east of cyclone core into benign 20-knot wind quadrant",
+        "Avoids the high-density iceberg cluster in Iceberg Alley completely",
+        "Maintains open-water speed until 66°S",
+        "Lowest sea-state stress on hull and cargo (wave height < 4.5m)"
+      ],
+      "waypoints": [
+        {"seq": 1, "lat": 13.0827, "lon": 80.2707, "label": "Chennai Port - DEPARTURE"},
+        {"seq": 2, "lat": 8.5, "lon": 82.0, "label": "Sri Lanka East Pass"},
+        {"seq": 3, "lat": 0.0, "lon": 85.0, "label": "Equator Crossing"},
+        {"seq": 4, "lat": -10.0, "lon": 88.0, "label": "Mid-Indian Ocean Checkpoint"},
+        {"seq": 5, "lat": -20.0, "lon": 90.0, "label": "Southern Indian Ocean Gyre"},
+        {"seq": 6, "lat": -30.0, "lon": 86.0, "label": "Approaching Roaring Forties"},
+        {"seq": 7, "lat": -40.0, "lon": 78.0, "label": "Roaring Forties Storm-Bypass Gate"},
+        {"seq": 8, "lat": -46.0, "lon": 68.0, "label": "Far-Eastern Prince Edward Bypass (+150km offset)"},
+        {"seq": 9, "lat": -51.0, "lon": 54.0, "label": "Furious Fifties - Safe East Corridor"},
+        {"seq": 10, "lat": -56.0, "lon": 38.0, "label": "Cyclone East Perimeter Safe Transit"},
+        {"seq": 11, "lat": -59.0, "lon": 26.0, "label": "Convergence Entry - South of Storm Front"},
+        {"seq": 12, "lat": -61.0, "lon": 20.0, "label": "Antarctic Convergence Crossing"},
+        {"seq": 13, "lat": -63.5, "lon": 16.5, "label": "Clear of Pack Ice Compression Ridge"},
+        {"seq": 14, "lat": -66.5, "lon": 14.0, "label": "Protected Coastal Lead Entry"},
+        {"seq": 15, "lat": -68.8, "lon": 12.2, "label": "Princess Astrid Ice Barrier"},
+        {"seq": 16, "lat": -70.7644, "lon": 11.7386, "label": "Maitri Station - ARRIVAL"}
+      ],
+      "fuel_breakdown": {
+        "open_water_transit_liters": 151500,
+        "ice_navigation_liters": 17000,
+        "maneuvering_and_port_liters": 4500,
+        "safety_reserve_liters": 16000,
+        "total_liters": 189000
+      },
+      "time_breakdown": {
+        "open_ocean_days": 27.5,
+        "ice_navigation_days": 3.5,
+        "weather_buffer_days": 2.5,
+        "departure_arrival_operations_days": 1.0,
+        "total_days": 34.5
+      }
+    },
+    {
+      "id": "fastest",
+      "type": "fastest",
+      "name": "Direct Southern Route (Extreme West Detour)",
+      "color": "#f59e0b",
+      "polyline_style": "dashed",
+      "distance_km": 11300,
+      "distance_nm": 6102,
+      "duration_days": 30.5,
+      "avg_speed_knots": 14.2,
+      "fuel_liters": 182000,
+      "risk_score": 61,
+      "safety_rating_stars": 2,
+      "status": "CRITICAL_RISK",
+      "description": "Forced westward detour (+800 km) to evade the 60-knot cyclone core. Risk skyrockets to 61% due to heavy compressed pack ice and gale-force swells.",
+      "key_features": [
+        "Major 800 km westward detour around storm quadrant",
+        "Passes close to high-risk compressed ice zone (60-65°S, 15-35°E)",
+        "Severe rolling and pitch expected (Hs = 8.5m on western edge)",
+        "Fuel reserve diminished significantly"
+      ],
+      "waypoints": [
+        {"seq": 1, "lat": 13.0827, "lon": 80.2707, "label": "Chennai Port - DEPARTURE"},
+        {"seq": 2, "lat": 5.0, "lon": 78.0, "label": "Southwest Indian Ocean"},
+        {"seq": 3, "lat": -5.0, "lon": 75.0, "label": "South of Equator"},
+        {"seq": 4, "lat": -15.0, "lon": 70.0, "label": "Direct South Track"},
+        {"seq": 5, "lat": -25.0, "lon": 65.0, "label": "Mid-Indian Ocean Checkpoint"},
+        {"seq": 6, "lat": -35.0, "lon": 50.0, "label": "Early Westward Deflection Track"},
+        {"seq": 7, "lat": -42.0, "lon": 36.0, "label": "Major Storm Avoidance Turn West (+800km detour)"},
+        {"seq": 8, "lat": -49.0, "lon": 24.0, "label": "West of Cyclone Dangerous Semicircle"},
+        {"seq": 9, "lat": -54.0, "lon": 18.0, "label": "Storm Outer Gale Perimeter (Winds 38 kts)"},
+        {"seq": 10, "lat": -58.0, "lon": 15.0, "label": "Rough Sea Convergence Cross"},
+        {"seq": 11, "lat": -62.0, "lon": 14.0, "label": "Compressed Pack Ice Boundary (Heavy Floes)"},
+        {"seq": 12, "lat": -66.0, "lon": 13.0, "label": "Pressure Ridge Slow Transit (6 kts)"},
+        {"seq": 13, "lat": -70.7644, "lon": 11.7386, "label": "Maitri Station - ARRIVAL"}
+      ],
+      "fuel_breakdown": {
+        "open_water_transit_liters": 146000,
+        "ice_navigation_liters": 25000,
+        "maneuvering_and_port_liters": 4000,
+        "safety_reserve_liters": 7000,
+        "total_liters": 182000
+      },
+      "time_breakdown": {
+        "open_ocean_days": 24.5,
+        "ice_navigation_days": 4.0,
+        "weather_buffer_days": 1.0,
+        "departure_arrival_operations_days": 1.0,
+        "total_days": 30.5
+      }
+    },
+    {
+      "id": "fuel",
+      "type": "fuel_efficient",
+      "name": "Current-Assisted Western Route (Storm Adjustment)",
+      "color": "#f97316",
+      "polyline_style": "dotted",
+      "distance_km": 11500,
+      "distance_nm": 6210,
+      "duration_days": 32.0,
+      "avg_speed_knots": 14.7,
+      "fuel_liters": 158000,
+      "risk_score": 32,
+      "safety_rating_stars": 4,
+      "status": "MODERATE_VIABILITY",
+      "description": "Moderate westward expansion (+300 km) to maintain separation from both the cyclone and compressed pack ice belt while retaining ACC current assist.",
+      "key_features": [
+        "Moderate 300 km westward adjustment keeping 300 km from cyclone front",
+        "Still intercepts +1.0 knot ACC current boost near 45°S",
+        "Approach angle into Maitri avoids the worst of the 15-35°E pressure ridges",
+        "Fuel burn remains competitive (158,000 L)"
+      ],
+      "waypoints": [
+        {"seq": 1, "lat": 13.0827, "lon": 80.2707, "label": "Chennai Port - DEPARTURE"},
+        {"seq": 2, "lat": 6.0, "lon": 76.0, "label": "Arabian Sea Exit"},
+        {"seq": 3, "lat": -5.0, "lon": 70.0, "label": "South Equatorial Current"},
+        {"seq": 4, "lat": -15.0, "lon": 65.0, "label": "Southern Indian Ocean"},
+        {"seq": 5, "lat": -25.0, "lon": 55.0, "label": "Agulhas Current Region"},
+        {"seq": 6, "lat": -35.0, "lon": 38.0, "label": "Extended Westward Shift"},
+        {"seq": 7, "lat": -40.0, "lon": 26.0, "label": "Prince Edward Far-West Pass (+300km offset)"},
+        {"seq": 8, "lat": -45.0, "lon": 16.0, "label": "ACC Assistance Corridor Outer Lane"},
+        {"seq": 9, "lat": -49.0, "lon": 8.0, "label": "Current Assist Zone Beyond Gale Fringe"},
+        {"seq": 10, "lat": -53.0, "lon": 5.0, "label": "Southward Turn - West of Heavy Seas"},
+        {"seq": 11, "lat": -57.0, "lon": 7.5, "label": "Southern Approach Entry"},
+        {"seq": 12, "lat": -61.0, "lon": 9.5, "label": "Antarctic Convergence - Calm Sector"},
+        {"seq": 13, "lat": -65.0, "lon": 10.5, "label": "Pack Ice Edge Approach (4/10 concentration)"},
+        {"seq": 14, "lat": -68.2, "lon": 11.2, "label": "Fast Ice Fringe Navigation"},
+        {"seq": 15, "lat": -70.7644, "lon": 11.7386, "label": "Maitri Station - ARRIVAL"}
+      ],
+      "fuel_breakdown": {
+        "open_water_transit_liters": 127000,
+        "ice_navigation_liters": 18000,
+        "maneuvering_and_port_liters": 3500,
+        "safety_reserve_liters": 9500,
+        "total_liters": 158000
+      },
+      "time_breakdown": {
+        "open_ocean_days": 26.2,
+        "ice_navigation_days": 3.3,
+        "weather_buffer_days": 1.5,
+        "departure_arrival_operations_days": 1.0,
+        "total_days": 32.0
+      }
+    }
+  ]
+}

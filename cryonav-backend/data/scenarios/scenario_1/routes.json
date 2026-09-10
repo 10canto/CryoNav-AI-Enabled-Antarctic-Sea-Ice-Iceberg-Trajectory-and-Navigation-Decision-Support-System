@@ -1,0 +1,217 @@
+{
+  "metadata": {
+    "generated": "2024-01-20T14:30:00Z",
+    "voyage_type": "India-Antarctica Research Expedition",
+    "ship_type": "Ice-strengthened research vessel (1A ice class)",
+    "ship_name": "R/V Bharati Pioneer",
+    "imo_number": 9482103,
+    "season": "Austral summer (December-February)",
+    "scenario": 1,
+    "scenario_name": "Mid-Voyage Alert: Giant Tabular Iceberg Detected in Direct Corridor",
+    "data_sources": "Synthetic Aperture Radar (Sentinel-1 SAR), US National Ice Center (USNIC), Onboard X-band Marine Radar"
+  },
+  "voyage_info": {
+    "start": {
+      "name": "Chennai Port, India",
+      "port_code": "INMAA",
+      "lat": 13.0827,
+      "lon": 80.2707
+    },
+    "end": {
+      "name": "Maitri Research Station, Antarctica",
+      "lat": -70.7644,
+      "lon": 11.7386
+    },
+    "season": "December (Austral Summer)",
+    "ice_conditions": "Early warning: Calved tabular berg migrating into 40-45°E navigation channel",
+    "active_scenario_alert": "Giant tabular iceberg ICE-TAB-2024-01 detected drifting directly across Route B (Direct Southern Track)"
+  },
+  "alert_event": {
+    "iceberg_id": "ICE-TAB-2024-01",
+    "classification": "Giant Tabular Iceberg (A-class remnant)",
+    "detected_coordinates": {
+      "lat": -58.5,
+      "lon": 42.0
+    },
+    "dimensions": {
+      "length_meters": 2500,
+      "width_meters": 1800,
+      "freeboard_height_meters": 38,
+      "estimated_mass_million_tons": 180
+    },
+    "drift_vector": {
+      "speed_km_per_day": 1.2,
+      "speed_knots": 0.027,
+      "direction_heading_degrees": 315,
+      "direction_cardinal": "Northwest",
+      "ocean_drift_mechanism": "Weddell Gyre northern outflow interaction with ACC"
+    },
+    "risk_assessment": {
+      "fastest_route_b_impact": "Direct collision hazard along projected line. Route B risk elevated to 52%. Deviation required.",
+      "safest_route_a_impact": "Unaffected. Route A passes >350 km east of iceberg trajectory. Risk remains 12%.",
+      "fuel_route_c_impact": "Unaffected. Route C passes >450 km west of iceberg trajectory. Risk remains 23%."
+    },
+    "ai_recommendation": "Divert immediately from Route B to Route A (Safest) or execute a 280 km westward dogleg around ICE-TAB-2024-01. Route A recommended."
+  },
+  "routes": [
+    {
+      "id": "safest",
+      "type": "safest",
+      "name": "Eastern Ice-Avoidance Route",
+      "color": "#10b981",
+      "polyline_style": "solid",
+      "distance_km": 12200,
+      "distance_nm": 6587,
+      "duration_days": 34.0,
+      "avg_speed_knots": 15.0,
+      "fuel_liters": 185000,
+      "risk_score": 12,
+      "safety_rating_stars": 5,
+      "status": "RECOMMENDED",
+      "description": "Unaffected by newly detected giant iceberg. Maintains safe 350+ km separation from ICE-TAB-2024-01 drift corridor.",
+      "key_features": [
+        "Completely clears ICE-TAB-2024-01 drift corridor by 350+ km",
+        "Zero course deviation required from baseline expedition plan",
+        "Lowest total collision risk profile across all scenarios",
+        "Continuous 24-hr satellite radar surveillance active"
+      ],
+      "waypoints": [
+        {"seq": 1, "lat": 13.0827, "lon": 80.2707, "label": "Chennai Port - DEPARTURE"},
+        {"seq": 2, "lat": 8.5, "lon": 82.0, "label": "Sri Lanka East Pass"},
+        {"seq": 3, "lat": 0.0, "lon": 85.0, "label": "Equator Crossing"},
+        {"seq": 4, "lat": -10.0, "lon": 88.0, "label": "Mid-Indian Ocean Checkpoint"},
+        {"seq": 5, "lat": -20.0, "lon": 90.0, "label": "Southern Indian Ocean Gyre"},
+        {"seq": 6, "lat": -30.0, "lon": 85.0, "label": "Approaching Roaring Forties"},
+        {"seq": 7, "lat": -40.0, "lon": 75.0, "label": "Roaring Forties Entry"},
+        {"seq": 8, "lat": -45.0, "lon": 65.0, "label": "Prince Edward Islands Eastern Clearance"},
+        {"seq": 9, "lat": -50.0, "lon": 50.0, "label": "Furious Fifties - Eastern Arc"},
+        {"seq": 10, "lat": -55.0, "lon": 35.0, "label": "Iceberg Monitoring Zone (Clear of Hazard)"},
+        {"seq": 11, "lat": -58.0, "lon": 25.0, "label": "Antarctic Convergence Approach"},
+        {"seq": 12, "lat": -60.0, "lon": 20.0, "label": "Antarctic Convergence Crossing"},
+        {"seq": 13, "lat": -63.0, "lon": 17.0, "label": "Pack Ice Outer Edge"},
+        {"seq": 14, "lat": -66.0, "lon": 14.5, "label": "Ice Navigation Channel Entry"},
+        {"seq": 15, "lat": -68.5, "lon": 12.5, "label": "Riiser-Larsen Ice Shelf Approach"},
+        {"seq": 16, "lat": -70.7644, "lon": 11.7386, "label": "Maitri Station - ARRIVAL"}
+      ],
+      "fuel_breakdown": {
+        "open_water_transit_liters": 148500,
+        "ice_navigation_liters": 16500,
+        "maneuvering_and_port_liters": 4500,
+        "safety_reserve_liters": 15500,
+        "total_liters": 185000
+      },
+      "time_breakdown": {
+        "open_ocean_days": 27.0,
+        "ice_navigation_days": 3.5,
+        "weather_buffer_days": 2.5,
+        "departure_arrival_operations_days": 1.0,
+        "total_days": 34.0
+      }
+    },
+    {
+      "id": "fastest",
+      "type": "fastest",
+      "name": "Direct Southern Route (Evasive Dogleg)",
+      "color": "#f59e0b",
+      "polyline_style": "dashed",
+      "distance_km": 10780,
+      "distance_nm": 5821,
+      "duration_days": 29.2,
+      "avg_speed_knots": 15.3,
+      "fuel_liters": 174000,
+      "risk_score": 52,
+      "safety_rating_stars": 2,
+      "status": "ELEVATED_RISK",
+      "description": "Requires tactical deviation around ICE-TAB-2024-01. Distance increased by +280 km; risk escalated from 38% to 52% due to calved growlers and bergy bits.",
+      "key_features": [
+        "Tactical 280 km westward dogleg around ICE-TAB-2024-01",
+        "Risk escalated to 52% due to secondary calf debris in 58°S corridor",
+        "Speed reduction to 11 knots required during night transit through 57-59°S",
+        "Adds 1.2 days to original direct schedule"
+      ],
+      "waypoints": [
+        {"seq": 1, "lat": 13.0827, "lon": 80.2707, "label": "Chennai Port - DEPARTURE"},
+        {"seq": 2, "lat": 5.0, "lon": 78.0, "label": "Southwest Indian Ocean"},
+        {"seq": 3, "lat": -5.0, "lon": 75.0, "label": "South of Equator"},
+        {"seq": 4, "lat": -15.0, "lon": 70.0, "label": "Direct South Track"},
+        {"seq": 5, "lat": -25.0, "lon": 65.0, "label": "Mid-Indian Ocean Direct"},
+        {"seq": 6, "lat": -35.0, "lon": 55.0, "label": "Roaring Forties Entry"},
+        {"seq": 7, "lat": -42.0, "lon": 45.0, "label": "West of Prince Edward"},
+        {"seq": 8, "lat": -50.0, "lon": 36.0, "label": "Furious Fifties - Deviation Gate Alpha"},
+        {"seq": 9, "lat": -55.0, "lon": 32.0, "label": "Westward Dogleg Turn (Avoiding ICE-TAB-2024-01)"},
+        {"seq": 10, "lat": -58.2, "lon": 38.0, "label": "Iceberg Flank Clearance Waypoint (40 nm West of Berg)"},
+        {"seq": 11, "lat": -60.5, "lon": 26.0, "label": "Re-entering Convergence Corridor"},
+        {"seq": 12, "lat": -64.0, "lon": 18.0, "label": "Ice Zone Entry"},
+        {"seq": 13, "lat": -67.5, "lon": 14.0, "label": "Thin Ice Navigation"},
+        {"seq": 14, "lat": -70.7644, "lon": 11.7386, "label": "Maitri Station - ARRIVAL"}
+      ],
+      "fuel_breakdown": {
+        "open_water_transit_liters": 137000,
+        "ice_navigation_liters": 23000,
+        "maneuvering_and_port_liters": 4000,
+        "safety_reserve_liters": 10000,
+        "total_liters": 174000
+      },
+      "time_breakdown": {
+        "open_ocean_days": 23.5,
+        "ice_navigation_days": 3.7,
+        "weather_buffer_days": 1.0,
+        "departure_arrival_operations_days": 1.0,
+        "total_days": 29.2
+      }
+    },
+    {
+      "id": "fuel",
+      "type": "fuel_efficient",
+      "name": "Current-Assisted Western Route",
+      "color": "#f97316",
+      "polyline_style": "dotted",
+      "distance_km": 11200,
+      "distance_nm": 6048,
+      "duration_days": 31.0,
+      "avg_speed_knots": 15.0,
+      "fuel_liters": 152000,
+      "risk_score": 23,
+      "safety_rating_stars": 4,
+      "status": "VIABLE_ALTERNATIVE",
+      "description": "Completely clear of newly reported iceberg. Continues western current-assisted transit along 8-12°E meridian.",
+      "key_features": [
+        "Western route lies 450 km away from ICE-TAB-2024-01",
+        "Retains optimum fuel economy (152,000 L total)",
+        "Zero deviation required from ACC streamline path",
+        "Viable alternative if master rejects eastern detour"
+      ],
+      "waypoints": [
+        {"seq": 1, "lat": 13.0827, "lon": 80.2707, "label": "Chennai Port - DEPARTURE"},
+        {"seq": 2, "lat": 6.0, "lon": 76.0, "label": "Arabian Sea Exit"},
+        {"seq": 3, "lat": -5.0, "lon": 70.0, "label": "South Equatorial Current"},
+        {"seq": 4, "lat": -15.0, "lon": 65.0, "label": "Southern Indian Ocean"},
+        {"seq": 5, "lat": -25.0, "lon": 55.0, "label": "Agulhas Current Region"},
+        {"seq": 6, "lat": -35.0, "lon": 40.0, "label": "Westward Track Begin"},
+        {"seq": 7, "lat": -40.0, "lon": 30.0, "label": "Prince Edward West Pass"},
+        {"seq": 8, "lat": -45.0, "lon": 20.0, "label": "ACC Assist Zone"},
+        {"seq": 9, "lat": -48.0, "lon": 12.0, "label": "Maximum Current Assist"},
+        {"seq": 10, "lat": -52.0, "lon": 8.0, "label": "Turn South - ACC Exit"},
+        {"seq": 11, "lat": -56.0, "lon": 10.0, "label": "Southern Approach Begin"},
+        {"seq": 12, "lat": -60.0, "lon": 11.0, "label": "Antarctic Convergence"},
+        {"seq": 13, "lat": -64.0, "lon": 11.5, "label": "Pack Ice Edge"},
+        {"seq": 14, "lat": -68.0, "lon": 11.7, "label": "Final Ice Navigation"},
+        {"seq": 15, "lat": -70.7644, "lon": 11.7386, "label": "Maitri Station - ARRIVAL"}
+      ],
+      "fuel_breakdown": {
+        "open_water_transit_liters": 122000,
+        "ice_navigation_liters": 17000,
+        "maneuvering_and_port_liters": 3500,
+        "safety_reserve_liters": 9500,
+        "total_liters": 152000
+      },
+      "time_breakdown": {
+        "open_ocean_days": 25.5,
+        "ice_navigation_days": 3.0,
+        "weather_buffer_days": 1.5,
+        "departure_arrival_operations_days": 1.0,
+        "total_days": 31.0
+      }
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "timestamp": "2024-01-15T12:00:00Z",
+  "ice_zones": [
+    {
+      "type": "open_water",
+      "percentage": 65,
+      "coordinates": [
+        [-65.2, -64.5],
+        [-65.1, -64.4],
+        [-65.0, -64.3]
+      ]
+    },
+    {
+      "type": "thin_ice",
+      "percentage": 25,
+      "coordinates": [
+        [-65.3, -64.6],
+        [-65.2, -64.5]
+      ]
+    },
+    {
+      "type": "thick_ice",
+      "percentage": 10,
+      "coordinates": [
+        [-65.4, -64.7],
+        [-65.3, -64.6]
+      ]
+    }
+  ],
+  "average_concentration": 35
+}

@@ -1,0 +1,578 @@
+{
+  "metadata": {
+    "generated": "2024-01-15T10:00:00Z",
+    "voyage_type": "India–Antarctica Research Expedition (hackathon planning demo)",
+    "ship_type": "Ice-strengthened research vessel (assumed 1A ice class)",
+    "season": "Austral summer (December–February)",
+    "scenario": 1,
+    "data_sources": [
+      "IMO Polar Code voyage-planning principles",
+      "NSIDC sea-ice products (operational data required before sailing)",
+      "British Antarctic Survey Southern Ocean/ACC background"
+    ],
+    "navigation_notice": "Demo waypoints only. Not for navigation; the master must use current ENCs, Notices to Mariners, ice charts, weather routing, SAR arrangements and vessel-specific Polar Water Operational Manual limits."
+  },
+  "voyage_info": {
+    "start": {
+      "name": "Chennai Port, India",
+      "lat": 13.0827,
+      "lon": 80.2707
+    },
+    "end": {
+      "name": "Maitri Research Station, Antarctica",
+      "lat": -70.7644,
+      "lon": 11.7386
+    },
+    "season": "December (Austral Summer)",
+    "ice_conditions": "Favourable overall; a newly detected tabular iceberg requires a monitored deviation on the direct option.",
+    "planned_distance_range_km": [
+      10000,
+      12200
+    ],
+    "ocean_regions": [
+      "Indian Ocean",
+      "Southern Ocean",
+      "Antarctic waters"
+    ]
+  },
+  "navigation_environment": {
+    "westerlies": "Persistent and often severe between 40°S and 60°S; weather routing retains a 2–3 day buffer.",
+    "acc": "Predominantly eastward flow; local route benefit is conditional on nowcast/forecast and must not be assumed as a fixed 0.5–1.5 kn gain.",
+    "ice_concentration_percent_by_latitude": {
+      "40S_50S": "0–5",
+      "50S_60S": "5–25",
+      "60S_65S": "20–60",
+      "65S_70S": "40–80; route only with current ice intelligence"
+    },
+    "fuel_basis": "Open ocean benchmark 5,500 L/day at 15 kn; ice benchmark 8,000 L/day at 10 kn; totals include manoeuvring, weather/ice allowances and 15% safety reserve."
+  },
+  "hazard_zones": [
+    {
+      "name": "Prince Edward Islands / seamount clearance",
+      "bounds": {
+        "lat": [
+          -48,
+          -45
+        ],
+        "lon": [
+          34,
+          42
+        ]
+      },
+      "risk": "Shallow-water and island-clearance constraint"
+    },
+    {
+      "name": "Iceberg Alley monitoring sector",
+      "bounds": {
+        "lat": [
+          -60,
+          -55
+        ],
+        "lon": [
+          40,
+          60
+        ]
+      },
+      "risk": "Elevated tabular-iceberg probability"
+    },
+    {
+      "name": "Bouvet Island isolation hazard",
+      "position": {
+        "lat": -54.4,
+        "lon": 3.4
+      },
+      "risk": "Remote isolated land/limited shelter"
+    }
+  ],
+  "routes": [
+    {
+      "type": "safest",
+      "name": "Eastern Ice-Avoidance Route",
+      "status": "viable",
+      "waypoints": [
+        {
+          "seq": 1,
+          "lat": 13.0827,
+          "lon": 80.2707,
+          "label": "Chennai Port — DEPARTURE"
+        },
+        {
+          "seq": 2,
+          "lat": 9.2,
+          "lon": 81.5,
+          "label": "Palk Strait traffic separation clearance"
+        },
+        {
+          "seq": 3,
+          "lat": 6.4,
+          "lon": 82.8,
+          "label": "Sri Lanka East Pass"
+        },
+        {
+          "seq": 4,
+          "lat": 1.0,
+          "lon": 85.0,
+          "label": "Equator approach — Indian Ocean lane exit"
+        },
+        {
+          "seq": 5,
+          "lat": -5.0,
+          "lon": 87.0,
+          "label": "Equator crossing"
+        },
+        {
+          "seq": 6,
+          "lat": -12.0,
+          "lon": 89.0,
+          "label": "Mid-Indian Ocean weather checkpoint"
+        },
+        {
+          "seq": 7,
+          "lat": -20.0,
+          "lon": 90.0,
+          "label": "Southern Indian Ocean checkpoint"
+        },
+        {
+          "seq": 8,
+          "lat": -28.0,
+          "lon": 87.0,
+          "label": "Subtropical convergence southbound"
+        },
+        {
+          "seq": 9,
+          "lat": -35.0,
+          "lon": 82.0,
+          "label": "Weather-routing decision point"
+        },
+        {
+          "seq": 10,
+          "lat": -40.0,
+          "lon": 75.0,
+          "label": "Roaring Forties entry"
+        },
+        {
+          "seq": 11,
+          "lat": -43.0,
+          "lon": 68.0,
+          "label": "Westerly storm-track avoidance leg"
+        },
+        {
+          "seq": 12,
+          "lat": -46.0,
+          "lon": 60.0,
+          "label": "Prince Edward Islands wide eastern clearance"
+        },
+        {
+          "seq": 13,
+          "lat": -49.0,
+          "lon": 48.0,
+          "label": "Furious Fifties — ice-avoidance transit"
+        },
+        {
+          "seq": 14,
+          "lat": -52.0,
+          "lon": 34.0,
+          "label": "Iceberg monitoring zone western boundary"
+        },
+        {
+          "seq": 15,
+          "lat": -55.0,
+          "lon": 26.0,
+          "label": "South of primary Iceberg Alley sector"
+        },
+        {
+          "seq": 16,
+          "lat": -58.0,
+          "lon": 20.0,
+          "label": "Antarctic Convergence approach"
+        },
+        {
+          "seq": 17,
+          "lat": -60.0,
+          "lon": 17.0,
+          "label": "Antarctic Convergence crossing"
+        },
+        {
+          "seq": 18,
+          "lat": -62.0,
+          "lon": 15.5,
+          "label": "Seasonal pack-ice edge assessment"
+        },
+        {
+          "seq": 19,
+          "lat": -64.5,
+          "lon": 14.2,
+          "label": "Ice navigation commencement"
+        },
+        {
+          "seq": 20,
+          "lat": -67.0,
+          "lon": 12.9,
+          "label": "Riiser-Larsen Ice Shelf outer approach"
+        },
+        {
+          "seq": 21,
+          "lat": -69.0,
+          "lon": 12.1,
+          "label": "Final ice-field pilotage waypoint"
+        },
+        {
+          "seq": 22,
+          "lat": -70.0,
+          "lon": 11.82,
+          "label": "Maitri ice-shelf approach"
+        },
+        {
+          "seq": 23,
+          "lat": -70.7644,
+          "lon": 11.7386,
+          "label": "Maitri Research Station — ARRIVAL"
+        }
+      ],
+      "distance_km": 12200,
+      "distance_nm": 6587,
+      "duration_days": 34,
+      "avg_speed_knots": 15.0,
+      "fuel_liters": 185000,
+      "risk_score": 12,
+      "description": "Conservative wide-clearance route that avoids the main iceberg-density sector and gives extra room for weather routing.",
+      "key_features": [
+        "Wide Prince Edward Islands clearance",
+        "Avoids the 40–60°E iceberg-density sector",
+        "Gradual descent permits ice-edge reassessment"
+      ],
+      "operating_assumptions": {
+        "open_ocean_speed_knots": 15.0,
+        "ice_navigation_speed_knots": 9.0,
+        "weather_delay_buffer_days": 3,
+        "port_procedures_days": 2,
+        "ice_entry_weather_window": "72-hour forecast calm window required",
+        "minimum_turn_radius_nm": 5
+      }
+    },
+    {
+      "type": "fastest",
+      "name": "Direct Southern Route",
+      "status": "viable",
+      "waypoints": [
+        {
+          "seq": 1,
+          "lat": 13.0827,
+          "lon": 80.2707,
+          "label": "Chennai Port — DEPARTURE"
+        },
+        {
+          "seq": 2,
+          "lat": 8.0,
+          "lon": 79.5,
+          "label": "Sri Lanka West Pass"
+        },
+        {
+          "seq": 3,
+          "lat": 2.0,
+          "lon": 77.0,
+          "label": "Indian Ocean lane exit"
+        },
+        {
+          "seq": 4,
+          "lat": -5.0,
+          "lon": 74.0,
+          "label": "South Equatorial crossing"
+        },
+        {
+          "seq": 5,
+          "lat": -13.0,
+          "lon": 70.0,
+          "label": "Direct southbound track"
+        },
+        {
+          "seq": 6,
+          "lat": -21.0,
+          "lon": 65.0,
+          "label": "Mid-Indian Ocean direct transit"
+        },
+        {
+          "seq": 7,
+          "lat": -30.0,
+          "lon": 58.0,
+          "label": "Weather-routing decision point"
+        },
+        {
+          "seq": 8,
+          "lat": -38.0,
+          "lon": 50.0,
+          "label": "Roaring Forties entry"
+        },
+        {
+          "seq": 9,
+          "lat": -43.0,
+          "lon": 42.0,
+          "label": "Prince Edward Islands western clearance"
+        },
+        {
+          "seq": 10,
+          "lat": -48.0,
+          "lon": 37.0,
+          "label": "Furious Fifties direct leg"
+        },
+        {
+          "seq": 11,
+          "lat": -52.0,
+          "lon": 33.0,
+          "label": "Iceberg monitoring zone entry"
+        },
+        {
+          "seq": 12,
+          "lat": -55.0,
+          "lon": 29.0,
+          "label": "Iceberg Alley transit — enhanced watch"
+        },
+        {
+          "seq": 13,
+          "lat": -58.0,
+          "lon": 25.0,
+          "label": "Antarctic Convergence approach"
+        },
+        {
+          "seq": 14,
+          "lat": -58.6,
+          "lon": 22.0,
+          "label": "Deviation west of detected tabular iceberg"
+        },
+        {
+          "seq": 15,
+          "lat": -60.0,
+          "lon": 21.0,
+          "label": "Antarctic Convergence quick crossing"
+        },
+        {
+          "seq": 16,
+          "lat": -63.0,
+          "lon": 17.5,
+          "label": "Thin-pack ice entry"
+        },
+        {
+          "seq": 17,
+          "lat": -66.0,
+          "lon": 14.8,
+          "label": "Ice-speed reduction waypoint"
+        },
+        {
+          "seq": 18,
+          "lat": -68.5,
+          "lon": 12.8,
+          "label": "Riiser-Larsen approach"
+        },
+        {
+          "seq": 19,
+          "lat": -70.0,
+          "lon": 11.95,
+          "label": "Final ice navigation"
+        },
+        {
+          "seq": 20,
+          "lat": -70.7644,
+          "lon": 11.7386,
+          "label": "Maitri Research Station — ARRIVAL"
+        }
+      ],
+      "distance_km": 10850,
+      "distance_nm": 5859,
+      "duration_days": 29,
+      "avg_speed_knots": 15.5,
+      "fuel_liters": 176000,
+      "risk_score": 52,
+      "description": "Direct route deviates around a newly detected tabular iceberg; risk remains elevated due to close iceberg-density exposure.",
+      "key_features": [
+        "Direct southern geometry",
+        "Enhanced iceberg watch south of 52°S",
+        "Lower weather-routing margin"
+      ],
+      "operating_assumptions": {
+        "open_ocean_speed_knots": 15.5,
+        "ice_navigation_speed_knots": 9.0,
+        "weather_delay_buffer_days": 3,
+        "port_procedures_days": 2,
+        "ice_entry_weather_window": "72-hour forecast calm window required",
+        "minimum_turn_radius_nm": 5
+      }
+    },
+    {
+      "type": "fuel_efficient",
+      "name": "Current-Assisted Western Route",
+      "status": "viable",
+      "waypoints": [
+        {
+          "seq": 1,
+          "lat": 13.0827,
+          "lon": 80.2707,
+          "label": "Chennai Port — DEPARTURE"
+        },
+        {
+          "seq": 2,
+          "lat": 8.5,
+          "lon": 78.5,
+          "label": "Sri Lanka West Pass"
+        },
+        {
+          "seq": 3,
+          "lat": 2.0,
+          "lon": 75.0,
+          "label": "Indian Ocean lane exit"
+        },
+        {
+          "seq": 4,
+          "lat": -5.0,
+          "lon": 70.0,
+          "label": "South Equatorial Current checkpoint"
+        },
+        {
+          "seq": 5,
+          "lat": -12.0,
+          "lon": 65.0,
+          "label": "Southern Indian Ocean transit"
+        },
+        {
+          "seq": 6,
+          "lat": -20.0,
+          "lon": 57.0,
+          "label": "Current and weather optimisation point"
+        },
+        {
+          "seq": 7,
+          "lat": -28.0,
+          "lon": 48.0,
+          "label": "Agulhas Return Current region"
+        },
+        {
+          "seq": 8,
+          "lat": -35.0,
+          "lon": 39.0,
+          "label": "Westward track begins"
+        },
+        {
+          "seq": 9,
+          "lat": -40.0,
+          "lon": 30.0,
+          "label": "Prince Edward Islands west-pass clearance"
+        },
+        {
+          "seq": 10,
+          "lat": -43.0,
+          "lon": 23.0,
+          "label": "Roaring Forties westward leg"
+        },
+        {
+          "seq": 11,
+          "lat": -45.0,
+          "lon": 25.0,
+          "label": "ACC eastbound assist zone entry"
+        },
+        {
+          "seq": 12,
+          "lat": -46.0,
+          "lon": 32.0,
+          "label": "Maximum eastbound current-assist leg"
+        },
+        {
+          "seq": 13,
+          "lat": -48.0,
+          "lon": 34.0,
+          "label": "ACC exit and south-west turn preparation"
+        },
+        {
+          "seq": 14,
+          "lat": -52.0,
+          "lon": 27.0,
+          "label": "Iceberg monitoring waypoint"
+        },
+        {
+          "seq": 15,
+          "lat": -57.0,
+          "lon": 16.0,
+          "label": "Antarctic Convergence approach"
+        },
+        {
+          "seq": 16,
+          "lat": -60.0,
+          "lon": 11.0,
+          "label": "Antarctic Convergence crossing"
+        },
+        {
+          "seq": 17,
+          "lat": -62.5,
+          "lon": 11.3,
+          "label": "Pack-ice edge assessment"
+        },
+        {
+          "seq": 18,
+          "lat": -65.0,
+          "lon": 11.5,
+          "label": "Managed ice navigation"
+        },
+        {
+          "seq": 19,
+          "lat": -67.5,
+          "lon": 11.65,
+          "label": "Riiser-Larsen outer approach"
+        },
+        {
+          "seq": 20,
+          "lat": -69.0,
+          "lon": 11.7,
+          "label": "Final ice navigation"
+        },
+        {
+          "seq": 21,
+          "lat": -70.0,
+          "lon": 11.73,
+          "label": "Maitri ice-shelf approach"
+        },
+        {
+          "seq": 22,
+          "lat": -70.7644,
+          "lon": 11.7386,
+          "label": "Maitri Research Station — ARRIVAL"
+        }
+      ],
+      "distance_km": 11200,
+      "distance_nm": 6048,
+      "duration_days": 31,
+      "avg_speed_knots": 15.0,
+      "fuel_liters": 152000,
+      "risk_score": 23,
+      "description": "Balanced route that seeks favourable current windows before a controlled southward approach.",
+      "key_features": [
+        "ACC/current-assist planning window",
+        "West of Prince Edward Islands",
+        "Moderate ice exposure"
+      ],
+      "operating_assumptions": {
+        "open_ocean_speed_knots": 15.0,
+        "ice_navigation_speed_knots": 9.0,
+        "weather_delay_buffer_days": 3,
+        "port_procedures_days": 2,
+        "ice_entry_weather_window": "72-hour forecast calm window required",
+        "minimum_turn_radius_nm": 5
+      }
+    }
+  ],
+  "detected_icebergs": [
+    {
+      "id": "TAB-2024-042",
+      "position": {
+        "lat": -58.5,
+        "lon": 42.0
+      },
+      "size_km": {
+        "length": 2.5,
+        "width": 1.8
+      },
+      "drift": {
+        "direction": "northwest",
+        "speed_km_per_day": 1.2
+      },
+      "impact": "Fastest route deviation required; safest and fuel-efficient options remain outside the alert buffer."
+    }
+  ]
+}

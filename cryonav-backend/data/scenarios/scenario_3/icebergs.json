@@ -1,0 +1,43 @@
+{
+  "icebergs": [
+    {
+      "id": "ICE-047",
+      "position": {
+        "lat": -65.152,
+        "lon": -64.478
+      },
+      "size_meters": {
+        "length": 800,
+        "width": 600
+      },
+      "confidence": 0.98,
+      "detection_time": "2024-01-16T18:20:00Z"
+    },
+    {
+      "id": "ICE-048",
+      "position": {
+        "lat": -65.385,
+        "lon": -64.642
+      },
+      "size_meters": {
+        "length": 450,
+        "width": 320
+      },
+      "confidence": 0.91,
+      "detection_time": "2024-01-16T18:22:00Z"
+    },
+    {
+      "id": "ICE-049",
+      "position": {
+        "lat": -65.225,
+        "lon": -64.515
+      },
+      "size_meters": {
+        "length": 350,
+        "width": 280
+      },
+      "confidence": 0.85,
+      "detection_time": "2024-01-16T18:25:00Z"
+    }
+  ]
+}

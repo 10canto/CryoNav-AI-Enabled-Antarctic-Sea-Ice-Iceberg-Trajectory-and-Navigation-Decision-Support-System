@@ -1,0 +1,49 @@
+{
+  "predictions": [
+    {
+      "iceberg_id": "ICE-047",
+      "trajectory": [
+        {
+          "time": "6h",
+          "position": {
+            "lat": -65.22,
+            "lon": -64.55
+          },
+          "uncertainty_radius_km": 3
+        },
+        {
+          "time": "12h",
+          "position": {
+            "lat": -65.20,
+            "lon": -64.52
+          },
+          "uncertainty_radius_km": 5
+        },
+        {
+          "time": "24h",
+          "position": {
+            "lat": -65.18,
+            "lon": -64.48
+          },
+          "uncertainty_radius_km": 8
+        },
+        {
+          "time": "48h",
+          "position": {
+            "lat": -65.15,
+            "lon": -64.40
+          },
+          "uncertainty_radius_km": 15
+        },
+        {
+          "time": "72h",
+          "position": {
+            "lat": -65.12,
+            "lon": -64.32
+          },
+          "uncertainty_radius_km": 22
+        }
+      ]
+    }
+  ]
+}
