@@ -101,15 +101,22 @@ CryoNav AI features an interactive simulation engine modeling four critical phas
 ## Quick Start
 
 ### Installation & Launch
-```bash
+
+```cmd
+cd cryonav-ai
 npm install
 npm run dev
-# dev server runs on port 3000
 ```
 
+Frontend runs at: **http://localhost:3000**
+
+> Requires the backend running on port 8000.
+> If offline, the built-in simulation engine handles all data automatically.
+
 ### Backend Integration
-- Connects automatically to FastAPI backend at `http://localhost:8000`.
-- If offline, the built-in **Simulation Engine** handles all telemetry seamlessly for demonstrations.
+
+Start the backend first (see `cryonav-backend/README.md`), then start the frontend.
+The app detects the backend automatically and switches between live and mock data.
 
 ---
 

@@ -53,23 +53,33 @@ export const SCENARIO_MOCKS = {
     scenario: 1,
     time: '06:00 UTC · 6 hours elapsed', shipPosition: [8.5, 82],
     riskAssessment: { status: 'CAUTION', iceConcentration: 68, nearestIceberg: 45, collisionRisk: 12, temperature: -12, windSpeed: 35, windDirection: 'NE', windDegrees: 45, visibility: 'Good (>10 nm)' },
+    // ICE-047 in Iceberg Alley (40-60°E), same ocean as route — 45 km from ship path
     icebergs: [iceberg([-58.5, 42.0], 1.2)], routes: routesFor(1),
     explanation: { headline: 'NEW ICEBERG DETECTED — MONITORING', text: 'New iceberg ICE-047 detected at 58.5°S, 42.0°E. It is 800 m × 600 m and 45 km from the route. It is drifting northeast at 1.2 km/day. Route A remains unaffected; Route B risk has increased to 52%.', confidence: 92 },
   },
   2: {
     scenario: 2,
-    // Waypoint on Route A's modified detour; the marker remains on the route.
     time: '18:00 UTC · 18 hours elapsed', shipPosition: [-55, 28],
     riskAssessment: { status: 'WARNING', iceConcentration: 72, nearestIceberg: 18, collisionRisk: 34, temperature: -12, windSpeed: 42, windDirection: 'NE', windDegrees: 45, visibility: 'Reduced (4 nm)' },
-    icebergs: [iceberg([-65.20, -64.52], 2.1)], routes: routesFor(2),
+    // ICE-047 ahead of ship on route corridor (22.5°E), ICE-048 in pack ice (13.8°E)
+    icebergs: [
+      iceberg([-60.8, 22.5], 2.1),
+      { id: 'ICE-048', name: 'Iceberg ICE-048', position: [-66.2, 13.8], sizeMeters: 450, length: 450, width: 320, confidence: 88, driftSpeedKnots: 0.8, driftHeading: 352 },
+    ],
+    routes: routesFor(2),
     explanation: { headline: 'HAZARD APPROACHING — PREPARE RESPONSE', text: 'ICE-047 is now 18 km away. Drift prediction gives a 74% probability of intersecting Route A in approximately 18 hours. Route A has a 150 km safety detour; Route B risk is 61%. Recommended: accept the Route B northern detour for a safer balanced approach.', confidence: 94, actions: true },
   },
   3: {
     scenario: 3,
-    // Route A remains the only viable route in the emergency scenario.
     time: '24:00 UTC · Emergency', shipPosition: [-66, 16],
     riskAssessment: { status: 'EMERGENCY', iceConcentration: 75, nearestIceberg: 3.2, collisionRisk: 87, temperature: -14, windSpeed: 48, windDirection: 'SW', windDegrees: 185, visibility: 'Poor (<1 nm)' },
-    icebergs: [iceberg([-65.18, -64.48], 2.1)], routes: routesFor(3),
+    // ICE-047 only 3.2 km ahead at ship position (-66, 16); ICE-049 flanking from east; ICE-048 in pack ice
+    icebergs: [
+      { id: 'ICE-047', name: 'Iceberg ICE-047', position: [-65.96, 15.82], sizeMeters: 800, length: 800, width: 600, confidence: 98, driftSpeedKnots: 0.5, driftHeading: 159 },
+      { id: 'ICE-048', name: 'Iceberg ICE-048', position: [-66.5,  14.4],  sizeMeters: 450, length: 450, width: 320, confidence: 91, driftSpeedKnots: 0.6, driftHeading: 348 },
+      { id: 'ICE-049', name: 'Iceberg ICE-049', position: [-65.88, 16.14], sizeMeters: 350, length: 350, width: 280, confidence: 85, driftSpeedKnots: 0.4, driftHeading: 162 },
+    ],
+    routes: routesFor(3),
     explanation: { headline: 'CRITICAL — IMMEDIATE ACTION REQUIRED', text: 'Iceberg ICE-047 is 3.2 km ahead. Collision probability is 87%, with approximately 14 minutes to impact. Immediately change heading to 185° southwest and reduce speed to 8 knots. Routes B and C are blocked; Route A is the only viable route.', confidence: 99 },
   },
 };

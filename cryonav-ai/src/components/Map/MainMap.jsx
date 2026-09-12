@@ -11,6 +11,7 @@ import ShipMarker from './ShipMarker';
 import WindArrows from './WindArrows';
 import MapControls from './MapControls';
 import VoyageInfoPanel from '../Panels/VoyageInfoPanel';
+import TrajectoryLines from './TrajectoryLines';
 
 function MapSync({ center, zoom, duration = 0.8 }) {
   const map = useMap();
@@ -68,11 +69,6 @@ const routeLeg = (start, end, routeCoordinates = []) => {
   return [start, ...inTravelDirection.filter((point) => !samePosition(point, start) && !samePosition(point, end)), end];
 };
 
-/**
- * Smoothly moves the live-position marker whenever the scenario supplies a new
- * coordinate. Keeping this state in the map prevents the Leaflet marker from
- * jumping directly to the next scenario waypoint.
- */
 function useAnimatedShipPosition(targetPosition, routeCoordinates) {
   const initialPosition = targetPosition || MAP_CENTER;
   const [position, setPosition] = useState(initialPosition);
@@ -107,12 +103,13 @@ function useAnimatedShipPosition(targetPosition, routeCoordinates) {
   return position;
 }
 
-const MainMap = ({ scenario, selectedRoute, onSelectRoute }) => {
+const MainMap = ({ scenario, selectedRoute, onSelectRoute, iceZoneData }) => {
   const [layers, setLayers] = useState({
     ice: true,
     routes: true,
     wind: true,
     icebergs: true,
+    trajectories: true,
   });
 
   // Combine backend routes with mock routes to find the active route
@@ -120,7 +117,6 @@ const MainMap = ({ scenario, selectedRoute, onSelectRoute }) => {
   const activeRoute = allRoutes.find((route) => route.id === selectedRoute) || scenario?.routes?.[0];
   
   // Calculate ship position dynamically based on selected route and scenario progress
-  // This ensures ship follows the selected route in all 4 scenarios
   const calculateShipPosition = () => {
     if (!activeRoute || !activeRoute.coordinates) {
       return scenario?.shipPosition || MAP_CENTER;
@@ -134,6 +130,8 @@ const MainMap = ({ scenario, selectedRoute, onSelectRoute }) => {
                         (scenario?.time?.includes('Departure') ? 0 :
                          scenario?.time?.includes('6 hours') ? 1 :
                          scenario?.time?.includes('18 hours') ? 2 : 3);
+  
+  const predictions = scenario?.predictions || [];
   
   const targetShipPosition = calculateShipPosition();
   
@@ -163,7 +161,12 @@ const MainMap = ({ scenario, selectedRoute, onSelectRoute }) => {
       <MapSync center={targetShipPosition} zoom={4} duration={SHIP_TRANSITION_DURATION / 1000} />
       <MapControls layerVisibility={layers} onToggleLayer={toggleLayer} />
 
-      {layers.ice && <IceZoneLayer zones={ICE_ZONES_DATA} />}
+      {layers.ice && (
+        <IceZoneLayer
+          zones={iceZoneData ? [] : ICE_ZONES_DATA}
+          data={iceZoneData || null}
+        />
+      )}
       {layers.routes && (
         <RouteLines
           routes={scenario?.routes || []}
@@ -171,6 +174,7 @@ const MainMap = ({ scenario, selectedRoute, onSelectRoute }) => {
           onSelectRoute={onSelectRoute}
         />
       )}
+      {layers.trajectories && <TrajectoryLines predictions={predictions} scenario={scenarioIndex} visible={layers.trajectories} />}
       {layers.icebergs && <IcebergMarkers icebergs={scenario?.icebergs || []} />}
       <ShipMarker position={shipPosition} heading={heading} />
       {layers.wind && <WindArrows vectors={mockWindData.wind_vectors} />}

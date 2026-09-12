@@ -1,31 +1,69 @@
 {
   "timestamp": "2024-01-15T18:00:00Z",
+  "scenario": 1,
+  "location": "Southern Ocean — Marginal Ice Zone, 62°S corridor",
   "ice_zones": [
     {
       "type": "open_water",
-      "percentage": 45,
+      "percentage": 68,
       "coordinates": [
-        [-65.2, -64.5],
-        [-65.1, -64.4],
-        [-65.0, -64.3]
-      ]
+        [-60.0, 10.0],
+        [-60.0, 30.0],
+        [-62.0, 30.0],
+        [-62.0, 10.0],
+        [-60.0, 10.0]
+      ],
+      "area_km2": 10022,
+      "confidence": 0.94,
+      "description": "Open Southern Ocean — good visibility, Beaufort sea state 4"
     },
     {
       "type": "thin_ice",
-      "percentage": 35,
+      "percentage": 22,
       "coordinates": [
-        [-65.3, -64.6],
-        [-65.2, -64.5]
-      ]
+        [-62.0, 10.0],
+        [-62.0, 30.0],
+        [-64.5, 28.5],
+        [-64.3, 11.0],
+        [-62.0, 10.0]
+      ],
+      "area_km2": 3242,
+      "confidence": 0.87,
+      "description": "Expanding marginal ice zone — grease ice and pancake ice moving northward"
     },
     {
       "type": "thick_ice",
-      "percentage": 20,
+      "percentage": 8,
       "coordinates": [
-        [-65.4, -64.7],
-        [-65.3, -64.6]
-      ]
+        [-64.5, 11.0],
+        [-64.5, 27.0],
+        [-66.2, 25.5],
+        [-66.0, 12.5],
+        [-64.5, 11.0]
+      ],
+      "area_km2": 1179,
+      "confidence": 0.84,
+      "description": "First-year ice consolidating — icebreaker assist may be needed below 65°S"
+    },
+    {
+      "type": "pack_ice",
+      "percentage": 2,
+      "coordinates": [
+        [-66.2, 14.0],
+        [-66.2, 22.0],
+        [-67.0, 22.0],
+        [-67.0, 14.0],
+        [-66.2, 14.0]
+      ],
+      "area_km2": 295,
+      "confidence": 0.78,
+      "description": "Initial pack ice formation near Princess Astrid Coast — avoid if possible"
     }
   ],
-  "average_concentration": 55
+  "average_concentration": 32,
+  "total_area_analyzed_km2": 14738,
+  "model_version": "ice_classifier_v1.0",
+  "sensor": "Sentinel-1 SAR (C-band, VV+VH)",
+  "processing_time_ms": 192,
+  "notes": "Caution conditions. Iceberg ICE-047 detected at 58.5°S, 42°E drifting NE at 1.2 kn. Thin ice advancing 35 km north of baseline. Route B risk elevated to 52%."
 }

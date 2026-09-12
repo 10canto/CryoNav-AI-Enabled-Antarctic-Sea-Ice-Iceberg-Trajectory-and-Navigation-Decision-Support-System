@@ -834,7 +834,7 @@
 }
 .hazard-low { background: #22c55e22; color: #22c55e; }
 .hazard-medium { background: #f59e0b22; color: #f59e0b; }
-.hazard-high { background: #ef444422; color: #ef4444; }
+.hazard-high { background: #f9731622; color: #f97316; }
 .hazard-critical { background: #7f1d1d22; color: #ef4444; animation: pulse 2s infinite; }
 @keyframes pulse {
   0% { opacity: 1; }

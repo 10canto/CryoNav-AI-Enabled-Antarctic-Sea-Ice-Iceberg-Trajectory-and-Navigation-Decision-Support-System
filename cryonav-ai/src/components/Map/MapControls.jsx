@@ -5,18 +5,27 @@ import { MAP_CENTER, MAP_ZOOM } from '../../config.js';
 export function MapControls({ layerVisibility, onToggleLayer }) {
   const map = useMap();
 
+  const layerKeys = ['ice', 'routes', 'wind', 'icebergs', 'trajectories'];
+  const layerLabels = {
+    ice: 'Ice Chart',
+    routes: 'Routes',
+    wind: 'Wind',
+    icebergs: 'Icebergs',
+    trajectories: 'Trajectories',
+  };
+
   return (
     <>
       <div className="map-overlay-top">
         <div className="map-layer-bar">
-          {['ice', 'routes', 'wind', 'icebergs'].map((key) => (
+          {layerKeys.map((key) => (
             <button
               key={key}
               type="button"
               className={`map-layer-btn ${layerVisibility[key] ? 'active' : ''}`}
               onClick={() => onToggleLayer(key)}
             >
-              {key === 'ice' ? 'Ice Chart' : key.charAt(0).toUpperCase() + key.slice(1)}
+              {layerLabels[key]}
             </button>
           ))}
         </div>

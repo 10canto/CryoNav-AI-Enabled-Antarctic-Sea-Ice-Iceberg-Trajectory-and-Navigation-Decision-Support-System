@@ -1,31 +1,69 @@
 {
   "timestamp": "2024-01-16T06:00:00Z",
+  "scenario": 2,
+  "location": "Antarctic Marginal Ice Zone — 64°S high-density corridor",
   "ice_zones": [
     {
       "type": "open_water",
-      "percentage": 35,
+      "percentage": 42,
       "coordinates": [
-        [-65.2, -64.5],
-        [-65.1, -64.4]
-      ]
+        [-60.0, 10.0],
+        [-60.0, 30.0],
+        [-61.8, 29.0],
+        [-61.5, 11.0],
+        [-60.0, 10.0]
+      ],
+      "area_km2": 6188,
+      "confidence": 0.93,
+      "description": "Reduced open water corridor — leads narrowing rapidly, visibility 4 nm"
     },
     {
       "type": "thin_ice",
-      "percentage": 42,
+      "percentage": 35,
       "coordinates": [
-        [-65.3, -64.6],
-        [-65.2, -64.5],
-        [-65.15, -64.45]
-      ]
+        [-61.5, 11.0],
+        [-61.8, 29.0],
+        [-64.8, 27.0],
+        [-64.5, 12.0],
+        [-61.5, 11.0]
+      ],
+      "area_km2": 5160,
+      "confidence": 0.86,
+      "description": "Dense pancake and young grey ice — significant drift observed toward Route A"
     },
     {
       "type": "thick_ice",
-      "percentage": 23,
+      "percentage": 18,
       "coordinates": [
-        [-65.4, -64.7],
-        [-65.3, -64.6]
-      ]
+        [-64.5, 12.0],
+        [-64.8, 27.0],
+        [-67.5, 25.0],
+        [-67.2, 13.0],
+        [-64.5, 12.0]
+      ],
+      "area_km2": 2654,
+      "confidence": 0.83,
+      "description": "Consolidated first-year ice 40–65 cm — speed reduced to 8 kts, constant radar watch"
+    },
+    {
+      "type": "pack_ice",
+      "percentage": 5,
+      "coordinates": [
+        [-67.2, 13.0],
+        [-67.5, 25.0],
+        [-69.0, 23.5],
+        [-68.8, 13.5],
+        [-67.2, 13.0]
+      ],
+      "area_km2": 737,
+      "confidence": 0.80,
+      "description": "Multi-year pack ice >70 cm — ice-breaking mandatory, significant pressure ridges present"
     }
   ],
-  "average_concentration": 68
+  "average_concentration": 58,
+  "total_area_analyzed_km2": 14739,
+  "model_version": "ice_classifier_v1.0",
+  "sensor": "Sentinel-1 SAR (C-band, VV+VH)",
+  "processing_time_ms": 208,
+  "notes": "Warning conditions. Ice extent 85 km north of 48-hour average. ICE-047 now 18 km from Route A — 74% intersection probability. Route A modified detour recommended. Route B risk 61%."
 }

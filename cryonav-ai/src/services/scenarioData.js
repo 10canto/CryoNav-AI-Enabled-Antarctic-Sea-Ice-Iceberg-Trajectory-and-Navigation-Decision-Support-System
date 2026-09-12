@@ -527,10 +527,38 @@ export const SCENARIO_MOCKS = {
 };
 
 export const scenarioMetadata = {
-  0: { weather: "Clear, -2°C, Wind 15kn NW", location: "65.5°N, 55.2°W", ocean: "North Atlantic", hazardLevel: "medium", departureTime: "2024-01-15T06:00:00Z" },
-  1: { weather: "Overcast, -5°C, Wind 25kn WSW", location: "68.2°N, 58.4°W", ocean: "North Atlantic", hazardLevel: "high", departureTime: "2024-01-20T14:30:00Z" },
-  2: { weather: "Snow, -8°C, Wind 35kn NW", location: "70.1°N, 61.3°W", ocean: "North Atlantic", hazardLevel: "critical", departureTime: "2024-01-25T18:00:00Z" },
-  3: { weather: "Clear, -12°C, Wind 10kn N", location: "72.4°N, 64.8°W", ocean: "Arctic Ocean", hazardLevel: "low", departureTime: "2024-01-30T09:00:00Z" },
+  0: {
+    location: "Chennai Port, India",
+    weather: { condition: "Clear", temperature: "-12°C", wind: "35 km/h NE" },
+    ocean: "Indian Ocean",
+    risk: "SAFE",
+    hazardClass: "low",
+    departureTime: "2024-01-15T06:00:00Z"
+  },
+  1: {
+    location: "100 km South of Chennai",
+    weather: { condition: "Clear", temperature: "-12°C", wind: "35 km/h NE" },
+    ocean: "Indian Ocean",
+    risk: "CAUTION",
+    hazardClass: "medium",
+    departureTime: "2024-01-15T06:00:00Z"
+  },
+  2: {
+    location: "300 km South of Chennai",
+    weather: { condition: "Wind Increasing", temperature: "-12°C", wind: "42 km/h NE" },
+    ocean: "Indian Ocean",
+    risk: "WARNING",
+    hazardClass: "high",
+    departureTime: "2024-01-15T06:00:00Z"
+  },
+  3: {
+    location: "400 km South of Chennai",
+    weather: { condition: "Deteriorating", temperature: "-12°C", wind: "52 km/h NE" },
+    ocean: "Indian Ocean",
+    risk: "EMERGENCY",
+    hazardClass: "critical",
+    departureTime: "2024-01-15T06:00:00Z"
+  }
 };
 
 export const ICE_ZONES_DATA = [

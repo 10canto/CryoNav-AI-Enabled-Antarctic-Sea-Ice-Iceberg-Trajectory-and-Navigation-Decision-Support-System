@@ -3,8 +3,8 @@
     {
       "id": "ICE-047",
       "position": {
-        "lat": -65.152,
-        "lon": -64.478
+        "lat": -65.96,
+        "lon": 15.82
       },
       "size_meters": {
         "length": 800,
@@ -16,8 +16,8 @@
     {
       "id": "ICE-048",
       "position": {
-        "lat": -65.385,
-        "lon": -64.642
+        "lat": -66.5,
+        "lon": 14.4
       },
       "size_meters": {
         "length": 450,
@@ -29,8 +29,8 @@
     {
       "id": "ICE-049",
       "position": {
-        "lat": -65.225,
-        "lon": -64.515
+        "lat": -65.88,
+        "lon": 16.14
       },
       "size_meters": {
         "length": 350,

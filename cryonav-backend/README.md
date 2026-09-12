@@ -28,20 +28,23 @@ cryonav-backend/
 
 ### 1. Install Dependencies
 
-```bash
+```cmd
 pip install -r requirements.txt
 ```
 
 ### 2. Run the Server
 
-```bash
-uvicorn app.main:app --reload
+```cmd
+python -m uvicorn app.main:app --reload
 ```
 
-The API will be available at:
-- **API**: http://localhost:8000
+Backend runs at: **http://localhost:8000**
 
-Note: Swagger UI and ReDoc documentation have been disabled for this demo.
+### 3. Regenerate Trajectory Data (optional)
+
+```cmd
+python generate_scenario_trajectories.py
+```
 
 ## API Endpoints
 

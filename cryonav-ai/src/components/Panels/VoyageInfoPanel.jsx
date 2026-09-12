@@ -8,9 +8,9 @@ const VoyageInfoPanel = ({ scenarioId }) => {
     <div className="voyage-info-panel">
       <div className="panel-header">
         <h4>Voyage Info</h4>
-        <span className={`hazard-badge hazard-${data.hazardLevel}`}>
+        <span className={`hazard-badge hazard-${data.hazardClass || 'low'}`}>
           <span className="hazard-dot"></span>
-          {data.hazardLevel} Risk
+          {data.risk}
         </span>
       </div>
       <div className="panel-grid">
@@ -18,7 +18,7 @@ const VoyageInfoPanel = ({ scenarioId }) => {
           <span className="icon">🌤️</span>
           <div className="item-text">
             <span className="label">Weather</span>
-            <span className="value">{data.weather}</span>
+            <span className="value">{data.weather.condition}, {data.weather.temperature}, {data.weather.wind}</span>
           </div>
         </div>
         <div className="grid-item">

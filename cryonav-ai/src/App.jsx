@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { advanceTime, getHealth, getIcebergs, resetDemo, setUseMockData } from './services/api';
+import { advanceTime, getHealth, getIceAnalysis, getIcebergs, getPredictions, resetDemo, setUseMockData } from './services/api';
+import { getMockPredictions } from './services/mockData';
 import { SCENARIO_MOCKS } from './services/scenarioDataRequirements';
 import { SCENARIO_TRANSITION_DELAY } from './config';
 import { Notification } from './components/Common/Notification';
@@ -10,8 +11,15 @@ import RouteOptionsPanel from './components/Panels/RouteOptionsPanel';
 import ExplanationPanel from './components/Panels/ExplanationPanel';
 import TimelineControl from './components/Panels/TimelineControl';
 import EmergencyAlertModal from './components/Modals/EmergencyAlertModal';
+import SuccessModal from './components/Modals/SuccessModal';
 import RouteDetailsModal from './components/Modals/RouteDetailsModal';
 import { MOCK_ADDITIONAL_ROUTES } from './components/Map/RouteLines';
+
+// Routes that are SAFE — show success in scenario 3
+const SAFE_ROUTES = new Set(['safest']);
+
+// Routes that trigger the collision warning — B, C, and mock alternatives
+const RISKY_ROUTES = new Set(['fastest', 'fuel', 'alternative_1', 'alternative_2']);
 
 function App() {
   const [backendStatus, setBackendStatus] = useState('checking');
@@ -21,7 +29,10 @@ function App() {
   const [toasts, setToasts] = useState([]);
   const [showEmergencyModal, setShowEmergencyModal] = useState(false);
   const [detailsRoute, setDetailsRoute] = useState(null);
-  const [backendIcebergs, setBackendIcebergs] = useState(null); // null = not yet loaded
+  const [backendIcebergs, setBackendIcebergs] = useState(null);
+  const [backendIceZones, setBackendIceZones] = useState(null);
+  const [backendPredictions, setBackendPredictions] = useState(null);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const scene = SCENARIO_MOCKS[scenario] || SCENARIO_MOCKS[0];
 
@@ -83,11 +94,59 @@ function App() {
       .catch(() => setBackendIcebergs(null));
   }, [backendStatus, scenario]);
 
+  // Fetch ice zone analysis from backend whenever scenario changes (if backend connected)
   useEffect(() => {
-    if (scene.riskAssessment?.status === 'EMERGENCY') {
-      setShowEmergencyModal(true);
+    if (backendStatus !== 'connected') {
+      setBackendIceZones(null); // fall back to ICE_ZONES_DATA constant
+      return;
     }
-  }, [scenario, scene.riskAssessment?.status]);
+    getIceAnalysis()
+      .then((data) => {
+        setBackendIceZones(data ?? null);
+      })
+      .catch(() => setBackendIceZones(null));
+  }, [backendStatus, scenario]);
+
+  // Fetch predictions on every scenario change.
+  // Strategy: always load from mock immediately so trajectories are never blank,
+  // then try backend and upgrade if available.
+  useEffect(() => {
+    // 1. Set mock data immediately — guarantees circles are visible right away
+    const mockPreds = getMockPredictions(scenario)?.predictions ?? [];
+    setBackendPredictions(mockPreds);
+
+    // 2. If backend connected, try to upgrade with real data
+    if (backendStatus === 'connected') {
+      getPredictions(null, scenario)
+        .then((data) => {
+          const preds = Array.isArray(data) ? data : (data?.predictions ?? null);
+          // Only upgrade if backend returned non-empty data
+          if (preds && preds.length > 0) {
+            setBackendPredictions(preds);
+          }
+        })
+        .catch(() => { /* keep mock data already set */ });
+    }
+  }, [scenario, backendStatus]);
+
+  // Scenario 3 modal logic — depends on which route the captain chose
+  useEffect(() => {
+    if (scene.riskAssessment?.status !== 'EMERGENCY') return;
+
+    if (SAFE_ROUTES.has(selectedRoute)) {
+      // Route A — ship safely avoids all icebergs
+      setShowSuccessModal(true);
+      setShowEmergencyModal(false);
+    } else if (RISKY_ROUTES.has(selectedRoute)) {
+      // Route B / C / alternatives — iceberg collision warning
+      setShowEmergencyModal(true);
+      setShowSuccessModal(false);
+    } else {
+      // Unknown route — default to emergency
+      setShowEmergencyModal(true);
+      setShowSuccessModal(false);
+    }
+  }, [scenario, scene.riskAssessment?.status, selectedRoute]);
 
   const nextScenario = useCallback(async () => {
     setIsTransitioning(true);
@@ -112,6 +171,7 @@ function App() {
     setScenario(0);
     setSelectedRoute('safest');
     setShowEmergencyModal(false);
+    setShowSuccessModal(false);
     addToast('info', 'Expedition timeline reset to baseline departure');
   }, [addToast]);
 
@@ -143,7 +203,8 @@ function App() {
         <div className="map-column">
           <div className="map-wrapper">
             <MainMap
-              scenario={{ ...scene, icebergs: activeIcebergs }}
+              scenario={{ ...scene, icebergs: activeIcebergs, predictions: backendPredictions }}
+              iceZoneData={backendIceZones}
               selectedRoute={selectedRoute}
               onSelectRoute={setSelectedRoute}
             />
@@ -185,7 +246,17 @@ function App() {
       <EmergencyAlertModal
         show={showEmergencyModal}
         riskData={riskForModal}
+        selectedRoute={selectedRoute}
         onAcknowledge={() => setShowEmergencyModal(false)}
+      />
+
+      <SuccessModal
+        show={showSuccessModal}
+        routeName="Route A — Eastern Ice-Avoidance"
+        onAcknowledge={() => {
+          setShowSuccessModal(false);
+          addToast('success', 'Mission complete — R/V Bharati Pioneer arrived safely at Maitri Station');
+        }}
       />
 
       <RouteDetailsModal

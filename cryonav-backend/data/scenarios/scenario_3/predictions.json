@@ -2,106 +2,183 @@
   "predictions": [
     {
       "iceberg_id": "ICE-047",
+      "current_position": {
+        "lat": -65.96,
+        "lon": 15.82
+      },
       "trajectory": [
         {
-          "time": "1h",
-          "position": {
-            "lat": -65.148,
-            "lon": -64.473
-          },
-          "uncertainty_radius_km": 1
+          "time_hours": 6,
+          "latitude": -65.985,
+          "longitude": 15.91,
+          "uncertainty_km": 1.8,
+          "timestamp": "2024-01-17T00:20:00Z",
+          "drift_speed_kmh": 0.62,
+          "drift_direction_deg": 159
         },
         {
-          "time": "2h",
-          "position": {
-            "lat": -65.144,
-            "lon": -64.468
-          },
-          "uncertainty_radius_km": 2
+          "time_hours": 12,
+          "latitude": -66.01,
+          "longitude": 16.0,
+          "uncertainty_km": 3.5,
+          "timestamp": "2024-01-17T06:20:00Z",
+          "drift_speed_kmh": 0.62,
+          "drift_direction_deg": 159
         },
         {
-          "time": "4h",
-          "position": {
-            "lat": -65.136,
-            "lon": -64.458
-          },
-          "uncertainty_radius_km": 3
+          "time_hours": 24,
+          "latitude": -66.06,
+          "longitude": 16.18,
+          "uncertainty_km": 6.4,
+          "timestamp": "2024-01-17T18:20:00Z",
+          "drift_speed_kmh": 0.62,
+          "drift_direction_deg": 160
         },
         {
-          "time": "6h",
-          "position": {
-            "lat": -65.128,
-            "lon": -64.448
-          },
-          "uncertainty_radius_km": 5
+          "time_hours": 48,
+          "latitude": -66.16,
+          "longitude": 16.54,
+          "uncertainty_km": 11.2,
+          "timestamp": "2024-01-18T18:20:00Z",
+          "drift_speed_kmh": 0.62,
+          "drift_direction_deg": 160
         },
         {
-          "time": "12h",
-          "position": {
-            "lat": -65.104,
-            "lon": -64.418
-          },
-          "uncertainty_radius_km": 8
+          "time_hours": 72,
+          "latitude": -66.26,
+          "longitude": 16.90,
+          "uncertainty_km": 15.8,
+          "timestamp": "2024-01-19T18:20:00Z",
+          "drift_speed_kmh": 0.62,
+          "drift_direction_deg": 161
         }
-      ]
+      ],
+      "risk_level": "high",
+      "notes": "CRITICAL: ICE-047 only 3.2 km ahead — collision in ~14 minutes at current speed. Immediate heading change to 185° SW required.",
+      "drift_summary": {
+        "total_distance_km": 43.8,
+        "forecast_hours": 72
+      }
     },
     {
       "iceberg_id": "ICE-048",
+      "current_position": {
+        "lat": -66.5,
+        "lon": 14.4
+      },
       "trajectory": [
         {
-          "time": "2h",
-          "position": {
-            "lat": -65.378,
-            "lon": -64.635
-          },
-          "uncertainty_radius_km": 2
+          "time_hours": 6,
+          "latitude": -66.41,
+          "longitude": 14.31,
+          "uncertainty_km": 2.45,
+          "timestamp": "2024-01-17T00:20:00Z",
+          "drift_speed_kmh": 0.68,
+          "drift_direction_deg": 348
         },
         {
-          "time": "6h",
-          "position": {
-            "lat": -65.364,
-            "lon": -64.621
-          },
-          "uncertainty_radius_km": 4
+          "time_hours": 12,
+          "latitude": -66.32,
+          "longitude": 14.22,
+          "uncertainty_km": 4.9,
+          "timestamp": "2024-01-17T06:20:00Z",
+          "drift_speed_kmh": 0.68,
+          "drift_direction_deg": 348
         },
         {
-          "time": "12h",
-          "position": {
-            "lat": -65.336,
-            "lon": -64.593
-          },
-          "uncertainty_radius_km": 7
+          "time_hours": 24,
+          "latitude": -66.14,
+          "longitude": 14.04,
+          "uncertainty_km": 9.8,
+          "timestamp": "2024-01-17T18:20:00Z",
+          "drift_speed_kmh": 0.68,
+          "drift_direction_deg": 348
+        },
+        {
+          "time_hours": 48,
+          "latitude": -65.78,
+          "longitude": 13.70,
+          "uncertainty_km": 19.6,
+          "timestamp": "2024-01-18T18:20:00Z",
+          "drift_speed_kmh": 0.68,
+          "drift_direction_deg": 348
+        },
+        {
+          "time_hours": 72,
+          "latitude": -65.42,
+          "longitude": 13.38,
+          "uncertainty_km": 29.4,
+          "timestamp": "2024-01-19T18:20:00Z",
+          "drift_speed_kmh": 0.68,
+          "drift_direction_deg": 348
         }
-      ]
+      ],
+      "risk_level": "high",
+      "notes": "ICE-048 calved from Lazarev Ice Shelf — drifting north toward vessel approach corridor at 14°E.",
+      "drift_summary": {
+        "total_distance_km": 122.3,
+        "forecast_hours": 72
+      }
     },
     {
       "iceberg_id": "ICE-049",
+      "current_position": {
+        "lat": -65.88,
+        "lon": 16.14
+      },
       "trajectory": [
         {
-          "time": "2h",
-          "position": {
-            "lat": -65.218,
-            "lon": -64.508
-          },
-          "uncertainty_radius_km": 2
+          "time_hours": 6,
+          "latitude": -65.91,
+          "longitude": 16.22,
+          "uncertainty_km": 2.1,
+          "timestamp": "2024-01-17T00:20:00Z",
+          "drift_speed_kmh": 0.58,
+          "drift_direction_deg": 162
         },
         {
-          "time": "6h",
-          "position": {
-            "lat": -65.204,
-            "lon": -64.494
-          },
-          "uncertainty_radius_km": 4
+          "time_hours": 12,
+          "latitude": -65.94,
+          "longitude": 16.30,
+          "uncertainty_km": 4.2,
+          "timestamp": "2024-01-17T06:20:00Z",
+          "drift_speed_kmh": 0.58,
+          "drift_direction_deg": 162
         },
         {
-          "time": "12h",
-          "position": {
-            "lat": -65.176,
-            "lon": -64.466
-          },
-          "uncertainty_radius_km": 8
+          "time_hours": 24,
+          "latitude": -66.0,
+          "longitude": 16.46,
+          "uncertainty_km": 7.8,
+          "timestamp": "2024-01-17T18:20:00Z",
+          "drift_speed_kmh": 0.58,
+          "drift_direction_deg": 163
+        },
+        {
+          "time_hours": 48,
+          "latitude": -66.12,
+          "longitude": 16.78,
+          "uncertainty_km": 13.5,
+          "timestamp": "2024-01-18T18:20:00Z",
+          "drift_speed_kmh": 0.58,
+          "drift_direction_deg": 163
+        },
+        {
+          "time_hours": 72,
+          "latitude": -66.24,
+          "longitude": 17.10,
+          "uncertainty_km": 18.9,
+          "timestamp": "2024-01-19T18:20:00Z",
+          "drift_speed_kmh": 0.58,
+          "drift_direction_deg": 164
         }
-      ]
+      ],
+      "risk_level": "high",
+      "notes": "CRITICAL: ICE-049 converging on vessel route — blocking escape corridor to the east.",
+      "drift_summary": {
+        "total_distance_km": 37.4,
+        "forecast_hours": 72
+      }
     }
   ]
 }

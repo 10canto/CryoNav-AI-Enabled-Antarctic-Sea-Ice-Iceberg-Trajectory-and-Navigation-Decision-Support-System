@@ -1,32 +1,69 @@
 {
-  "timestamp": "2024-01-16T18:30:00Z",
+  "timestamp": "2024-01-16T18:00:00Z",
+  "scenario": 3,
+  "location": "Antarctic Pack Ice Zone — Princess Astrid Coast, 66–70°S",
   "ice_zones": [
     {
       "type": "open_water",
       "percentage": 28,
       "coordinates": [
-        [-65.15, -64.42],
-        [-65.1, -64.4]
-      ]
+        [-60.0, 10.0],
+        [-60.0, 30.0],
+        [-61.2, 28.5],
+        [-61.0, 11.5],
+        [-60.0, 10.0]
+      ],
+      "area_km2": 4127,
+      "confidence": 0.92,
+      "description": "Severely restricted open water — narrow leads only, sea fog reducing visibility to <1 nm"
     },
     {
       "type": "thin_ice",
-      "percentage": 45,
+      "percentage": 38,
       "coordinates": [
-        [-65.25, -64.55],
-        [-65.2, -64.5],
-        [-65.15, -64.45]
-      ]
+        [-61.0, 11.5],
+        [-61.2, 28.5],
+        [-64.5, 26.5],
+        [-64.2, 12.5],
+        [-61.0, 11.5]
+      ],
+      "area_km2": 5602,
+      "confidence": 0.85,
+      "description": "Rapidly consolidating thin ice advancing to 61°S — storm-driven compaction underway"
     },
     {
       "type": "thick_ice",
-      "percentage": 27,
+      "percentage": 26,
       "coordinates": [
-        [-65.35, -64.65],
-        [-65.3, -64.6],
-        [-65.25, -64.55]
-      ]
+        [-64.2, 12.5],
+        [-64.5, 26.5],
+        [-67.8, 24.5],
+        [-67.5, 13.5],
+        [-64.2, 12.5]
+      ],
+      "area_km2": 3832,
+      "confidence": 0.82,
+      "description": "Heavy consolidated ice 55–75 cm — maximum safe speed 6 kts, continuous sonar watch"
+    },
+    {
+      "type": "pack_ice",
+      "percentage": 8,
+      "coordinates": [
+        [-67.5, 13.5],
+        [-67.8, 24.5],
+        [-70.5, 23.0],
+        [-70.2, 14.0],
+        [-67.5, 13.5]
+      ],
+      "area_km2": 1179,
+      "confidence": 0.87,
+      "description": "Extreme multi-year pack ice >100 cm with pressure ridges to 3 m — Routes B and C fully blocked"
     }
   ],
-  "average_concentration": 75
+  "average_concentration": 72,
+  "total_area_analyzed_km2": 14740,
+  "model_version": "ice_classifier_v1.0",
+  "sensor": "Sentinel-1 SAR (C-band, VV+VH)",
+  "processing_time_ms": 224,
+  "notes": "EMERGENCY conditions. ICE-047 3.2 km ahead, collision in ~14 min at current speed. Pack ice has blocked Routes B and C. Route A (eastern detour) is the ONLY viable option. Immediate heading change to 185° SW required."
 }

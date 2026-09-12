@@ -1,31 +1,63 @@
 {
-  "timestamp": "2024-01-15T12:00:00Z",
+  "timestamp": "2024-01-15T06:00:00Z",
+  "scenario": 0,
+  "location": "Southern Indian Ocean — Pre-Antarctic approach, 60°S corridor",
   "ice_zones": [
     {
       "type": "open_water",
-      "percentage": 65,
+      "percentage": 85,
       "coordinates": [
-        [-65.2, -64.5],
-        [-65.1, -64.4],
-        [-65.0, -64.3]
-      ]
+        [-60.0, 10.0],
+        [-60.0, 30.0],
+        [-62.5, 30.0],
+        [-62.5, 10.0],
+        [-60.0, 10.0]
+      ],
+      "area_km2": 12538,
+      "confidence": 0.96,
+      "description": "Ice-free Southern Ocean — safe for full-speed navigation"
     },
     {
       "type": "thin_ice",
-      "percentage": 25,
+      "percentage": 12,
       "coordinates": [
-        [-65.3, -64.6],
-        [-65.2, -64.5]
-      ]
+        [-62.5, 10.0],
+        [-62.5, 30.0],
+        [-64.2, 28.0],
+        [-64.0, 12.0],
+        [-62.5, 10.0]
+      ],
+      "area_km2": 1769,
+      "confidence": 0.89,
+      "description": "Scattered frazil and nilas ice — minor resistance, navigable at normal speed"
     },
     {
       "type": "thick_ice",
-      "percentage": 10,
+      "percentage": 3,
       "coordinates": [
-        [-65.4, -64.7],
-        [-65.3, -64.6]
-      ]
+        [-64.2, 14.0],
+        [-64.2, 22.0],
+        [-65.0, 22.0],
+        [-65.0, 14.0],
+        [-64.2, 14.0]
+      ],
+      "area_km2": 442,
+      "confidence": 0.81,
+      "description": "Isolated first-year ice floes — reduce speed to 10 kts"
+    },
+    {
+      "type": "pack_ice",
+      "percentage": 0,
+      "coordinates": [],
+      "area_km2": 0,
+      "confidence": 0.0,
+      "description": "No pack ice detected in analysis area"
     }
   ],
-  "average_concentration": 35
+  "average_concentration": 15,
+  "total_area_analyzed_km2": 14749,
+  "model_version": "ice_classifier_v1.0",
+  "sensor": "Sentinel-1 SAR (C-band, VV+VH)",
+  "processing_time_ms": 178,
+  "notes": "Safe departure conditions. Austral summer minimum — open leads dominate the 10–30°E corridor. Standard transit speed maintained."
 }

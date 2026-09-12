@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API_BASE_URL, API_TIMEOUT, DEMO_CONFIG } from '../config';
-import { mockIceData, mockWindData, mockRoutes, mockPredictions } from './mockData';
+import { mockIceData, mockWindData, mockRoutes, getMockPredictions } from './mockData';
 
 // Create axios instance
 const api = axios.create({
@@ -62,14 +62,14 @@ export const getIcebergs = async () => {
   }
 };
 
-export const getPredictions = async (icebergId = null) => {
-  if (useMockData) return mockPredictions;
+export const getPredictions = async (icebergId = null, scenario = 1) => {
+  if (useMockData) return getMockPredictions(scenario);
   try {
     const url = icebergId ? `/api/predict-drift?iceberg_id=${icebergId}` : '/api/predict-drift';
     const response = await api.get(url);
     return response.data;
   } catch (error) {
-    return handleApiError(error, mockPredictions, 'predict-drift');
+    return handleApiError(error, getMockPredictions(scenario), 'predict-drift');
   }
 };
 

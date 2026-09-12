@@ -2,48 +2,63 @@
   "predictions": [
     {
       "iceberg_id": "ICE-047",
+      "current_position": {
+        "lat": -58.5,
+        "lon": 42.0
+      },
       "trajectory": [
         {
-          "time": "6h",
-          "position": {
-            "lat": -65.22,
-            "lon": -64.55
-          },
-          "uncertainty_radius_km": 3
+          "time_hours": 6,
+          "latitude": -58.44,
+          "longitude": 42.08,
+          "uncertainty_km": 3.2,
+          "timestamp": "2024-01-15T23:30:00Z",
+          "drift_speed_kmh": 1.2,
+          "drift_direction_deg": 52
         },
         {
-          "time": "12h",
-          "position": {
-            "lat": -65.20,
-            "lon": -64.52
-          },
-          "uncertainty_radius_km": 5
+          "time_hours": 12,
+          "latitude": -58.37,
+          "longitude": 42.17,
+          "uncertainty_km": 5.8,
+          "timestamp": "2024-01-16T05:30:00Z",
+          "drift_speed_kmh": 1.2,
+          "drift_direction_deg": 52
         },
         {
-          "time": "24h",
-          "position": {
-            "lat": -65.18,
-            "lon": -64.48
-          },
-          "uncertainty_radius_km": 8
+          "time_hours": 24,
+          "latitude": -58.24,
+          "longitude": 42.34,
+          "uncertainty_km": 9.5,
+          "timestamp": "2024-01-16T17:30:00Z",
+          "drift_speed_kmh": 1.2,
+          "drift_direction_deg": 53
         },
         {
-          "time": "48h",
-          "position": {
-            "lat": -65.15,
-            "lon": -64.40
-          },
-          "uncertainty_radius_km": 15
+          "time_hours": 48,
+          "latitude": -57.98,
+          "longitude": 42.70,
+          "uncertainty_km": 16.8,
+          "timestamp": "2024-01-17T17:30:00Z",
+          "drift_speed_kmh": 1.2,
+          "drift_direction_deg": 54
         },
         {
-          "time": "72h",
-          "position": {
-            "lat": -65.12,
-            "lon": -64.32
-          },
-          "uncertainty_radius_km": 22
+          "time_hours": 72,
+          "latitude": -57.72,
+          "longitude": 43.06,
+          "uncertainty_km": 23.5,
+          "timestamp": "2024-01-18T17:30:00Z",
+          "drift_speed_kmh": 1.2,
+          "drift_direction_deg": 55
         }
-      ]
+      ],
+      "risk_level": "low",
+      "notes": "ICE-047 drifting northeast away from route — 45 km clearance maintained. No intervention required.",
+      "drift_summary": {
+        "total_distance_km": 88.2,
+        "forecast_hours": 72
+      }
     }
   ]
 }
