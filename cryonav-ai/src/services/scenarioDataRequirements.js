@@ -4,14 +4,18 @@ const voyage = [
 ];
 
 // Helper function to get ship position along a route based on scenario progress
-const getShipPositionOnRoute = (routeCoordinates, scenario) => {
+const getShipPositionOnRoute = (routeCoordinates, scenario, routeId = '') => {
   if (!routeCoordinates || routeCoordinates.length === 0) return [13.0827, 80.2707];
-  
-  // Calculate progress based on scenario (0=0%, 1=25%, 2=60%, 3=90%)
+
+  // Route A in scenario 3 only: ship has completed the journey — place at Maitri Station endpoint
+  if ((routeId === 'safest') && scenario === 3) {
+    return routeCoordinates[routeCoordinates.length - 1];
+  }
+
+  // All other routes / scenarios: progress-based position
+  // 0 = 0%, 1 = 25%, 2 = 60%, 3 = 90%
   const progressMap = { 0: 0, 1: 0.25, 2: 0.6, 3: 0.9 };
-  const progress = progressMap[scenario] || 0;
-  
-  // Calculate index along the route
+  const progress = progressMap[scenario] ?? 0;
   const targetIndex = Math.floor((routeCoordinates.length - 1) * progress);
   return routeCoordinates[targetIndex] || routeCoordinates[0];
 };
@@ -24,18 +28,30 @@ const route = (id, name, color, options = {}) => ({
 });
 
 const routesFor = (scenario) => {
+  // Route A detour coords — used for scenario 2 AND scenario 3 (same safe eastern path)
+  const safestDetour = [[13.0827, 80.2707], [5, 78], [-15, 68], [-38, 53], [-55, 28], [-63, 4], [-68, 9], [-70.7644, 11.7386]];
+
   if (scenario === 3) return [
-    route('safest', 'Route A — Eastern Detour (Only viable)', '#10b981', { distanceKm: 12350, timeDays: 34.5, riskPercent: 18 }),
+    route('safest', 'Route A — Eastern Detour (Only viable)', '#10b981', {
+      distanceKm: 12350, timeDays: 34.5, riskPercent: 18,
+      coordinates: safestDetour,                       // same detour as scenario 2
+    }),
     route('fastest', 'Route B — BLOCKED', '#ef4444', { style: 'dashed', distanceKm: 10500, timeDays: 0, fuelLiters: 0, riskPercent: 98 }),
-    route('fuel', 'Route C — BLOCKED', '#ef4444', { style: 'dotted', distanceKm: 11200, timeDays: 0, fuelLiters: 0, riskPercent: 95 }),
+    route('fuel',    'Route C — BLOCKED', '#ef4444', { style: 'dotted', distanceKm: 11200, timeDays: 0, fuelLiters: 0, riskPercent: 95 }),
   ];
-  const safestDetour = scenario === 2
-    ? [[13.0827, 80.2707], [5, 78], [-15, 68], [-38, 53], [-55, 28], [-63, 4], [-68, 9], [-70.7644, 11.7386]]
-    : voyage;
+
+  const routeACoords = scenario === 2 ? safestDetour : voyage;
   return [
-    route('safest', scenario === 2 ? 'Route A — Safest (Modified Detour)' : 'Route A — Safest', '#10b981', { distanceKm: scenario === 2 ? 12350 : 12200, timeDays: scenario === 2 ? 34.5 : 34, riskPercent: scenario === 2 ? 18 : scenario === 1 ? 12 : 8, coordinates: safestDetour }),
+    route('safest',
+      scenario === 2 ? 'Route A — Safest (Modified Detour)' : 'Route A — Safest',
+      '#10b981', {
+        distanceKm: scenario === 2 ? 12350 : 12200,
+        timeDays:   scenario === 2 ? 34.5  : 34,
+        riskPercent: scenario === 2 ? 18 : scenario === 1 ? 12 : 8,
+        coordinates: routeACoords,
+      }),
     route('fastest', 'Route B — Fastest', '#f59e0b', { style: 'dashed', distanceKm: 10500, timeDays: 28, fuelLiters: 168000, riskPercent: scenario === 2 ? 61 : scenario === 1 ? 52 : 38 }),
-    route('fuel', 'Route C — Fuel-Efficient', '#f97316', { style: 'dotted', distanceKm: scenario === 2 ? 11500 : 11200, timeDays: scenario === 2 ? 32 : 31, fuelLiters: 152000, riskPercent: scenario === 2 ? 35 : 23 }),
+    route('fuel',    'Route C — Fuel-Efficient', '#f97316', { style: 'dotted', distanceKm: scenario === 2 ? 11500 : 11200, timeDays: scenario === 2 ? 32 : 31, fuelLiters: 152000, riskPercent: scenario === 2 ? 35 : 23 }),
   ];
 };
 

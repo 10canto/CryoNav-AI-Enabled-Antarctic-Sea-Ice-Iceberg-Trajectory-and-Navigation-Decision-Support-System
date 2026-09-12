@@ -22,7 +22,7 @@ const SuccessModal = ({ show, routeName = 'Route A', onAcknowledge }) => {
         className="emergency-modal-card"
         style={{
           borderColor: '#10b981',
-          boxShadow: '0 0 40px rgba(16,185,129,0.35)',
+          boxShadow: '0 8px 32px rgba(16,185,129,0.35), 0 2px 8px rgba(0,0,0,0.6)',
         }}
       >
         {/* Header */}
@@ -32,7 +32,7 @@ const SuccessModal = ({ show, routeName = 'Route A', onAcknowledge }) => {
         >
           <div
             className="emergency-title"
-            style={{ color: '#6ee7b7', fontSize: '1.4rem' }}
+            style={{ color: '#6ee7b7' }}
           >
             {animating ? '📡 TRANSMITTING…' : '✅ DESTINATION REACHED'}
           </div>

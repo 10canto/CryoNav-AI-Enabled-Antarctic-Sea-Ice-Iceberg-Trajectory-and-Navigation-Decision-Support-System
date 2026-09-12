@@ -116,13 +116,13 @@ const MainMap = ({ scenario, selectedRoute, onSelectRoute, iceZoneData }) => {
   const allRoutes = [...(scenario?.routes || []), ...MOCK_ADDITIONAL_ROUTES];
   const activeRoute = allRoutes.find((route) => route.id === selectedRoute) || scenario?.routes?.[0];
   
-  // Calculate ship position dynamically based on selected route and scenario progress
+  // Calculate ship position dynamically based on selected route and scenario progress.
+  // Route A in scenario 3 → endpoint (Maitri Station). All other routes unchanged.
   const calculateShipPosition = () => {
     if (!activeRoute || !activeRoute.coordinates) {
       return scenario?.shipPosition || MAP_CENTER;
     }
-    
-    return getShipPositionOnRoute(activeRoute.coordinates, scenarioIndex);
+    return getShipPositionOnRoute(activeRoute.coordinates, scenarioIndex, activeRoute.id);
   };
   
   // Calculate scenarioIndex directly for the info panel
