@@ -228,7 +228,6 @@ function App() {
           <div className="map-wrapper">
             <MainMap
               scenario={{ ...scene, icebergs: activeIcebergs, predictions: backendPredictions }}
-              iceZoneData={backendIceZones}
               selectedRoute={selectedRoute}
               onSelectRoute={setSelectedRoute}
             />

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import { MAP_CENTER, MAP_ZOOM, SHIP_TRANSITION_DURATION } from '../../config';
-import { ICE_ZONES_DATA, getShipPositionOnRoute } from '../../services/scenarioDataRequirements';
+import { getShipPositionOnRoute } from '../../services/scenarioDataRequirements';
 import { mockWindData } from '../../services/mockData';
 import { calculateBearing } from '../../utils/mapHelpers';
 import RouteLines, { MOCK_ADDITIONAL_ROUTES } from './RouteLines';
@@ -103,7 +103,7 @@ function useAnimatedShipPosition(targetPosition, routeCoordinates) {
   return position;
 }
 
-const MainMap = ({ scenario, selectedRoute, onSelectRoute, iceZoneData }) => {
+const MainMap = ({ scenario, selectedRoute, onSelectRoute }) => {
   const [layers, setLayers] = useState({
     ice: true,
     routes: true,
@@ -162,10 +162,7 @@ const MainMap = ({ scenario, selectedRoute, onSelectRoute, iceZoneData }) => {
       <MapControls layerVisibility={layers} onToggleLayer={toggleLayer} />
 
       {layers.ice && (
-        <IceZoneLayer
-          zones={iceZoneData ? [] : ICE_ZONES_DATA}
-          data={iceZoneData || null}
-        />
+        <IceZoneLayer />
       )}
       {layers.routes && (
         <RouteLines
