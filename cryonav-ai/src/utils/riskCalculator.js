@@ -6,14 +6,24 @@ export const RISK_LEVELS = {
   SAFE: 'SAFE',
   CAUTION: 'CAUTION',
   WARNING: 'WARNING',
-  EMERGENCY: 'EMERGENCY'
+  EMERGENCY: 'EMERGENCY',
+  // New status strings used by scenario data
+  GREEN:  'GREEN',
+  YELLOW: 'YELLOW',
+  ORANGE: 'ORANGE',
+  RED:    'RED',
 };
 
 export const RISK_COLORS = {
-  SAFE: '#10b981',      // Green
-  CAUTION: '#f59e0b',   // Yellow
-  WARNING: '#f97316',   // Orange
-  EMERGENCY: '#ef4444'  // Red
+  SAFE:      '#10b981',
+  CAUTION:   '#f59e0b',
+  WARNING:   '#f97316',
+  EMERGENCY: '#ef4444',
+  // New status strings
+  GREEN:  '#10b981',
+  YELLOW: '#f59e0b',
+  ORANGE: '#f97316',
+  RED:    '#ef4444',
 };
 
 /**
@@ -38,10 +48,13 @@ export function getRiskColor(level) {
  */
 export function getPulseAnimationClass(level) {
   switch (level) {
+    case 'RED':
     case RISK_LEVELS.EMERGENCY:
       return 'pulse-rapid';
+    case 'ORANGE':
     case RISK_LEVELS.WARNING:
       return 'pulse-fast';
+    case 'YELLOW':
     case RISK_LEVELS.CAUTION:
       return 'pulse-normal';
     default:

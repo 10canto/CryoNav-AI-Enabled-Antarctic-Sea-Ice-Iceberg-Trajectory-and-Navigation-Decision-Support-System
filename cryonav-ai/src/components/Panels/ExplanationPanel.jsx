@@ -17,8 +17,8 @@ const ExplanationPanel = ({ explanation, onAcceptRoute, onKeepCurrent }) => {
       </div>
       {explanation?.actions && (
         <div className="explanation-actions">
-          <button className="btn-action btn-accept" onClick={onAcceptRoute}>✓ Accept Route B</button>
-          <button className="btn-action btn-reject" onClick={onKeepCurrent}>✗ Keep Current</button>
+          <button className="btn-action btn-accept" onClick={onAcceptRoute}>✓ Accept Route A (Recommended)</button>
+          <button className="btn-action btn-reject" onClick={onKeepCurrent}>✗ Keep Current Route</button>
         </div>
       )}
     </div>

@@ -12,14 +12,17 @@ import ExplanationPanel from './components/Panels/ExplanationPanel';
 import TimelineControl from './components/Panels/TimelineControl';
 import EmergencyAlertModal from './components/Modals/EmergencyAlertModal';
 import SuccessModal from './components/Modals/SuccessModal';
+import WaitingModal from './components/Modals/WaitingModal';
 import RouteDetailsModal from './components/Modals/RouteDetailsModal';
 import { MOCK_ADDITIONAL_ROUTES } from './components/Map/RouteLines';
 
-// Routes that are SAFE — show success in scenario 3
-const SAFE_ROUTES = new Set(['safest']);
-
-// Routes that trigger the collision warning — B, C, and mock alternatives
-const RISKY_ROUTES = new Set(['fastest', 'fuel', 'alternative_1', 'alternative_2']);
+// ── Route outcome buckets for Scenario 3 ─────────────────────────────────────
+// Route A → always SUCCESS (safe eastern detour, never triggers emergency)
+const SAFE_ROUTES    = new Set(['safest']);
+// Route C → WAITING modal (holding-point strategy, safe arrival after delay)
+const WAITING_ROUTES = new Set(['fuel']);
+// Route B + mock alternatives → EMERGENCY collision
+const RISKY_ROUTES   = new Set(['fastest', 'alternative_1', 'alternative_2']);
 
 function App() {
   const [backendStatus, setBackendStatus] = useState('checking');
@@ -33,6 +36,7 @@ function App() {
   const [backendIceZones, setBackendIceZones] = useState(null);
   const [backendPredictions, setBackendPredictions] = useState(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showWaitingModal, setShowWaitingModal] = useState(false);
 
   const scene = SCENARIO_MOCKS[scenario] || SCENARIO_MOCKS[0];
 
@@ -129,22 +133,41 @@ function App() {
     }
   }, [scenario, backendStatus]);
 
-  // Scenario 3 modal logic — depends on which route the captain chose
+  // ── Scenario 3 modal logic ────────────────────────────────────────────────
+  // Outcome depends entirely on which route the captain chose:
+  //   Route A (safest)  → SuccessModal   — safe arrival, never RED emergency
+  //   Route C (fuel)    → WaitingModal   — holding-point strategy, safe after delay
+  //   Route B (fastest) → EmergencyModal — collision / blocked
+  //   Mock alternates   → EmergencyModal — treated same as Route B
   useEffect(() => {
-    if (scene.riskAssessment?.status !== 'EMERGENCY') return;
+    const s = scene.riskAssessment?.status;
+    const isEmergencyScenario = s === 'RED' || s === 'EMERGENCY';
+
+    if (!isEmergencyScenario) {
+      // Reset all three modals when leaving Scenario 3
+      setShowSuccessModal(false);
+      setShowEmergencyModal(false);
+      setShowWaitingModal(false);
+      return;
+    }
 
     if (SAFE_ROUTES.has(selectedRoute)) {
-      // Route A — ship safely avoids all icebergs
       setShowSuccessModal(true);
       setShowEmergencyModal(false);
+      setShowWaitingModal(false);
+    } else if (WAITING_ROUTES.has(selectedRoute)) {
+      setShowWaitingModal(true);
+      setShowSuccessModal(false);
+      setShowEmergencyModal(false);
     } else if (RISKY_ROUTES.has(selectedRoute)) {
-      // Route B / C / alternatives — iceberg collision warning
       setShowEmergencyModal(true);
       setShowSuccessModal(false);
+      setShowWaitingModal(false);
     } else {
-      // Unknown route — default to emergency
+      // Fallback — unknown route, treat as emergency
       setShowEmergencyModal(true);
       setShowSuccessModal(false);
+      setShowWaitingModal(false);
     }
   }, [scenario, scene.riskAssessment?.status, selectedRoute]);
 
@@ -172,6 +195,7 @@ function App() {
     setSelectedRoute('safest');
     setShowEmergencyModal(false);
     setShowSuccessModal(false);
+    setShowWaitingModal(false);
     addToast('info', 'Expedition timeline reset to baseline departure');
   }, [addToast]);
 
@@ -223,12 +247,15 @@ function App() {
 
         <div className="panels-column">
           <div className="dashboard-card">
-            <RiskStatusPanel risk={scene.riskAssessment} />
+            <RiskStatusPanel risk={scene.riskAssessment} selectedRoute={selectedRoute} />
           </div>
           <div className="dashboard-card">
           <ExplanationPanel
             explanation={scene.explanation}
-            onAcceptRoute={() => { setSelectedRoute('fastest'); addToast('success', 'Route B northern detour accepted'); }}
+            onAcceptRoute={() => {
+              setSelectedRoute('safest');
+              addToast('success', 'Route A (Eastern Detour) accepted — AI-recommended safe corridor');
+            }}
             onKeepCurrent={() => addToast('info', 'Current route retained — hazard monitoring continues')}
           />
           </div>
@@ -238,6 +265,7 @@ function App() {
               selectedRoute={selectedRoute}
               onRouteSelect={setSelectedRoute}
               onShowDetails={setDetailsRoute}
+              scenario={scenario}
             />
           </div>
         </div>
@@ -248,6 +276,15 @@ function App() {
         riskData={riskForModal}
         selectedRoute={selectedRoute}
         onAcknowledge={() => setShowEmergencyModal(false)}
+      />
+
+      <WaitingModal
+        show={showWaitingModal}
+        route={scene.routes?.find((r) => r.id === 'fuel') ?? null}
+        onAcknowledge={() => {
+          setShowWaitingModal(false);
+          addToast('success', 'Route C holding-point complete — R/V Bharati Pioneer resuming voyage to Maitri Station');
+        }}
       />
 
       <SuccessModal

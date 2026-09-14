@@ -53,7 +53,7 @@
           "drift_direction_deg": 55
         }
       ],
-      "risk_level": "low",
+      "risk_level": "moderate",
       "notes": "ICE-047 drifting northeast away from route — 45 km clearance maintained. No intervention required.",
       "drift_summary": {
         "total_distance_km": 88.2,

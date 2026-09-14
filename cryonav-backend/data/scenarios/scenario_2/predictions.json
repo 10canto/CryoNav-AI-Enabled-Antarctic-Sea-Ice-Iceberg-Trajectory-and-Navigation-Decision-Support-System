@@ -53,7 +53,7 @@
           "drift_direction_deg": 324
         }
       ],
-      "risk_level": "moderate",
+      "risk_level": "high",
       "notes": "ICE-047 drifting northwest — 74% probability of intersecting Route A in 18 hours. 150 km safety detour recommended.",
       "drift_summary": {
         "total_distance_km": 148.6,
