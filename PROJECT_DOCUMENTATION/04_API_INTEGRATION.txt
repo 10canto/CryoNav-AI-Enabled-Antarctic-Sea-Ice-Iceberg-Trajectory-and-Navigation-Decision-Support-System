@@ -1,0 +1,588 @@
+================================================================================
+                    CRYONAV AI - API INTEGRATION GUIDE
+================================================================================
+
+This document describes the API integration architecture, endpoints, request/
+response formats, and the mock data fallback system.
+
+================================================================================
+API ARCHITECTURE OVERVIEW
+================================================================================
+
+The CryoNav AI frontend communicates with a Python/Flask backend (expected on
+port 8000) for real-time navigation data. The system includes automatic fallback
+to mock data when the backend is unavailable.
+
+API CLIENT: axios (HTTP library)
+BASE URL: http://localhost:8000
+TIMEOUT: 10 seconds
+HEADERS: Content-Type: application/json
+
+FALLBACK STRATEGY:
+1. Check global useMockData flag
+2. If false, attempt HTTP request to backend
+3. On success, return backend data
+4. On failure (timeout, network error, 404, 500), log error and return mock data
+5. Application continues functioning with simulated data
+
+================================================================================
+API SERVICE MODULE (src/services/api.js)
+================================================================================
+
+EXPORTED FUNCTIONS
+------------------
+
+1. setUseMockData(value: Boolean)
+   - Globally enable/disable mock data mode
+   - Allows dynamic switching between live and mock data
+
+2. isUsingMockData() → Boolean
+   - Check current mode
+   - Returns true if using mock data
+
+3. getHealth() → Promise<HealthResponse>
+   - Endpoint: GET /api/health
+   - Purpose: Check backend availability
+   - Response: { status: String, timestamp: String }
+
+4. getIceAnalysis() → Promise<IceAnalysisResponse>
+   - Endpoint: GET /api/ice-analysis
+   - Purpose: Get ice concentration data and zones
+   - Response: Ice zone polygons with concentration percentages
+
+5. getIcebergs() → Promise<IcebergsResponse>
+   - Endpoint: GET /api/icebergs
+   - Purpose: Get currently detected icebergs
+   - Response: { icebergs: Array<IcebergObject> }
+
+6. getPredictions(icebergId?, scenario?) → Promise<PredictionsResponse>
+   - Endpoint: GET /api/predict-drift?iceberg_id={id}
+   - Purpose: Get iceberg trajectory predictions
+   - Parameters:
+     * icebergId (optional): Specific iceberg to predict
+     * scenario (optional): Scenario number for mock data
+   - Response: Trajectory waypoints and uncertainty cones
+
+7. getRoutes() → Promise<RoutesResponse>
+   - Endpoint: GET /api/routes
+   - Purpose: Get available navigation routes
+   - Response: { routes: Array<RouteObject> }
+
+8. getRiskAssessment() → Promise<RiskAssessmentResponse>
+   - Endpoint: GET /api/risk-assessment
+   - Purpose: Get current risk metrics
+   - Response: Complete risk assessment object
+
+9. getExplanation() → Promise<ExplanationResponse>
+   - Endpoint: GET /api/explanation
+   - Purpose: Get AI-generated route recommendation
+   - Response: { explanation: String }
+
+10. advanceTime() → Promise<AdvanceTimeResponse>
+    - Endpoint: POST /api/advance-time
+    - Purpose: Progress simulation to next scenario
+    - Response: { scenario: Number, message: String }
+
+11. resetDemo() → Promise<ResetResponse>
+    - Endpoint: POST /api/reset-demo
+    - Purpose: Reset simulation to scenario 0
+    - Response: { scenario: 0, message: String }
+
+12. getWindData() → Promise<WindDataResponse>
+    - No backend endpoint (always uses mock)
+    - Purpose: Get wind vector field
+    - Response: Array<WindVector>
+
+================================================================================
+API ENDPOINTS SPECIFICATION
+================================================================================
+
+HEALTH CHECK
+------------
+GET /api/health
+
+Response:
+{
+  "status": "operational" | "degraded" | "offline",
+  "timestamp": "2024-01-15T06:00:00Z",
+  "version": "1.0.0"
+}
+
+Status Codes:
+- 200: Backend operational
+- 500: Backend error
+- Timeout: Network error
+
+---
+
+ICE ANALYSIS
+------------
+GET /api/ice-analysis
+
+Response:
+{
+  "iceZones": [
+    {
+      "name": "Princess Astrid Fast Ice Shelf",
+      "concentration": 95,
+      "color": "#3b82f6",
+      "fillOpacity": 0.35,
+      "coordinates": [
+        [-69.5, 8.0],
+        [-69.2, 16.0],
+        ...
+      ]
+    }
+  ],
+  "timestamp": "2024-01-15T06:00:00Z"
+}
+
+---
+
+ICEBERGS
+--------
+GET /api/icebergs
+
+Response:
+{
+  "icebergs": [
+    {
+      "id": "ICE-TAB-2024-01",
+      "name": "Giant Berg ICE-TAB-2024-01",
+      "position": [-58.5, 42.0],
+      "sizeMeters": 2500,
+      "length": 2500,
+      "width": 1800,
+      "detectedAgo": "1 hour ago",
+      "confidence": 99,
+      "driftSpeedKnots": 1.2,
+      "driftHeading": 315
+    }
+  ],
+  "count": 1,
+  "timestamp": "2024-01-15T06:00:00Z"
+}
+
+---
+
+PREDICT DRIFT
+-------------
+GET /api/predict-drift?iceberg_id=ICE-TAB-2024-01
+
+Query Parameters:
+- iceberg_id (optional): Specific iceberg identifier
+
+Response:
+{
+  "predictions": [
+    {
+      "icebergId": "ICE-TAB-2024-01",
+      "trajectory": [
+        [-58.5, 42.0, "2024-01-15T06:00:00Z"],
+        [-58.6, 41.8, "2024-01-15T12:00:00Z"],
+        ...
+      ],
+      "uncertaintyCone": [
+        [-58.5, 42.0],
+        [-58.7, 41.6],
+        ...
+      ],
+      "predictionHorizon": 72
+    }
+  ],
+  "timestamp": "2024-01-15T06:00:00Z"
+}
+
+---
+
+ROUTES
+------
+GET /api/routes
+
+Response:
+{
+  "routes": [
+    {
+      "id": "safest",
+      "name": "Route A - Safest (Ice-Avoidance)",
+      "type": "safest",
+      "color": "#10b981",
+      "style": "solid",
+      "width": 4,
+      "distanceKm": 12200,
+      "timeHours": 816,
+      "timeDays": 34.0,
+      "fuelLiters": 185000,
+      "riskPercent": 12,
+      "stars": 5,
+      "isSafest": true,
+      "isFastest": false,
+      "isCheapest": false,
+      "coordinates": [
+        [13.0827, 80.2707],
+        ...
+      ]
+    }
+  ],
+  "count": 3
+}
+
+---
+
+RISK ASSESSMENT
+---------------
+GET /api/risk-assessment
+
+Response:
+{
+  "level": "SAFE" | "CAUTION" | "WARNING" | "EMERGENCY",
+  "message": "Safe conditions. No immediate hazards.",
+  "metrics": {
+    "ice_concentration": 18,
+    "nearest_iceberg_km": 145.0,
+    "nearest_iceberg_name": "ICE-ALLEY-01",
+    "collision_risk_percent": 4,
+    "temperature_celsius": 14,
+    "wind_speed_kmh": 22,
+    "wind_direction": "WNW",
+    "wind_degrees": 290,
+    "visibility": "Excellent (>10 nm)",
+    "wave_height_meters": 2.1
+  },
+  "alert_triggered": false,
+  "timestamp": "2024-01-15T06:00:00Z"
+}
+
+---
+
+EXPLANATION
+-----------
+GET /api/explanation
+
+Response:
+{
+  "explanation": {
+    "headline": "OPTIMAL SUMMER EXPEDITION CONDITIONS",
+    "text": "Baseline voyage parameters nominal...",
+    "recommendation": "safest",
+    "confidence": 96
+  },
+  "reasoning": "AI analysis based on current conditions...",
+  "timestamp": "2024-01-15T06:00:00Z"
+}
+
+---
+
+ADVANCE TIME
+------------
+POST /api/advance-time
+
+Request Body: (empty or optional params)
+{
+  "force_scenario": 2  // Optional: Jump to specific scenario
+}
+
+Response:
+{
+  "scenario": 1,
+  "message": "Advanced to Scenario 1: Iceberg Detection",
+  "timestamp": "2024-01-20T14:30:00Z"
+}
+
+---
+
+RESET DEMO
+----------
+POST /api/reset-demo
+
+Request Body: (empty)
+
+Response:
+{
+  "scenario": 0,
+  "message": "Reset to Scenario 0: Baseline",
+  "timestamp": "2024-01-15T06:00:00Z"
+}
+
+================================================================================
+MOCK DATA SYSTEM
+================================================================================
+
+MOCK DATA SOURCES
+-----------------
+Location: src/services/mockData.js
+         src/services/scenarioData.js
+
+mockData.js provides:
+- mockIceData: Static ice zone definitions
+- mockWindData: Wind vector field
+- mockRoutes: Default route configurations
+- getMockPredictions(scenario): Trajectory predictions per scenario
+
+scenarioData.js provides:
+- SCENARIO_MOCKS: Complete navigation data for scenarios 0-3
+- scenarioMetadata: Metadata for each scenario
+- ICE_ZONES_DATA: Antarctic ice zone polygons
+
+MOCK DATA GENERATION STRATEGY
+------------------------------
+1. Static base data (coordinates, zone definitions)
+2. Scenario-specific variations (risk levels, iceberg positions)
+3. Realistic maritime data (speeds, distances, fuel calculations)
+4. Internally consistent (routes align with conditions)
+
+SCENARIO DATA RETRIEVAL
+------------------------
+The application uses scenarioData.js as the primary data source when in mock
+mode. Each scenario contains a complete snapshot of:
+- Ship position
+- Risk assessment
+- Detected icebergs
+- Available routes
+- Ice zones
+- AI explanation
+- Wind data
+
+DYNAMIC MOCK DATA
+-----------------
+Some mock functions accept parameters:
+- getMockPredictions(scenario): Returns different trajectories per scenario
+- Trajectory generation uses simple drift models
+- Uncertainty cones expand over time
+
+MOCK VS LIVE DATA SWITCHING
+----------------------------
+Global flag: useMockData (default: true)
+
+To switch to live data:
+```javascript
+import { setUseMockData } from './services/api';
+setUseMockData(false);
+```
+
+Automatic Detection:
+1. On app load, attempt getHealth() call
+2. If successful, switch to live data
+3. If failed, remain in mock mode
+4. User can manually toggle via UI (not implemented yet)
+
+================================================================================
+ERROR HANDLING
+================================================================================
+
+ERROR TYPES HANDLED
+-------------------
+1. Network Errors
+   - No internet connection
+   - Backend server not running
+   - DNS resolution failure
+   - Firewall blocking
+
+2. HTTP Errors
+   - 404 Not Found (endpoint doesn't exist)
+   - 500 Internal Server Error
+   - 503 Service Unavailable
+   - 401 Unauthorized (future auth)
+
+3. Timeout Errors
+   - Request exceeds 10-second timeout
+   - Slow network conditions
+   - Backend processing delays
+
+4. Data Errors
+   - Malformed JSON response
+   - Missing required fields
+   - Type mismatches
+   - Invalid coordinates
+
+ERROR HANDLING PATTERN
+----------------------
+```javascript
+try {
+  const response = await api.get('/api/endpoint');
+  return response.data;
+} catch (error) {
+  console.error('API Error [endpoint]:', error.message);
+  console.warn('Falling back to mock data');
+  return mockData;
+}
+```
+
+USER NOTIFICATION
+-----------------
+- Errors logged to console (dev mode)
+- No error modals for API failures (graceful degradation)
+- Application continues with mock data
+- Future enhancement: Status indicator in UI
+
+================================================================================
+DATA POLLING STRATEGY
+================================================================================
+
+POLLING HOOK: usePolling (src/hooks/usePolling.js)
+---------------------------------------------------
+Custom React hook for periodic data fetching.
+
+Configuration:
+- Default interval: 5000ms (5 seconds)
+- Configurable per endpoint
+- Automatic cleanup on unmount
+- Pause during scenario transitions
+
+Usage Pattern:
+```javascript
+const { data, error, isLoading } = usePolling(
+  getIcebergs,        // API function
+  5000,               // Interval in ms
+  [scenario]          // Dependencies
+);
+```
+
+POLLED ENDPOINTS
+----------------
+1. getIcebergs() - Every 5 seconds
+2. getRiskAssessment() - Every 5 seconds
+3. getPredictions() - Every 10 seconds
+4. getWindData() - Every 30 seconds
+
+NON-POLLED ENDPOINTS
+--------------------
+- getRoutes() - Only on scenario change
+- getExplanation() - Only on scenario change
+- advanceTime() - Manual trigger only
+- resetDemo() - Manual trigger only
+
+POLLING OPTIMIZATIONS
+---------------------
+- Pause polling when browser tab inactive
+- Reduce frequency when no data changes
+- Cancel in-flight requests on unmount
+- Debounce rapid state changes
+
+================================================================================
+CORS CONFIGURATION (Backend Requirement)
+================================================================================
+
+The backend must enable CORS for the frontend to access it.
+
+Python/Flask Example:
+```python
+from flask import Flask
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app, origins=['http://localhost:3000'])
+```
+
+Required Headers:
+- Access-Control-Allow-Origin: http://localhost:3000
+- Access-Control-Allow-Methods: GET, POST, OPTIONS
+- Access-Control-Allow-Headers: Content-Type
+
+================================================================================
+AUTHENTICATION (Future Enhancement)
+================================================================================
+
+Not currently implemented, but structure allows for:
+
+1. Token-Based Auth
+   - JWT tokens in Authorization header
+   - Token refresh mechanism
+   - Secure token storage (httpOnly cookies)
+
+2. API Key Auth
+   - API key in X-API-Key header
+   - Rate limiting per key
+
+3. OAuth Integration
+   - Third-party identity providers
+   - Role-based access control
+
+================================================================================
+RATE LIMITING (Future Consideration)
+================================================================================
+
+Current Status: No rate limiting
+
+Backend Should Implement:
+- Max 60 requests per minute per IP
+- Exponential backoff on errors
+- 429 Too Many Requests response
+
+Frontend Should Handle:
+- Retry with exponential backoff
+- Queue requests during limits
+- Display rate limit warnings
+
+================================================================================
+API TESTING
+================================================================================
+
+MANUAL TESTING
+--------------
+1. Start backend: python app.py
+2. Test endpoint: curl http://localhost:8000/api/health
+3. Start frontend: npm run dev
+4. Monitor Network tab in browser DevTools
+5. Verify request/response formats
+
+AUTOMATED TESTING (Not Implemented)
+-----------------------------------
+Recommended Tools:
+- Jest for unit testing API functions
+- MSW (Mock Service Worker) for mocking HTTP
+- Axios Mock Adapter for isolated tests
+
+Example Test:
+```javascript
+test('getHealth returns status', async () => {
+  const result = await getHealth();
+  expect(result).toHaveProperty('status');
+  expect(result).toHaveProperty('timestamp');
+});
+```
+
+================================================================================
+API DOCUMENTATION TOOLS (Future)
+================================================================================
+
+Recommended for backend API documentation:
+- Swagger/OpenAPI specification
+- Postman collection
+- API Blueprint
+- ReDoc for interactive docs
+
+Example OpenAPI endpoint definition:
+```yaml
+/api/icebergs:
+  get:
+    summary: Get detected icebergs
+    responses:
+      200:
+        description: List of icebergs
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IcebergsResponse'
+```
+
+================================================================================
+PERFORMANCE MONITORING
+================================================================================
+
+Metrics to Track:
+1. API response times
+2. Error rates per endpoint
+3. Mock vs live data usage
+4. Failed request count
+5. Average request latency
+
+Tools for Monitoring:
+- Browser DevTools Network tab
+- Performance API
+- Custom analytics
+- Error tracking services (Sentry, LogRocket)
+
+================================================================================
+END OF API INTEGRATION DOCUMENTATION
+================================================================================

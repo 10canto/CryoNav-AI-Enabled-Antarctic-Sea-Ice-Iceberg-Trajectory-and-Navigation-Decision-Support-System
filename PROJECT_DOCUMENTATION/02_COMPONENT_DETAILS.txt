@@ -1,0 +1,649 @@
+================================================================================
+                   CRYONAV AI - COMPONENT DETAILS
+================================================================================
+
+This document provides detailed information about each React component in the
+CryoNav AI application, including its purpose, props, state, and functionality.
+
+================================================================================
+CORE APPLICATION COMPONENT
+================================================================================
+
+APP.JSX
+-------
+Location: src/App.jsx
+Purpose: Root application component that orchestrates the entire dashboard
+
+State Managed:
+- selectedRoute: Currently selected navigation route
+- showRouteDetails: Boolean for route details modal
+- showEmergencyAlert: Boolean for emergency alert modal  
+- showSuccessModal: Boolean for journey completion modal
+- navigationData: Complete data for current scenario
+- isLoading: Loading state during data fetch
+- notification: Toast notification messages
+
+Key Responsibilities:
+1. Fetch navigation data from API/mock service
+2. Manage scenario progression using useScenario hook
+3. Coordinate modal display logic
+4. Pass data down to all child components
+5. Handle route selection
+6. Manage emergency alert triggers
+7. Orchestrate polling with usePolling hook
+
+Props Passed to Children:
+- Map components: routes, icebergs, shipPosition, selectedRoute, wind data
+- Panels: voyage info, risk assessment, routes, explanations
+- Modals: alert data, success conditions
+- Controls: scenario handlers, selected route handlers
+
+================================================================================
+PANEL COMPONENTS (src/components/Panels/)
+================================================================================
+
+HEADERBAR.JSX
+-------------
+Purpose: Top navigation bar with branding and scenario controls
+
+Props:
+- scenario: Current scenario number (0-3)
+- onReset: Callback to reset to scenario 0
+- isTransitioning: Boolean indicating scenario change in progress
+
+Features:
+- CryoNav logo display
+- Current scenario indicator
+- Reset button with icon
+- Responsive layout
+
+Key Elements:
+- Logo image (left side)
+- Title "CryoNav AI Dashboard"
+- Scenario badge (center)
+- Reset button (right side)
+
+---
+
+VOYAGEINFOPANEL.JSX
+-------------------
+Purpose: Display key voyage metrics (distance, time, fuel)
+
+Props:
+- selectedRoute: Currently selected route object
+- routes: Array of all available routes
+
+Displays:
+- Total Distance (in km and nautical miles)
+- Estimated Time (in days and hours)
+- Fuel Consumption (in liters)
+- Uses MetricCard component for each metric
+
+Visual Design:
+- Three-column grid layout
+- Color-coded icons
+- Responsive sizing
+
+---
+
+RISKSTATUSPANEL.JSX
+-------------------
+Purpose: Real-time risk assessment display
+
+Props:
+- riskAssessment: Object containing risk metrics
+  * status: SAFE, CAUTION, WARNING, EMERGENCY
+  * iceConcentration: Percentage (0-100)
+  * nearestIceberg: Distance in km
+  * nearestIcebergName: Iceberg identifier
+  * collisionRisk: Risk percentage
+  * temperature: Celsius
+  * windSpeed: km/h
+  * windDirection: Cardinal direction
+  * visibility: Description string
+
+Features:
+- Large status indicator with color coding
+- Animated pulse effect for warnings
+- Ice concentration gauge
+- Nearest iceberg distance and name
+- Collision risk percentage bar
+- Environmental metrics (temp, wind, visibility)
+
+Color Coding:
+- SAFE: Green (#10b981)
+- CAUTION: Yellow (#f59e0b)
+- WARNING: Orange (#f97316)
+- EMERGENCY: Red (#ef4444)
+
+---
+
+ROUTEOPTIONSPANEL.JSX
+---------------------
+Purpose: Display and compare 3 navigation routes
+
+Props:
+- routes: Array of route objects
+- selectedRoute: Currently selected route ID
+- onSelectRoute: Callback when route is selected
+- onViewDetails: Callback to show route details modal
+
+Route Object Structure:
+{
+  id: 'safest' | 'fastest' | 'fuel',
+  name: String,
+  type: String,
+  color: Hex color,
+  style: 'solid' | 'dashed' | 'dotted',
+  distanceKm: Number,
+  timeHours: Number,
+  timeDays: Number,
+  fuelLiters: Number,
+  riskPercent: Number,
+  stars: Number (1-5),
+  isSafest: Boolean,
+  isFastest: Boolean,
+  isCheapest: Boolean
+}
+
+Features:
+- Three route cards in grid layout
+- Star rating (⭐) based on safety
+- Route badges (SAFEST, FASTEST, CHEAPEST)
+- Select button for each route
+- View Details button
+- Visual highlighting of selected route
+- [BLOCKED] indicator for impassable routes (Scenario 3)
+
+Visual Elements:
+- Color-coded route indicator bars
+- Metric icons and values
+- Responsive card layout
+
+---
+
+EXPLANATIONPANEL.JSX
+--------------------
+Purpose: Display AI-generated route recommendation and reasoning
+
+Props:
+- explanation: Object containing AI explanation
+  * headline: Summary title
+  * text: Detailed explanation
+  * recommendation: Recommended route ID
+  * confidence: Percentage (0-100)
+
+Features:
+- Bold headline
+- Detailed reasoning text
+- Confidence percentage display
+- Recommended route highlighting
+- Icon indicators
+
+Visual Design:
+- Prominent headline in larger font
+- Multi-line text description
+- Confidence meter at bottom
+- Color-coded recommendation badge
+
+---
+
+TIMELINECONTROL.JSX
+-------------------
+Purpose: Scenario progression controls
+
+Props:
+- scenario: Current scenario number (0-3)
+- onNext: Callback to advance scenario
+- onPrev: Callback to go back scenario
+- onReset: Callback to reset to scenario 0
+- isTransitioning: Boolean for disabled state during transitions
+
+Features:
+- Four scenario indicators (0, 1, 2, 3)
+- Visual highlighting of current scenario
+- Previous button (◀)
+- Next button (▶)
+- Reset button (⟲)
+- Disabled state during transitions
+- Circular scenario progression (wraps around)
+
+Scenario Labels:
+0: Baseline
+1: Detection
+2: Storm
+3: Emergency
+
+================================================================================
+MAP COMPONENTS (src/components/Map/)
+================================================================================
+
+MAINMAP.JSX
+-----------
+Purpose: Primary Leaflet map container
+
+Props:
+- routes: Array of route objects
+- icebergs: Array of iceberg objects
+- iceZones: Array of ice concentration zones
+- shipPosition: [lat, lon] array
+- selectedRoute: Selected route ID
+- windData: Wind vector field data
+
+Configuration:
+- Center: [-65, 30] (Antarctic region)
+- Zoom: 4
+- Max Bounds: Locked to Antarctic region
+- Tile Layer: OpenStreetMap
+
+Features:
+- Pan and zoom controls
+- Map attribution
+- Layer rendering order:
+  1. Base map tiles
+  2. Ice zones (lowest)
+  3. Wind arrows
+  4. Route lines
+  5. Trajectory lines
+  6. Icebergs
+  7. Ship marker (topmost)
+
+---
+
+SHIPMARKER.JSX
+--------------
+Purpose: Display vessel position and heading
+
+Props:
+- position: [lat, lon] array
+- heading: Degrees (0-360)
+
+Visual Design:
+- Blue ship icon (▲ triangle pointing forward)
+- Rotation based on heading
+- Tooltip with coordinates
+- Popup with vessel details
+
+Icon Details:
+- Size: 30x30 pixels
+- Color: #3b82f6 (blue)
+- Shadow effect
+- Always on top (highest z-index)
+
+---
+
+ICEBERGMARKERS.JSX
+------------------
+Purpose: Render all detected icebergs on map
+
+Props:
+- icebergs: Array of iceberg objects
+
+Iceberg Object Structure:
+{
+  id: String,
+  name: String,
+  position: [lat, lon],
+  sizeMeters: Number,
+  length: Number,
+  width: Number,
+  detectedAgo: String,
+  confidence: Number (0-100),
+  driftSpeedKnots: Number,
+  driftHeading: Degrees
+}
+
+Features:
+- Size-based icon scaling (small, medium, large)
+- Color coding by size
+- Tooltip with iceberg name
+- Detailed popup:
+  * Size dimensions
+  * Detection confidence
+  * Drift speed and heading
+  * Detection timestamp
+
+Icon Sizes:
+- Small (<500m): 12px, cyan
+- Medium (500-1500m): 18px, blue
+- Large (>1500m): 24px, red
+
+---
+
+ICEZONELAYER.JSX
+----------------
+Purpose: Display sea ice concentration zones
+
+Props:
+- iceZones: Array of ice zone polygons
+
+Ice Zone Object:
+{
+  name: String,
+  concentration: Number (0-100),
+  color: Hex color,
+  fillOpacity: Number (0-1),
+  coordinates: Array of [lat, lon]
+}
+
+Features:
+- Polygon overlays
+- Semi-transparent fill
+- Color intensity based on concentration
+- Tooltip with zone name and concentration
+- Border styling
+
+Typical Zones:
+1. Princess Astrid Fast Ice Shelf (95%)
+2. Queen Maud Consolidated Pack Ice (75%)
+3. Sub-Antarctic Marginal Ice Zone (30%)
+
+---
+
+ROUTELINES.JSX
+--------------
+Purpose: Draw navigation route polylines
+
+Props:
+- routes: Array of route objects
+- selectedRoute: Currently selected route ID
+
+Features:
+- Different line styles:
+  * Solid line for Route A (safest)
+  * Dashed line for Route B (fastest)
+  * Dotted line for Route C (fuel-saver)
+- Color-coded routes
+- Variable line width based on safety
+- Highlighted when selected
+- Click handler to select route
+- Tooltip with route name
+
+Visual Properties:
+- Route A: Solid, 4px, emerald green
+- Route B: Dashed, 3px, amber
+- Route C: Dotted, 2px, orange
+- Blocked routes: Red color
+
+---
+
+TRAJECTORYLINES.JSX
+-------------------
+Purpose: Display predicted iceberg drift paths
+
+Props:
+- predictions: Array of prediction objects
+
+Prediction Object:
+{
+  icebergId: String,
+  trajectory: Array of [lat, lon] points
+}
+
+Features:
+- Semi-transparent dashed lines
+- Arrow decorator at end point
+- Different color per iceberg
+- Uncertainty cone visualization
+- 24-72 hour prediction window
+
+Visual Design:
+- Dashed pattern
+- Lighter opacity (0.5)
+- Tapered line width
+- Direction indicators
+
+---
+
+WINDARROWS.JSX
+--------------
+Purpose: Show wind direction and intensity
+
+Props:
+- windData: Array of wind vectors
+
+Wind Vector Object:
+{
+  position: [lat, lon],
+  direction: Degrees,
+  speed: km/h
+}
+
+Features:
+- Arrow markers at grid points
+- Arrow size based on wind speed
+- Rotation based on direction
+- Color intensity by speed
+- Sparse grid (every 5 degrees)
+
+Color Coding:
+- Light wind: Green
+- Moderate: Yellow
+- Strong: Orange
+- Gale force: Red
+
+---
+
+MAPCONTROLS.JSX
+---------------
+Purpose: Custom map control buttons
+
+Features:
+- Zoom In button
+- Zoom Out button
+- Reset View button
+- Layer toggle buttons
+- Position: Top right corner
+
+Style:
+- Floating white buttons
+- Icon-based
+- Hover effects
+- Grouped in control panel
+
+================================================================================
+MODAL COMPONENTS (src/components/Modals/)
+================================================================================
+
+EMERGENCYALERTMODAL.JSX
+-----------------------
+Purpose: Display critical emergency warnings
+
+Props:
+- isOpen: Boolean to show/hide modal
+- onClose: Callback to dismiss
+- alertData: Object containing emergency info
+  * title: Alert headline
+  * severity: EMERGENCY, WARNING, etc.
+  * description: Detailed message
+  * affectedRoutes: Array of blocked routes
+  * recommendation: Suggested action
+
+Features:
+- Fullscreen overlay
+- Red color theme
+- Pulsing animation
+- 3-beep audio alert
+- Emergency icon
+- Dismiss button
+- Cannot be dismissed by clicking backdrop (requires button)
+
+Visual Design:
+- Dark red background
+- White text
+- Large font sizes
+- Animated entrance
+- Centered modal
+
+Audio:
+- Plays alert.mp3 on mount
+- 3 short beeps pattern
+- Web Audio API fallback
+
+---
+
+ROUTEDETAILSMODAL.JSX
+---------------------
+Purpose: Show extended route information
+
+Props:
+- isOpen: Boolean
+- onClose: Callback
+- route: Selected route object
+
+Displays:
+- Full route name
+- Complete coordinates list
+- Waypoint markers
+- Detailed metrics table
+- Risk breakdown
+- Fuel efficiency chart
+- Time estimates with milestones
+
+Features:
+- Scrollable content
+- Close button
+- Backdrop dismiss
+- Responsive layout
+
+---
+
+SUCCESSMODAL.JSX
+----------------
+Purpose: Celebrate successful journey completion
+
+Props:
+- isOpen: Boolean
+- onClose: Callback
+- journeyStats: Final statistics
+
+Features:
+- Green theme
+- Success icon (✓)
+- Journey summary
+- Performance metrics
+- New journey button
+- Celebration animation
+
+---
+
+WAITINGMODAL.JSX
+----------------
+Purpose: Show loading state during scenario transitions
+
+Props:
+- isOpen: Boolean
+- message: Loading message string
+
+Features:
+- Semi-transparent overlay
+- Spinning loading icon
+- Status message
+- Cannot be dismissed manually
+
+================================================================================
+COMMON COMPONENTS (src/components/Common/)
+================================================================================
+
+METRICCARD.JSX
+--------------
+Purpose: Reusable card for displaying key metrics
+
+Props:
+- icon: Lucide icon component
+- label: Metric name string
+- value: Primary value
+- unit: Unit string (km, hrs, L)
+- subtitle: Optional secondary text
+- color: Theme color
+
+Features:
+- Icon with colored background
+- Large value display
+- Unit label
+- Subtitle text
+- Hover effect
+- Consistent styling
+
+Visual Design:
+- White background
+- Rounded corners
+- Shadow on hover
+- Icon in circular badge
+- Responsive sizing
+
+---
+
+LOADINGSPINNER.JSX
+------------------
+Purpose: Animated loading indicator
+
+Props:
+- size: 'small' | 'medium' | 'large'
+- color: CSS color value
+
+Features:
+- Rotating animation
+- CSS-based (no images)
+- Customizable size and color
+- Smooth animation
+- Accessible (aria-label)
+
+Animation:
+- 360° rotation
+- 1 second duration
+- Linear easing
+- Infinite loop
+
+---
+
+NOTIFICATION.JSX
+----------------
+Purpose: Toast notification for user feedback
+
+Props:
+- message: Notification text
+- type: 'success' | 'error' | 'warning' | 'info'
+- duration: Auto-dismiss time (ms)
+- onClose: Callback when dismissed
+
+Features:
+- Slide-in animation from right
+- Auto-dismiss after duration
+- Manual close button
+- Type-based color coding
+- Icon based on type
+- Stack multiple notifications
+
+Position:
+- Top right corner
+- Fixed position
+- Z-index: 9999
+
+================================================================================
+COMPONENT INTERACTION PATTERNS
+================================================================================
+
+PARENT-CHILD COMMUNICATION:
+- Props down: Data flows from App to children
+- Callbacks up: Events bubble from children to App
+
+SIBLING COMMUNICATION:
+- Through parent component (App)
+- Shared state lifted to App
+- No direct sibling messaging
+
+MODAL MANAGEMENT:
+- Controlled by App state
+- Boolean flags for each modal
+- Overlay backdrop
+- Focus trap on open
+
+MAP SYNCHRONIZATION:
+- All map layers share same Leaflet instance
+- Coordinate system consistency
+- Z-index ordering for proper layering
+
+================================================================================
+END OF COMPONENT DETAILS DOCUMENTATION
+================================================================================

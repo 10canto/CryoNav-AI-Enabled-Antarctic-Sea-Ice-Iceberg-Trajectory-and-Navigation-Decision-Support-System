@@ -1,0 +1,245 @@
+================================================================================
+                     CRYONAV AI - PROJECT OVERVIEW
+================================================================================
+
+PROJECT NAME:
+CryoNav AI - Antarctic Sea Ice, Iceberg Trajectory & Navigation Decision 
+Support System
+
+PROJECT DESCRIPTION:
+CryoNav AI is an advanced AI-powered maritime navigation dashboard prototype 
+designed for ice-strengthened polar research vessels traversing the treacherous 
+corridor from Chennai Port, India to Maitri Research Station in Antarctica.
+
+The system continuously fuses satellite-detected sea ice concentration zones, 
+radar-tracked tabular iceberg drift vectors, high-latitude katabatic wind fields, 
+and bathymetric chokepoints to dynamically calculate and evaluate 3 comparative 
+polar routes.
+
+================================================================================
+EXPEDITION PROFILE
+================================================================================
+
+Departure Point:      Chennai Port, India (13.0827°N, 80.2707°E)
+Destination:          Maitri Research Station, Antarctica (70.7644°S, 11.7386°E)
+Vessel Class:         Ice-strengthened Polar Research Vessel (Polar Class 1A/PC5)
+Total Distance:       10,500 – 12,750 km (~5,670 – 6,880 nautical miles)
+Voyage Duration:      28 – 36 days (672 – 864 hours)
+Transit Route:        Bay of Bengal → Central Indian Ocean → Roaring Forties (40°S)
+                      → Furious Fifties (50°S) → Screaming Sixties (60°S) 
+                      → Lazarev Ice Shelf
+
+================================================================================
+PROJECT OBJECTIVES
+================================================================================
+
+1. REAL-TIME MONITORING
+   - Track ship position and environmental conditions
+   - Monitor sea ice concentration and coverage
+   - Detect and track tabular icebergs
+   - Display wind patterns and ocean currents
+
+2. RISK ASSESSMENT
+   - Calculate collision risk with icebergs
+   - Assess ice concentration hazards
+   - Monitor weather conditions (wind, temperature, visibility)
+   - Provide real-time risk level indicators (SAFE, CAUTION, WARNING, EMERGENCY)
+
+3. ROUTE OPTIMIZATION
+   - Generate and compare 3 navigation routes:
+     * Route A: Safest (Ice-Avoidance Priority)
+     * Route B: Fastest (Direct Southern Great-Circle Track)
+     * Route C: Fuel-Saver (Current & Wind Assisted)
+   - Calculate distance, time, fuel consumption, and risk for each route
+
+4. AI-POWERED DECISION SUPPORT
+   - Provide AI-generated route recommendations
+   - Explain reasoning behind recommendations
+   - Adapt to changing conditions dynamically
+
+5. EMERGENCY ALERTING
+   - Trigger visual and audio alerts for dangerous conditions
+   - Display emergency modals with critical information
+   - Provide actionable recommendations during crises
+
+================================================================================
+KEY FEATURES IMPLEMENTED
+================================================================================
+
+1. INTERACTIVE MAP VISUALIZATION
+   - Real-time Antarctic map using Leaflet
+   - Ship position marker with heading indicator
+   - Iceberg markers with size and drift information
+   - Ice zone overlays with concentration levels
+   - Route polylines (solid, dashed, dotted styles)
+   - Trajectory prediction lines for icebergs
+   - Wind arrow indicators
+
+2. COMPREHENSIVE DASHBOARD PANELS
+   - Header bar with logo and scenario controls
+   - Voyage information panel (distance, time, fuel)
+   - Risk status panel with real-time metrics
+   - Route options panel with comparison
+   - Timeline control for scenario progression
+   - AI explanation panel with recommendations
+
+3. SCENARIO SIMULATION ENGINE
+   - 4 operational scenarios modeling different expedition phases:
+     * Scenario 0: Baseline departure & nominal transit
+     * Scenario 1: Tabular iceberg detection in Iceberg Alley
+     * Scenario 2: Gale-force Southern Ocean cyclone
+     * Scenario 3: Catastrophic ice shelf calving event
+   - Smooth transitions between scenarios
+   - Dynamic data updates
+
+4. REAL-TIME DATA INTEGRATION
+   - API integration for backend connectivity
+   - Mock data fallback system
+   - Auto-detection of backend availability
+   - Graceful degradation when offline
+
+5. EMERGENCY ALERT SYSTEM
+   - Visual alerts with color-coded status
+   - Audio alerts with 3-beep pattern
+   - Emergency modal with critical information
+   - Route blockage indicators
+
+6. RESPONSIVE DESIGN
+   - Professional maritime-themed UI
+   - Tailwind CSS styling
+   - Mobile-responsive layout
+   - Accessible color schemes
+
+================================================================================
+TECHNOLOGY STACK
+================================================================================
+
+FRONTEND FRAMEWORK:
+- React 18 (UI library)
+- Vite (build tool and dev server)
+- JavaScript/JSX (primary language)
+
+MAPPING & VISUALIZATION:
+- Leaflet 1.9.4 (interactive maps)
+- React-Leaflet 5.0.0 (React integration)
+- Custom SVG markers and overlays
+
+STYLING:
+- Tailwind CSS 4.1.14 (utility-first CSS)
+- Custom CSS for animations
+- Professional maritime color palette
+
+HTTP & DATA:
+- Axios 1.20.0 (API requests)
+- Custom API abstraction layer
+- Mock data generation system
+
+ICONS & UI ELEMENTS:
+- Lucide React 0.546.0 (icon library)
+- Custom SVG graphics
+
+AUDIO:
+- Web Audio API (emergency alerts)
+
+DEVELOPMENT TOOLS:
+- TypeScript 5.8.2 (type checking)
+- ESBuild 0.25.0 (bundling)
+- Node.js package ecosystem
+
+================================================================================
+PROJECT STRUCTURE
+================================================================================
+
+cryonav-ai/
+├── public/              # Static assets
+│   ├── logo.png        # CryoNav logo
+│   └── sounds/
+│       └── alert.mp3   # Emergency alert sound
+├── src/
+│   ├── components/     # React components
+│   │   ├── Common/     # Reusable UI components
+│   │   ├── Map/        # Map visualization components
+│   │   ├── Modals/     # Modal dialogs
+│   │   └── Panels/     # Dashboard panel components
+│   ├── services/       # API and data services
+│   ├── hooks/          # Custom React hooks
+│   ├── utils/          # Utility functions
+│   ├── data/           # Static data
+│   ├── styles/         # CSS stylesheets
+│   ├── assets/         # Images and media
+│   ├── config.js       # Configuration
+│   └── App.jsx         # Main application component
+├── package.json        # Dependencies and scripts
+├── vite.config.ts      # Vite configuration
+├── tsconfig.json       # TypeScript configuration
+└── README.md           # Project documentation
+
+================================================================================
+DEPLOYMENT & RUNTIME
+================================================================================
+
+LOCAL DEVELOPMENT:
+1. Install dependencies: npm install
+2. Start dev server: npm run dev
+3. Access at: http://localhost:3000
+
+PRODUCTION BUILD:
+1. Build: npm run build
+2. Preview: npm run preview
+
+BACKEND INTEGRATION:
+- Backend expected at: http://localhost:8000
+- Automatic fallback to mock data if backend unavailable
+- All API endpoints prefixed with /api/
+
+================================================================================
+PROJECT STATUS
+================================================================================
+
+COMPLETED FEATURES:
+✓ Full interactive map with Antarctica focus
+✓ 3 navigation routes with detailed metrics
+✓ 4 operational scenarios with realistic data
+✓ Real-time risk assessment system
+✓ Emergency alerting with audio/visual feedback
+✓ AI-powered route recommendations
+✓ Comprehensive dashboard panels
+✓ Responsive design
+✓ Mock data system for standalone operation
+✓ API integration layer
+✓ Scenario progression controls
+✓ Route visualization with different styles
+✓ Iceberg tracking and trajectory prediction
+✓ Wind pattern visualization
+✓ Ice zone overlays
+
+FUTURE ENHANCEMENTS (Potential):
+- Historical route replay
+- Multi-vessel tracking
+- Satellite imagery integration
+- Advanced weather forecasting
+- Machine learning model integration
+- Real-time backend with Python/Flask
+- Database for historical data
+- User authentication and profiles
+- Export functionality (PDF reports, route files)
+
+================================================================================
+PROJECT DOCUMENTATION FILES
+================================================================================
+
+00_PROJECT_OVERVIEW.txt           - This file (high-level overview)
+01_ARCHITECTURE_DESIGN.txt        - System architecture and design patterns
+02_COMPONENT_DETAILS.txt          - Detailed component documentation
+03_DATA_MODELS.txt                - Data structures and schemas
+04_API_INTEGRATION.txt            - API endpoints and integration
+05_SCENARIO_SYSTEM.txt            - Scenario engine documentation
+06_RISK_ASSESSMENT.txt            - Risk calculation algorithms
+07_MAP_VISUALIZATION.txt          - Map implementation details
+08_STYLING_THEMING.txt            - CSS and design system
+09_DEPLOYMENT_GUIDE.txt           - Setup and deployment instructions
+10_TESTING_DEBUGGING.txt          - Testing strategies and debug info
+
+================================================================================
+END OF PROJECT OVERVIEW
+================================================================================

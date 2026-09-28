@@ -1,0 +1,532 @@
+================================================================================
+                     CRYONAV AI - DATA MODELS & SCHEMAS
+================================================================================
+
+This document defines all data structures, schemas, and type definitions used
+throughout the CryoNav AI application.
+
+================================================================================
+NAVIGATION DATA (Primary Data Model)
+================================================================================
+
+COMPLETE NAVIGATION DATA OBJECT
+--------------------------------
+Returned by API and used throughout application:
+
+{
+  time: String,                    // ISO 8601 or custom format
+  shipPosition: [Number, Number],  // [latitude, longitude]
+  
+  riskAssessment: {
+    status: String,                // 'SAFE' | 'CAUTION' | 'WARNING' | 'EMERGENCY'
+    iceConcentration: Number,      // 0-100 (percentage)
+    nearestIceberg: Number,        // Distance in km
+    nearestIcebergName: String,    // Iceberg identifier
+    collisionRisk: Number,         // 0-100 (percentage)
+    temperature: Number,           // Celsius
+    windSpeed: Number,             // km/h
+    windDirection: String,         // Cardinal direction (N, NE, E, etc.)
+    windDegrees: Number,           // 0-360 degrees
+    visibility: String,            // Descriptive text
+    alertTriggered: Boolean        // Emergency alert flag
+  },
+  
+  icebergs: [                      // Array of iceberg objects
+    {
+      id: String,                  // Unique identifier
+      name: String,                // Display name
+      position: [Number, Number],  // [latitude, longitude]
+      sizeMeters: Number,          // Approximate size
+      length: Number,              // Length in meters
+      width: Number,               // Width in meters
+      detectedAgo: String,         // Time since detection
+      confidence: Number,          // 0-100 (detection confidence)
+      driftSpeedKnots: Number,     // Drift speed
+      driftHeading: Number         // Drift direction (0-360 degrees)
+    }
+  ],
+  
+  routes: [                        // Array of route options
+    {
+      id: String,                  // 'safest' | 'fastest' | 'fuel'
+      name: String,                // Display name
+      type: String,                // Route type
+      color: String,               // Hex color code
+      style: String,               // 'solid' | 'dashed' | 'dotted'
+      width: Number,               // Line width in pixels
+      distanceKm: Number,          // Total distance
+      timeHours: Number,           // Estimated time
+      timeDays: Number,            // Estimated time in days
+      fuelLiters: Number,          // Fuel consumption
+      riskPercent: Number,         // 0-100 risk rating
+      stars: Number,               // 1-5 star safety rating
+      isSafest: Boolean,           // Safest route flag
+      isFastest: Boolean,          // Fastest route flag
+      isCheapest: Boolean,         // Fuel-efficient flag
+      coordinates: [               // Route waypoints
+        [Number, Number]           // [latitude, longitude] pairs
+      ]
+    }
+  ],
+  
+  explanation: {
+    headline: String,              // AI-generated summary
+    text: String,                  // Detailed explanation
+    recommendation: String,        // Recommended route ID
+    confidence: Number             // 0-100 confidence level
+  },
+  
+  iceZones: [                      // Ice concentration zones
+    {
+      name: String,                // Zone name
+      concentration: Number,       // 0-100 percentage
+      color: String,               // Hex color code
+      fillOpacity: Number,         // 0-1 opacity
+      coordinates: [               // Polygon vertices
+        [Number, Number]           // [latitude, longitude] pairs
+      ]
+    }
+  ],
+  
+  windData: [                      // Wind vector field
+    {
+      position: [Number, Number],  // [latitude, longitude]
+      direction: Number,           // 0-360 degrees
+      speed: Number                // km/h
+    }
+  ]
+}
+
+================================================================================
+SCENARIO DATA (4 Operational Scenarios)
+================================================================================
+
+SCENARIO OBJECT STRUCTURE
+--------------------------
+Each scenario (0-3) contains a complete navigation data snapshot.
+
+Scenario 0: Baseline Departure & Nominal Transit
+- Status: SAFE
+- Ice Concentration: 18%
+- Nearest Iceberg: 145 km
+- Ship Position: [-35.0, 65.0] (Roaring Forties)
+- 3 icebergs detected
+- All routes viable
+
+Scenario 1: Tabular Iceberg Detection
+- Status: CAUTION
+- Ice Concentration: 45%
+- Nearest Iceberg: 38.5 km (Giant Berg ICE-TAB-2024-01)
+- Ship Position: [-54.0, 36.0] (Furious Fifties)
+- Giant iceberg 2.5km x 1.8km blocking Route B
+- Route B risk elevated to 52%
+
+Scenario 2: Gale-Force Cyclone
+- Status: WARNING
+- Ice Concentration: 76%
+- Nearest Iceberg: 18.0 km
+- Ship Position: [-52.0, 24.0]
+- 52 knot winds, 11.5m waves
+- Route B forced into 800km detour
+- Alert triggered
+
+Scenario 3: Ice Shelf Calving Emergency
+- Status: EMERGENCY
+- Ice Concentration: 92%
+- Nearest Iceberg: 4.8 km (Calving blocks)
+- Ship Position: [-68.5, 22.0] (Icebreaker rendezvous)
+- Routes B & C completely blocked
+- Only Route A viable with icebreaker escort
+- Emergency alert with audio
+
+================================================================================
+ROUTE DATA MODEL
+================================================================================
+
+ROUTE TYPES
+-----------
+1. SAFEST ROUTE (Route A)
+   - ID: 'safest'
+   - Color: #10b981 (emerald green)
+   - Style: solid
+   - Width: 4px
+   - Distance: ~12,200-12,750 km
+   - Time: 34-36 days
+   - Fuel: ~185,000-198,000 L
+   - Risk: 12-18%
+   - Stars: ⭐⭐⭐⭐⭐
+   - Strategy: Eastern ice-avoidance corridor
+
+2. FASTEST ROUTE (Route B)
+   - ID: 'fastest'
+   - Color: #f59e0b (amber)
+   - Style: dashed
+   - Width: 3px
+   - Distance: ~10,500-11,300 km
+   - Time: 28-30.5 days
+   - Fuel: ~168,000-182,000 L
+   - Risk: 38-61% (can spike to 98% when blocked)
+   - Stars: ⭐⭐⭐ to ⭐⭐
+   - Strategy: Direct southern great-circle track
+
+3. FUEL-SAVER ROUTE (Route C)
+   - ID: 'fuel'
+   - Color: #f97316 (orange)
+   - Style: dotted
+   - Width: 2px
+   - Distance: ~11,200-11,500 km
+   - Time: 31-32 days
+   - Fuel: ~152,000-158,000 L (lowest)
+   - Risk: 23-32%
+   - Stars: ⭐⭐⭐⭐
+   - Strategy: Current-assisted western route
+
+BLOCKED ROUTE INDICATORS (Scenario 3)
+--------------------------------------
+When route is impassable:
+- Color changes to: #ef4444 (red)
+- timeHours: 0
+- timeDays: 0
+- fuelLiters: 0
+- riskPercent: 95-98%
+- stars: 0
+- Name includes: "[BLOCKED - IMPASSABLE]"
+
+================================================================================
+ICEBERG DATA MODEL
+================================================================================
+
+ICEBERG OBJECT
+--------------
+{
+  id: String,                    // Unique identifier (e.g., 'ICE-TAB-2024-01')
+  name: String,                  // Human-readable name
+  position: [Number, Number],    // Current [latitude, longitude]
+  sizeMeters: Number,            // Approximate diameter/size
+  length: Number,                // Length in meters
+  width: Number,                 // Width in meters
+  detectedAgo: String,           // "X hours ago", "X mins ago"
+  confidence: Number,            // 88-99 (detection confidence %)
+  driftSpeedKnots: Number,       // 0.1-2.2 knots typical
+  driftHeading: Number           // 260-320 degrees (NW drift common)
+}
+
+ICEBERG CATEGORIES
+------------------
+By Size:
+- Small: <500m (color: cyan, icon: 12px)
+- Medium: 500-1500m (color: blue, icon: 18px)
+- Large/Tabular: >1500m (color: red, icon: 24px)
+
+Notable Icebergs:
+1. ICE-ALLEY-01 (650m) - Iceberg Alley region
+2. ICE-ALLEY-02 (920m) - Iceberg Alley region
+3. ICE-TAB-2024-01 (2500m) - Giant tabular berg (Scenario 1)
+4. CALVING-BLOCK-ALPHA (3800m) - Calving event (Scenario 3)
+5. CALVING-BLOCK-BETA (4500m) - Massive barrier (Scenario 3)
+
+DRIFT PREDICTION MODEL
+----------------------
+{
+  icebergId: String,
+  trajectory: [
+    [lat, lon, timestamp],       // Predicted positions
+    ...
+  ],
+  uncertaintyCone: [
+    [lat, lon],                  // Uncertainty boundary
+    ...
+  ],
+  predictionHorizon: Number      // Hours (typically 24-72)
+}
+
+================================================================================
+ICE ZONE DATA MODEL
+================================================================================
+
+ICE ZONE OBJECT
+---------------
+{
+  name: String,                  // Zone identifier
+  concentration: Number,         // 0-100 (% ice coverage)
+  color: String,                 // Hex color code
+  fillOpacity: Number,           // 0-1 (transparency)
+  coordinates: [                 // Polygon boundary
+    [Number, Number],            // [latitude, longitude]
+    ...
+  ]
+}
+
+DEFINED ICE ZONES
+-----------------
+1. Princess Astrid Fast Ice Shelf
+   - Concentration: 95%
+   - Color: #3b82f6 (blue)
+   - Opacity: 0.35
+   - Location: 69.5-71.5°S, 7-18°E
+
+2. Queen Maud Consolidated Pack Ice
+   - Concentration: 75%
+   - Color: #06b6d4 (cyan)
+   - Opacity: 0.25
+   - Location: 64-69°S, 5-26°E
+
+3. Sub-Antarctic Marginal Ice Zone
+   - Concentration: 30%
+   - Color: #10b981 (green)
+   - Opacity: 0.15
+   - Location: 58-64.5°S, 0-36°E
+
+ICE CONCENTRATION INTERPRETATION
+---------------------------------
+0-10%:    Open water (navigable)
+10-30%:   Marginal ice zone (caution)
+30-50%:   Pack ice (slow navigation)
+50-70%:   Consolidated pack (ice-strengthened vessel required)
+70-90%:   Heavy pack (icebreaker recommended)
+90-100%:  Fast ice / shelf (icebreaker escort mandatory)
+
+================================================================================
+RISK ASSESSMENT DATA MODEL
+================================================================================
+
+RISK ASSESSMENT OBJECT
+-----------------------
+{
+  status: String,                // Risk level
+  iceConcentration: Number,      // 0-100 %
+  nearestIceberg: Number,        // Distance in km (null if none)
+  nearestIcebergName: String,    // Identifier or null
+  collisionRisk: Number,         // 0-100 %
+  temperature: Number,           // Celsius
+  windSpeed: Number,             // km/h
+  windDirection: String,         // N, NE, E, SE, S, SW, W, NW
+  windDegrees: Number,           // 0-360 degrees
+  visibility: String,            // Text description
+  alertTriggered: Boolean        // Emergency flag
+}
+
+RISK STATUS LEVELS
+------------------
+1. SAFE (GREEN)
+   - Collision Risk: 0-14%
+   - Ice Concentration: <30%
+   - Visibility: Excellent (>10 nm)
+   - No immediate hazards
+
+2. CAUTION (YELLOW)
+   - Collision Risk: 15-39%
+   - Ice Concentration: 30-60%
+   - Visibility: Moderate (4-10 nm)
+   - Icebergs detected nearby
+
+3. WARNING (ORANGE)
+   - Collision Risk: 40-74%
+   - Ice Concentration: 60-85%
+   - Visibility: Poor (1-4 nm)
+   - Adverse weather conditions
+   - Alert triggered
+
+4. EMERGENCY (RED)
+   - Collision Risk: 75-100%
+   - Ice Concentration: >85%
+   - Visibility: Very poor (<1 nm)
+   - Immediate danger
+   - Alert triggered
+   - Emergency protocols activated
+
+RISK CALCULATION FACTORS
+-------------------------
+Inputs:
+1. Ice concentration percentage
+2. Distance to nearest iceberg
+3. Iceberg drift vectors
+4. Wind speed and direction
+5. Visibility conditions
+6. Sea state
+7. Vessel position relative to hazards
+
+Algorithm:
+- Base risk from ice concentration
+- Proximity multiplier (inversely proportional to distance)
+- Drift vector analysis (collision course detection)
+- Weather factor (wind speed, visibility reduction)
+- Combined weighted score → percentage
+
+================================================================================
+WIND DATA MODEL
+================================================================================
+
+WIND VECTOR OBJECT
+------------------
+{
+  position: [Number, Number],    // [latitude, longitude]
+  direction: Number,             // 0-360 degrees (meteorological)
+  speed: Number                  // km/h
+}
+
+WIND GRID
+---------
+- Coverage: Antarctic region (40°S to 75°S)
+- Grid spacing: 5° intervals
+- Update frequency: Hourly (simulated)
+- Data points: ~50-100 vectors
+
+WIND SPEED CATEGORIES
+----------------------
+0-20 km/h:     Light air (green)
+20-35 km/h:    Moderate breeze (yellow)
+35-50 km/h:    Strong wind (orange)
+50-65 km/h:    Gale force (red)
+65+ km/h:      Storm force (dark red)
+
+WIND DIRECTION CONVENTION
+--------------------------
+Meteorological: Direction wind is coming FROM
+- 0° / 360°: North
+- 90°: East
+- 180°: South
+- 270°: West
+
+Prevalent Antarctic Winds:
+- Katabatic winds: South to North (downslope from ice sheet)
+- Circumpolar westerlies: West to East (40-60°S)
+- Polar easterlies: East to West (60-90°S)
+
+================================================================================
+EXPLANATION DATA MODEL
+================================================================================
+
+AI EXPLANATION OBJECT
+----------------------
+{
+  headline: String,              // Bold summary (ALL CAPS typical)
+  text: String,                  // Detailed reasoning (2-3 sentences)
+  recommendation: String,        // Recommended route ID
+  confidence: Number             // 0-100 percentage
+}
+
+EXAMPLE EXPLANATIONS BY SCENARIO
+---------------------------------
+
+Scenario 0:
+headline: "OPTIMAL SUMMER EXPEDITION CONDITIONS"
+text: "Baseline voyage parameters nominal from Chennai Port to Maitri Base. 
+       Route A (Eastern Ice-Avoidance) provides maximum clearance from Iceberg
+       Alley (40-60°E) and Prince Edward Islands. Recommended for safest passage."
+recommendation: "safest"
+confidence: 96
+
+Scenario 1:
+headline: "GIANT TABULAR ICEBERG DETECTED ON ROUTE B"
+text: "Radar detected giant iceberg ICE-TAB-2024-01 (2.5 km × 1.8 km) drifting 
+       NW at 1.2 km/day at -58.5°S, 42.0°E directly on Route B fairway. Route B 
+       risk escalated to 52%. Recommend diverting to Route A (Safest)."
+recommendation: "safest"
+confidence: 94
+
+Scenario 2:
+headline: "GALE-FORCE CYCLONE & COMPRESSED PACK ICE HAZARD"
+text: "Storm system (52-58°S, 30-50°E) generating 50-65 kt winds and 11.5m waves.
+       Route B forced into 800km detour with 61% risk. Route A minor eastward 
+       offset (+150km) avoids cyclone core with safe 15% risk."
+recommendation: "safest"
+confidence: 98
+
+Scenario 3:
+headline: "CRITICAL EMERGENCY: ICE SHELF CALVING BLOCKS DIRECT CHANNELS"
+text: "Catastrophic calving event along Lazarev Ice Shelf (70°S, 0-20°E). 
+       Routes B and C completely blocked by grounded tabular melange. Route A 
+       is the ONLY viable option: extended eastern approach with heavy icebreaker
+       escort for final 150km."
+recommendation: "safest"
+confidence: null (only one option)
+
+================================================================================
+SCENARIO METADATA
+================================================================================
+
+SCENARIO METADATA OBJECT
+------------------------
+{
+  location: String,              // Approximate location description
+  weather: {
+    condition: String,           // Weather description
+    temperature: String,         // With unit
+    wind: String                 // Speed and direction
+  },
+  ocean: String,                 // Ocean name
+  risk: String,                  // Risk level
+  hazardClass: String,           // 'low' | 'medium' | 'high' | 'critical'
+  departureTime: String          // ISO 8601 timestamp
+}
+
+================================================================================
+CONFIGURATION DATA
+================================================================================
+
+API CONFIGURATION
+-----------------
+{
+  API_BASE_URL: 'http://localhost:8000',
+  API_TIMEOUT: 10000,           // milliseconds
+  POLLING_INTERVAL: 5000,       // milliseconds
+  SCENARIO_TRANSITION_DELAY: 1500  // milliseconds
+}
+
+DEMO CONFIGURATION
+------------------
+{
+  USE_MOCK_DATA: true,          // Toggle mock vs. live data
+  AUTO_ADVANCE_SCENARIOS: false,
+  ENABLE_AUDIO_ALERTS: true,
+  DEFAULT_MAP_CENTER: [-65, 30],
+  DEFAULT_MAP_ZOOM: 4
+}
+
+================================================================================
+TYPE DEFINITIONS SUMMARY
+================================================================================
+
+// For TypeScript integration (future enhancement)
+
+type Coordinate = [number, number];  // [latitude, longitude]
+
+type RiskStatus = 'SAFE' | 'CAUTION' | 'WARNING' | 'EMERGENCY';
+
+type RouteType = 'safest' | 'fastest' | 'fuel';
+
+type LineStyle = 'solid' | 'dashed' | 'dotted';
+
+type ScenarioNumber = 0 | 1 | 2 | 3;
+
+type NotificationType = 'success' | 'error' | 'warning' | 'info';
+
+type HazardClass = 'low' | 'medium' | 'high' | 'critical';
+
+================================================================================
+DATA VALIDATION RULES
+================================================================================
+
+LATITUDE RANGE: -90 to +90 degrees
+LONGITUDE RANGE: -180 to +180 degrees
+
+PERCENTAGE VALUES: 0 to 100 (inclusive)
+
+WIND DIRECTION: 0 to 360 degrees (360 === 0)
+
+POSITIVE NUMBERS:
+- Distance (km)
+- Time (hours, days)
+- Fuel (liters)
+- Speed (km/h, knots)
+- Size (meters)
+
+REQUIRED FIELDS:
+- All navigation data fields must be present
+- Missing fields use default/null values
+- Graceful handling of incomplete data
+
+================================================================================
+END OF DATA MODELS & SCHEMAS DOCUMENTATION
+================================================================================
