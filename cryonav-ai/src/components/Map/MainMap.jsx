@@ -12,6 +12,7 @@ import WindArrows from './WindArrows';
 import MapControls from './MapControls';
 import VoyageInfoPanel from '../Panels/VoyageInfoPanel';
 import TrajectoryLines from './TrajectoryLines';
+import HistoricalTrajectoryLines from './HistoricalTrajectoryLines';
 
 function MapSync({ center, zoom, duration = 0.8 }) {
   const map = useMap();
@@ -22,6 +23,14 @@ function MapSync({ center, zoom, duration = 0.8 }) {
     if (!center) return;
     map.flyTo(center, zoom ?? map.getZoom(), { duration });
   }, [center, zoom, duration, map]);
+  return null;
+}
+
+function SatelliteBasemapStyle({ enabled }) {
+  const map = useMap();
+  useEffect(() => {
+    map.getContainer().classList.toggle('satellite-basemap', enabled);
+  }, [enabled, map]);
   return null;
 }
 
@@ -110,6 +119,8 @@ const MainMap = ({ scenario, selectedRoute, onSelectRoute }) => {
     wind: true,
     icebergs: true,
     trajectories: true,
+    tracks: true,
+    satellite: false,
   });
 
   // Combine backend routes with mock routes to find the active route
@@ -154,10 +165,22 @@ const MainMap = ({ scenario, selectedRoute, onSelectRoute }) => {
       style={{ height: '100%', width: '100%', minHeight: 380 }}
       zoomControl={false}
     >
+      <SatelliteBasemapStyle enabled={layers.satellite} />
       <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution="&copy; OpenStreetMap contributors"
+        key={layers.satellite ? 'satellite' : 'street'}
+        url={layers.satellite
+          ? 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+          : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'}
+        attribution={layers.satellite
+          ? 'Tiles &copy; Esri, Maxar, Earthstar Geographics, and the GIS User Community'
+          : '&copy; OpenStreetMap contributors'}
       />
+      {layers.satellite && (
+        <TileLayer
+          url="https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}"
+          attribution="Labels &copy; Esri"
+        />
+      )}
       <MapSync center={targetShipPosition} zoom={4} duration={SHIP_TRANSITION_DURATION / 1000} />
       <MapControls layerVisibility={layers} onToggleLayer={toggleLayer} />
 
@@ -172,6 +195,7 @@ const MainMap = ({ scenario, selectedRoute, onSelectRoute }) => {
         />
       )}
       {layers.trajectories && <TrajectoryLines predictions={predictions} scenario={scenarioIndex} visible={layers.trajectories} />}
+      {layers.tracks && <HistoricalTrajectoryLines tracks={scenario?.historicalTracks} visible={layers.tracks} />}
       {layers.icebergs && <IcebergMarkers icebergs={scenario?.icebergs || []} />}
       <ShipMarker position={shipPosition} heading={heading} />
       {layers.wind && <WindArrows vectors={mockWindData.wind_vectors} />}

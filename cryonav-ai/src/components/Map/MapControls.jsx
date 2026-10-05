@@ -5,13 +5,14 @@ import { MAP_CENTER, MAP_ZOOM } from '../../config.js';
 export function MapControls({ layerVisibility, onToggleLayer }) {
   const map = useMap();
 
-  const layerKeys = ['ice', 'routes', 'wind', 'icebergs', 'trajectories'];
+  const layerKeys = ['ice', 'routes', 'wind', 'icebergs', 'trajectories', 'tracks'];
   const layerLabels = {
     ice: 'Ice Chart',
     routes: 'Routes',
     wind: 'Wind',
     icebergs: 'Icebergs',
     trajectories: 'Trajectories',
+    tracks: 'Historical Tracks',
   };
 
   return (
@@ -23,11 +24,22 @@ export function MapControls({ layerVisibility, onToggleLayer }) {
               key={key}
               type="button"
               className={`map-layer-btn ${layerVisibility[key] ? 'active' : ''}`}
+              aria-pressed={Boolean(layerVisibility[key])}
               onClick={() => onToggleLayer(key)}
             >
               {layerLabels[key]}
             </button>
           ))}
+        </div>
+        <div className="map-layer-bar">
+          <button
+            type="button"
+            className={`map-layer-btn ${layerVisibility.satellite ? 'active' : ''}`}
+            aria-pressed={Boolean(layerVisibility.satellite)}
+            onClick={() => onToggleLayer('satellite')}
+          >
+            Satellite
+          </button>
         </div>
         <div className="map-layer-bar">
           <span className="map-sector-label">Sector</span>

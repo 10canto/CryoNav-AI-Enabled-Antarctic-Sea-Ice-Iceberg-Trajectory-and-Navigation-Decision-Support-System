@@ -35,10 +35,18 @@ function App() {
   const [backendIcebergs, setBackendIcebergs] = useState(null);
   const [backendIceZones, setBackendIceZones] = useState(null);
   const [backendPredictions, setBackendPredictions] = useState(null);
+  const [historicalTracks, setHistoricalTracks] = useState([]);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showWaitingModal, setShowWaitingModal] = useState(false);
 
   const scene = SCENARIO_MOCKS[scenario] || SCENARIO_MOCKS[0];
+
+  useEffect(() => {
+    fetch('/current-iceberg-tracks.json')
+      .then((response) => response.ok ? response.json() : [])
+      .then((tracks) => setHistoricalTracks(Array.isArray(tracks) ? tracks : []))
+      .catch(() => setHistoricalTracks([]));
+  }, []);
 
   // Icebergs: use backend JSON data when connected, fall back to frontend mock
   const activeIcebergs = useMemo(() => {
@@ -227,7 +235,7 @@ function App() {
         <div className="map-column">
           <div className="map-wrapper">
             <MainMap
-              scenario={{ ...scene, icebergs: activeIcebergs, predictions: backendPredictions }}
+              scenario={{ ...scene, icebergs: activeIcebergs, predictions: backendPredictions, historicalTracks }}
               selectedRoute={selectedRoute}
               onSelectRoute={setSelectedRoute}
             />

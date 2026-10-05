@@ -5,7 +5,7 @@
  *   1. SCENARIO icebergs  — the animated narrative icebergs (ICE-047, 048, 049)
  *      from scenarioDataRequirements.  Red triangle icon + danger circle.
  *
- *   2. DEMO CSV icebergs  — the 7 real named bergs from demoData.js (B15G, A23A…)
+ *   2. CURRENT CSV icebergs — the current named berg positions from the data export
  *      shown as smaller blue diamond icons to distinguish from scenario icebergs.
  *
  * Props:
@@ -14,7 +14,7 @@
 
 import { Circle, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
-import { DEMO_ICEBERGS } from '../../data/demoData';
+import { CURRENT_ICEBERGS } from '../../data/currentIcebergs';
 
 // ── Scenario iceberg icon (red triangle — danger) ─────────────────────────────
 const scenarioIcon = L.divIcon({
@@ -27,7 +27,7 @@ const scenarioIcon = L.divIcon({
   popupAnchor:[0, -20],
 });
 
-// ── Demo/CSV iceberg icon (blue diamond — reference data) ────────────────────
+// ── Current CSV iceberg icon (blue diamond — reference data) ────────────────
 const demoIcon = L.divIcon({
   className: 'iceberg-demo-icon',
   html: `<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
@@ -85,8 +85,8 @@ const IcebergMarkers = ({ icebergs = [] }) => (
       );
     })}
 
-    {/* ── 2. Demo CSV icebergs (reference layer — always visible) ── */}
-    {DEMO_ICEBERGS.map((berg) => {
+    {/* ── 2. Current CSV icebergs (reference layer — always visible) ── */}
+    {CURRENT_ICEBERGS.map((berg) => {
       const pos = [berg.lat, berg.lon];
       return (
         <Marker key={`demo_${berg.id}`} position={pos} icon={demoIcon}>
@@ -102,9 +102,11 @@ const IcebergMarkers = ({ icebergs = [] }) => (
                 🧊 Iceberg {berg.id}
               </div>
               <div>Size: {fmt(berg.length)} × {fmt(berg.width)}</div>
+              <div>Area: {berg.areaSqKm.toFixed(2)} km²</div>
               <div>Position: {berg.lat.toFixed(3)}°, {berg.lon.toFixed(3)}°</div>
               <div style={{ marginTop: 4, color: '#64748b', fontSize: '0.7rem' }}>
-                Source: DEMO / SYNTHETIC
+                Source: AntarcticIcebergs_20260924.csv<br />
+                Updated: {berg.lastUpdate}
               </div>
             </div>
           </Popup>

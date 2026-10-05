@@ -104,6 +104,10 @@ html, body, #root {
   filter: brightness(0.68) invert(1) contrast(2.4) hue-rotate(195deg) saturate(0.4) brightness(0.75);
 }
 
+.leaflet-container.satellite-basemap .leaflet-tile-pane {
+  filter: none;
+}
+
 /* Custom Marker Styling */
 .iceberg-marker-icon {
   display: flex;
