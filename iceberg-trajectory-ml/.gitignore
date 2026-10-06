@@ -1,0 +1,87 @@
+# Ignore large ocean current data files
+data/ocean_currents_2025_2026_daily.nc
+data/*.nc
+
+# Ignore other large data files
+data/ocean_currents_*.nc
+*.nc
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Model files (large)
+models/*.h5
+models/*.keras
+models/*.pt
+models/*.pth
+results/models/*.h5
+results/models/*.keras
+
+# Large result files
+results/*.png
+results/*.jpg
+results/*.jpeg
+visualizations/*.png
+visualizations/*.jpg
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+*.hbatlio_
+*.rtnwa_k1
+
+# Credentials
+.copernicus_credentials
+*.env
+.env
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Large CSV files (optional - uncomment if needed)
+# data/iceberg_dataset_sample.csv
+# data/processed_icebergs_sample.csv

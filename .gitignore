@@ -1,0 +1,80 @@
+# Large ocean current NetCDF files
+iceberg-trajectory-ml/data/*.nc
+iceberg-trajectory-ml/data/ocean_currents_*.nc
+DATA/*.nc
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node modules (for frontend)
+node_modules/
+cryonav-ai/node_modules/
+cryonav-ai/dist/
+cryonav-ai/build/
+
+# Environment variables
+.env
+.env.local
+*.env
+
+# Credentials
+.copernicus_credentials
+**/credentials
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+*.hbatlio_
+*.rtnwa_k1
+
+# Model files (large)
+*.h5
+*.keras
+*.pt
+*.pth
+*.pb
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Large data files
+DATA/consolidated_database_v8.0/
+ICEBERG_TRAJECTORY_PREDICTION/
+
+# Test files
+*.test.js
+*.spec.js
+coverage/
+
+# Build artifacts
+*.pyc
+*.pyo
