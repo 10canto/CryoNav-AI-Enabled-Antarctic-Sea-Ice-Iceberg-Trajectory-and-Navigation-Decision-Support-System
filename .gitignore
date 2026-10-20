@@ -3,6 +3,10 @@ iceberg-trajectory-ml/data/*.nc
 iceberg-trajectory-ml/data/ocean_currents_*.nc
 DATA/*.nc
 
+# Large ocean current yearly JSON files (too big for GitHub)
+iceberg-trajectory-ml/data/ocean_currents_yearly/
+iceberg-trajectory-ml/data/ocean_currents_yearly/*.json
+
 # Python
 __pycache__/
 *.py[cod]
@@ -78,3 +82,7 @@ coverage/
 # Build artifacts
 *.pyc
 *.pyo
+
+# Large ocean current yearly JSON files (too big for GitHub)
+iceberg-trajectory-ml/data/ocean_currents_yearly/
+iceberg-trajectory-ml/data/ocean_currents_yearly/*.json
