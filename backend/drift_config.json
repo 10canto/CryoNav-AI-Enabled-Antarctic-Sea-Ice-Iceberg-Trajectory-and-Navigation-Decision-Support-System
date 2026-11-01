@@ -1,0 +1,50 @@
+{
+  "drift_prediction": {
+    "description": "Calibrated uncertainty from real iceberg tracking data",
+    "source": "BYU Antarctic Iceberg Tracking Database + evaluation on 2025-26 icebergs",
+    "method_priority": [
+      "track_extrapolation",
+      "current_based_fallback"
+    ],
+    "track_extrapolation": {
+      "min_positions": 2,
+      "description": "Constant velocity from recent track (if >= 2 positions available)",
+      "uncertainty_km": {
+        "24h": 3.5,
+        "48h": 7.0,
+        "72h": 10.0,
+        "percentile": "75th",
+        "notes": "Calibrated from constant velocity baseline (best performer): Mean=2.19/4.33/6.51 km, using ~75th percentile for conservative bounds"
+      }
+    },
+    "current_based_fallback": {
+      "description": "Physics-based drift with ocean currents (fallback when track unavailable)",
+      "uncertainty_km": {
+        "24h": 8.0,
+        "48h": 15.0,
+        "72h": 20.0,
+        "percentile": "75th",
+        "notes": "Calibrated from physics predictor evaluation: Mean=6.19/11.53/16.42 km, using conservative bounds"
+      }
+    }
+  },
+  "evaluation_summary": {
+    "track_extrapolation_performance": {
+      "24h_mean_km": 2.19,
+      "48h_mean_km": 4.33,
+      "72h_mean_km": 6.51,
+      "note": "Best performer - simple constant velocity from track"
+    },
+    "current_based_performance": {
+      "24h_mean_km": 6.19,
+      "48h_mean_km": 11.53,
+      "72h_mean_km": 16.42,
+      "note": "Physics-based predictor - useful when track unavailable but less accurate"
+    },
+    "validation_data": {
+      "icebergs": 3,
+      "test_sequences": 603,
+      "date_range": "Oct 2025 - Aug 2026"
+    }
+  }
+}

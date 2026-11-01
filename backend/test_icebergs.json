@@ -1,0 +1,36 @@
+[
+  {
+    "id": "A81",
+    "Iceberg": "A81",
+    "Lat": -56.94,
+    "Lon": -44.39,
+    "Area_km2": 150,
+    "Length_km": 15,
+    "Width_km": 10,
+    "Last_Date": "2025-11-15",
+    "recent_track": [
+      {"lat": -57.0, "lon": -44.5, "timestamp": "2025-11-13T00:00:00"},
+      {"lat": -56.94, "lon": -44.39, "timestamp": "2025-11-15T00:00:00"}
+    ]
+  },
+  {
+    "id": "A83",
+    "Iceberg": "A83",
+    "Lat": -60.89,
+    "Lon": -51.80,
+    "Area_km2": 200,
+    "Length_km": 18,
+    "Width_km": 12,
+    "Last_Date": "2025-11-15"
+  },
+  {
+    "id": "B09B",
+    "Iceberg": "B09B",
+    "Lat": -66.07,
+    "Lon": 143.15,
+    "Area_km2": 180,
+    "Length_km": 16,
+    "Width_km": 11,
+    "Last_Date": "2025-11-15"
+  }
+]

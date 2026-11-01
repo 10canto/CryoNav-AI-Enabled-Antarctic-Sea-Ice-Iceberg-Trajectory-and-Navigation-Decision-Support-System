@@ -50,8 +50,8 @@ export function RouteDetailsModal({ isOpen, onClose, route, onSelectRoute }) {
             </div>
           </div>
           <div>
-            <span style={{ fontSize: '0.72rem', color: '#64748b' }}>Estimated Fuel Burn:</span>
-            <div style={{ fontSize: '1.1rem', fontWeight: 700 }}>{route.fuelLiters?.toLocaleString()} L</div>
+            <span style={{ fontSize: '0.72rem', color: '#64748b' }}>Fuel Index (Relative):</span>
+            <div style={{ fontSize: '1.1rem', fontWeight: 700 }}>{route.fuelIndex?.toLocaleString()}</div>
           </div>
           <div>
             <span style={{ fontSize: '0.72rem', color: '#64748b' }}>Calculated Risk Level:</span>

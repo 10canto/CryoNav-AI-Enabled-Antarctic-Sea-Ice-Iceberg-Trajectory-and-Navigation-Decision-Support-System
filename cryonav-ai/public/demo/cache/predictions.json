@@ -1,0 +1,212 @@
+{
+  "A81": {
+    "mean_path": [
+      {
+        "lat": -56.94,
+        "lon": -44.39,
+        "hours": 0,
+        "timestamp": "2026-10-28T17:22:16.621585"
+      },
+      {
+        "lat": -56.9325,
+        "lon": -44.37625,
+        "hours": 6,
+        "timestamp": "2026-10-28T23:22:16.621585"
+      },
+      {
+        "lat": -56.925,
+        "lon": -44.3625,
+        "hours": 12,
+        "timestamp": "2026-10-29T05:22:16.621585"
+      },
+      {
+        "lat": -56.9175,
+        "lon": -44.34875,
+        "hours": 18,
+        "timestamp": "2026-10-29T11:22:16.621585"
+      },
+      {
+        "lat": -56.91,
+        "lon": -44.335,
+        "hours": 24,
+        "timestamp": "2026-10-29T17:22:16.621585"
+      },
+      {
+        "lat": -56.902499999999996,
+        "lon": -44.32125,
+        "hours": 30,
+        "timestamp": "2026-10-29T23:22:16.621585"
+      },
+      {
+        "lat": -56.894999999999996,
+        "lon": -44.307500000000005,
+        "hours": 36,
+        "timestamp": "2026-10-30T05:22:16.621585"
+      },
+      {
+        "lat": -56.887499999999996,
+        "lon": -44.29375,
+        "hours": 42,
+        "timestamp": "2026-10-30T11:22:16.621585"
+      },
+      {
+        "lat": -56.879999999999995,
+        "lon": -44.28,
+        "hours": 48,
+        "timestamp": "2026-10-30T17:22:16.621585"
+      },
+      {
+        "lat": -56.872499999999995,
+        "lon": -44.26625,
+        "hours": 54,
+        "timestamp": "2026-10-30T23:22:16.621585"
+      },
+      {
+        "lat": -56.864999999999995,
+        "lon": -44.2525,
+        "hours": 60,
+        "timestamp": "2026-10-31T05:22:16.621585"
+      },
+      {
+        "lat": -56.857499999999995,
+        "lon": -44.23875,
+        "hours": 66,
+        "timestamp": "2026-10-31T11:22:16.621585"
+      },
+      {
+        "lat": -56.849999999999994,
+        "lon": -44.225,
+        "hours": 72,
+        "timestamp": "2026-10-31T17:22:16.621585"
+      }
+    ],
+    "uncertainty": {
+      "24h": {
+        "radius_km": 3.5,
+        "percentile": "75th",
+        "method": "calibrated_from_validation"
+      },
+      "48h": {
+        "radius_km": 7.0,
+        "percentile": "75th",
+        "method": "calibrated_from_validation"
+      },
+      "72h": {
+        "radius_km": 10.0,
+        "percentile": "75th",
+        "method": "calibrated_from_validation"
+      }
+    },
+    "method": "track_extrapolation",
+    "velocity": {
+      "vel_lat_deg_h": 0.0012500000000000473,
+      "vel_lon_deg_h": 0.002291666666666655,
+      "speed_km_h": 0.19649884888095634
+    },
+    "positions_used": 2,
+    "description": "Constant velocity extrapolation from recent track"
+  },
+  "A83": {
+    "mean_path": [
+      {
+        "lat": -60.88999999999999,
+        "lon": -51.80000000000001,
+        "hours": 0,
+        "timestamp": "2026-10-28T17:22:18.655995"
+      },
+      {
+        "lat": -60.89430947184728,
+        "lon": -51.80941322805347,
+        "hours": 6,
+        "timestamp": "2026-10-28T23:22:18.655995"
+      },
+      {
+        "lat": -60.89862148159311,
+        "lon": -51.8188332724586,
+        "hours": 12,
+        "timestamp": "2026-10-29T05:22:18.655995"
+      },
+      {
+        "lat": -60.90294187152946,
+        "lon": -51.828272907683015,
+        "hours": 18,
+        "timestamp": "2026-10-29T11:22:18.655995"
+      },
+      {
+        "lat": -60.907244918393864,
+        "lon": -51.837675914991976,
+        "hours": 24,
+        "timestamp": "2026-10-29T17:22:18.655995"
+      },
+      {
+        "lat": -60.911555406762915,
+        "lon": -51.847096452998,
+        "hours": 30,
+        "timestamp": "2026-10-29T23:22:18.655995"
+      },
+      {
+        "lat": -60.915883911765086,
+        "lon": -51.85655764690457,
+        "hours": 36,
+        "timestamp": "2026-10-30T05:22:18.655995"
+      },
+      {
+        "lat": -60.92018463590005,
+        "lon": -51.86595939972034,
+        "hours": 42,
+        "timestamp": "2026-10-30T11:22:18.655995"
+      },
+      {
+        "lat": -60.92441263553954,
+        "lon": -51.87520342225945,
+        "hours": 48,
+        "timestamp": "2026-10-30T17:22:18.655995"
+      },
+      {
+        "lat": -60.92876481543933,
+        "lon": -51.88472021054571,
+        "hours": 54,
+        "timestamp": "2026-10-30T23:22:18.655995"
+      },
+      {
+        "lat": -60.93306322698843,
+        "lon": -51.89412070718786,
+        "hours": 60,
+        "timestamp": "2026-10-31T05:22:18.655995"
+      },
+      {
+        "lat": -60.937252138874925,
+        "lon": -51.903282950825016,
+        "hours": 66,
+        "timestamp": "2026-10-31T11:22:18.655995"
+      },
+      {
+        "lat": -60.94166484158337,
+        "lon": -51.91293597540857,
+        "hours": 72,
+        "timestamp": "2026-10-31T17:22:18.655995"
+      }
+    ],
+    "uncertainty": {
+      "24h": {
+        "radius_km": 8.0,
+        "percentile": "75th",
+        "method": "calibrated_from_validation"
+      },
+      "48h": {
+        "radius_km": 15.0,
+        "percentile": "75th",
+        "method": "calibrated_from_validation"
+      },
+      "72h": {
+        "radius_km": 20.0,
+        "percentile": "75th",
+        "method": "calibrated_from_validation"
+      }
+    },
+    "n_simulations": 50,
+    "model": "physics",
+    "method": "current_based_fallback",
+    "description": "Physics-based drift with ocean currents (track unavailable)"
+  }
+}

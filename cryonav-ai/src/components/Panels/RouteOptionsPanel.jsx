@@ -122,7 +122,7 @@ const RouteOptionsPanel = ({ routes = [], selectedRoute, onRouteSelect, onShowDe
                 </div>
                 <div className="stat-item">
                   <span className="label">Fuel</span>
-                  <span className="value">{blocked ? '—' : `${Math.round((route.fuelLiters || 0) / 1000)}K L`}</span>
+                  <span className="value">{blocked ? '—' : `${route.fuelIndex || 0}`}</span>
                 </div>
                 <div className="stat-item">
                   <span className="label">Risk</span>

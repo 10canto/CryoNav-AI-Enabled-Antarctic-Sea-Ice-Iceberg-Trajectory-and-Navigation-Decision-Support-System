@@ -1,0 +1,115 @@
+.risk-card {
+  background: rgba(20, 20, 30, 0.95);
+  border-radius: 8px;
+  padding: 16px;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.risk-level {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.risk-indicator {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+  border: 3px solid;
+}
+
+.risk-green .risk-indicator {
+  background: #22c55e;
+  border-color: #16a34a;
+  color: #fff;
+}
+
+.risk-yellow .risk-indicator {
+  background: #eab308;
+  border-color: #ca8a04;
+  color: #000;
+}
+
+.risk-orange .risk-indicator {
+  background: #f97316;
+  border-color: #ea580c;
+  color: #fff;
+}
+
+.risk-red .risk-indicator {
+  background: #ef4444;
+  border-color: #dc2626;
+  color: #fff;
+}
+
+.risk-unknown .risk-indicator {
+  background: #64748b;
+  border-color: #475569;
+  color: #fff;
+}
+
+.pulsing {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+.risk-text {
+  flex: 1;
+}
+
+.risk-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.risk-distance {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.risk-reasons {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.risk-reason {
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+
+.risk-reason:last-child {
+  margin-bottom: 0;
+}
+
+.risk-timestamp {
+  font-size: 12px;
+  opacity: 0.6;
+  text-align: right;
+}
+
+.risk-loading {
+  text-align: center;
+  padding: 20px;
+  opacity: 0.7;
+}

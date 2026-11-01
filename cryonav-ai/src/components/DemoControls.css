@@ -1,0 +1,134 @@
+.demo-controls {
+  background: rgba(20, 20, 30, 0.95);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  color: #fff;
+}
+
+.btn-demo-start {
+  width: 100%;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: #fff;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-demo-start:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+.demo-description {
+  text-align: center;
+  font-size: 13px;
+  margin-top: 8px;
+  opacity: 0.7;
+}
+
+.demo-controls.active {
+  border: 2px solid #6366f1;
+}
+
+.demo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.demo-badge {
+  background: #6366f1;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.demo-step {
+  background: rgba(99, 102, 241, 0.2);
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.demo-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.demo-message {
+  font-size: 14px;
+  line-height: 1.5;
+  opacity: 0.9;
+  margin-bottom: 16px;
+}
+
+.demo-progress {
+  margin-bottom: 16px;
+}
+
+.progress-bar {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%);
+  transition: width 0.5s ease;
+}
+
+.progress-label {
+  text-align: center;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.demo-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-demo-next {
+  flex: 1;
+  background: #22c55e;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-demo-next:hover {
+  background: #16a34a;
+}
+
+.btn-demo-reset {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-demo-reset:hover {
+  background: rgba(255, 255, 255, 0.2);
+}

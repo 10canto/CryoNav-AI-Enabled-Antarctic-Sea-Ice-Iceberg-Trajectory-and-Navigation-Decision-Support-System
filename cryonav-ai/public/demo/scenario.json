@@ -1,0 +1,919 @@
+{
+  "name": "Antarctic Navigation Crisis Demo",
+  "description": "Frozen 4-step scenario for live presentation",
+  "generated_at": "2026-10-28T17:22:14.581667",
+  "steps": [
+    {
+      "id": 1,
+      "time": "T+0h Departure",
+      "title": "Departure - All Clear",
+      "shipPosition": {
+        "lat": -40.5,
+        "lon": 20.0,
+        "time": "T+0h Departure"
+      },
+      "icebergs": [
+        {
+          "Iceberg": "A81",
+          "Lat": -45.2,
+          "Lon": 28.5,
+          "Length_km": 8.5,
+          "Width_km": 4.2,
+          "Area_km2": 35.7
+        },
+        {
+          "Iceberg": "A83",
+          "Lat": -52.8,
+          "Lon": 15.3,
+          "Length_km": 12.3,
+          "Width_km": 6.8,
+          "Area_km2": 83.6
+        }
+      ],
+      "routes": [
+        {
+          "id": "safest_20261028",
+          "type": "safest",
+          "name": "Safest",
+          "color": "green",
+          "waypoints": [
+            {
+              "lat": -33.9694027027027,
+              "lon": 18.420720720720723
+            },
+            {
+              "lat": -35.7712045045045,
+              "lon": 16.618918918918922
+            },
+            {
+              "lat": -37.57300630630631,
+              "lon": 14.817117117117121
+            },
+            {
+              "lat": -39.37480810810811,
+              "lon": 13.01531531531532
+            },
+            {
+              "lat": -41.176609909909914,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -42.978411711711715,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -44.780213513513516,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -46.58201531531532,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -48.38381711711712,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -50.18561891891892,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -51.98742072072072,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -53.78922252252252,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -55.59102432432432,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -57.392826126126124,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -59.194627927927925,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -60.996429729729726,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -62.798231531531535,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -64.60003333333333,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -66.40183513513513,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -68.20363693693693,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -70.77120450450451,
+              "lon": 11.709009009009009
+            }
+          ],
+          "isSafest": true,
+          "isFastest": false,
+          "isCheapest": false,
+          "distance_km": 4290.12,
+          "time_hours": 193.04,
+          "fuel_percent_vs_fastest": 108.0,
+          "risk_score": 15,
+          "distanceKm": 4290.12,
+          "timeDays": 8.0,
+          "fuelIndex": 2145,
+          "riskPercent": 15
+        },
+        {
+          "id": "fastest_20261028",
+          "type": "fastest",
+          "name": "Fastest",
+          "color": "yellow",
+          "waypoints": [
+            {
+              "lat": -33.9694027027027,
+              "lon": 18.420720720720723
+            },
+            {
+              "lat": -70.77120450450451,
+              "lon": 11.709009009009009
+            }
+          ],
+          "isSafest": false,
+          "isFastest": true,
+          "isCheapest": false,
+          "distance_km": 4112.04,
+          "time_hours": 185.03,
+          "fuel_percent_vs_fastest": 100.0,
+          "risk_score": 40,
+          "distanceKm": 4112.04,
+          "timeDays": 7.7,
+          "fuelIndex": 2056,
+          "riskPercent": 40
+        },
+        {
+          "id": "fuel_efficient_20261028",
+          "type": "fuel_efficient",
+          "name": "Fuel Efficient",
+          "color": "orange",
+          "waypoints": [
+            {
+              "lat": -33.9694027027027,
+              "lon": 18.420720720720723
+            },
+            {
+              "lat": -70.77120450450451,
+              "lon": 11.709009009009009
+            }
+          ],
+          "isSafest": false,
+          "isFastest": false,
+          "isCheapest": true,
+          "distance_km": 4112.04,
+          "time_hours": 185.03,
+          "fuel_percent_vs_fastest": 88.0,
+          "risk_score": 25,
+          "distanceKm": 4112.04,
+          "timeDays": 7.7,
+          "fuelIndex": 2056,
+          "riskPercent": 25
+        }
+      ],
+      "risk": {
+        "level": "GREEN",
+        "distance_km": 28.5,
+        "nearest_iceberg": "A81",
+        "reasons": [
+          "Clear navigation - Nearest iceberg: 28.5 km",
+          "Low risk - Continue with standard monitoring"
+        ],
+        "timestamp": "2026-10-28T00:00:00"
+      },
+      "explanation": {
+        "route_id": "safest_20261028",
+        "route_type": "safest",
+        "summary": "This route maximizes distance from icebergs and ice fields.",
+        "reasons": [
+          "Maintains >15 km safety buffer from all predicted iceberg positions",
+          "Avoids areas with ice concentration >40%",
+          "Routes through well-monitored shipping lanes",
+          "Adds 8% distance but reduces collision risk by 85%"
+        ],
+        "trade_offs": {
+          "extra_distance_km": 12.4,
+          "extra_time_hours": 1.2,
+          "extra_fuel_percent": 8,
+          "risk_reduction_percent": 85
+        },
+        "confidence": "High",
+        "data_sources": [
+          "BYU Antarctic Iceberg Tracking Database (real positions)",
+          "Copernicus Marine Service ocean currents (monthly, Oct 2025 - Aug 2026)",
+          "Physics-based drift model with Monte Carlo uncertainty",
+          "SIMULATED ice concentration field (demo data)"
+        ]
+      },
+      "message": "Route initiated from Cape Town. Weather favorable. All systems nominal.",
+      "alert_sent": false
+    },
+    {
+      "id": 2,
+      "time": "T+24h Into Southern Ocean",
+      "title": "Into Southern Ocean",
+      "shipPosition": {
+        "lat": -50.2,
+        "lon": 25.5,
+        "time": "T+24h Into Southern Ocean"
+      },
+      "icebergs": [
+        {
+          "Iceberg": "A81",
+          "Lat": -48.5,
+          "Lon": 26.2,
+          "Length_km": 8.5,
+          "Width_km": 4.2,
+          "Area_km2": 35.7
+        },
+        {
+          "Iceberg": "A83",
+          "Lat": -52.8,
+          "Lon": 15.3,
+          "Length_km": 12.3,
+          "Width_km": 6.8,
+          "Area_km2": 83.6
+        }
+      ],
+      "routes": [
+        {
+          "id": "safest_20261029",
+          "type": "safest",
+          "name": "Safest",
+          "color": "green",
+          "waypoints": [
+            {
+              "lat": -33.9694027027027,
+              "lon": 18.420720720720723
+            },
+            {
+              "lat": -35.7712045045045,
+              "lon": 16.618918918918922
+            },
+            {
+              "lat": -37.57300630630631,
+              "lon": 14.817117117117121
+            },
+            {
+              "lat": -39.37480810810811,
+              "lon": 13.01531531531532
+            },
+            {
+              "lat": -41.176609909909914,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -42.978411711711715,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -44.780213513513516,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -46.58201531531532,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -48.38381711711712,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -50.18561891891892,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -51.98742072072072,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -53.78922252252252,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -55.59102432432432,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -57.392826126126124,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -59.194627927927925,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -60.996429729729726,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -62.798231531531535,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -64.60003333333333,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -66.40183513513513,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -68.20363693693693,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -70.77120450450451,
+              "lon": 11.709009009009009
+            }
+          ],
+          "isSafest": true,
+          "isFastest": false,
+          "isCheapest": false,
+          "distance_km": 4290.12,
+          "time_hours": 193.04,
+          "fuel_percent_vs_fastest": 108.0,
+          "risk_score": 15,
+          "distanceKm": 4290.12,
+          "timeDays": 8.0,
+          "fuelIndex": 2145,
+          "riskPercent": 15
+        },
+        {
+          "id": "fastest_20261029",
+          "type": "fastest",
+          "name": "Fastest",
+          "color": "yellow",
+          "waypoints": [
+            {
+              "lat": -33.9694027027027,
+              "lon": 18.420720720720723
+            },
+            {
+              "lat": -70.77120450450451,
+              "lon": 11.709009009009009
+            }
+          ],
+          "isSafest": false,
+          "isFastest": true,
+          "isCheapest": false,
+          "distance_km": 4112.04,
+          "time_hours": 185.03,
+          "fuel_percent_vs_fastest": 100.0,
+          "risk_score": 40,
+          "distanceKm": 4112.04,
+          "timeDays": 7.7,
+          "fuelIndex": 2056,
+          "riskPercent": 40
+        },
+        {
+          "id": "fuel_efficient_20261029",
+          "type": "fuel_efficient",
+          "name": "Fuel Efficient",
+          "color": "orange",
+          "waypoints": [
+            {
+              "lat": -33.9694027027027,
+              "lon": 18.420720720720723
+            },
+            {
+              "lat": -70.77120450450451,
+              "lon": 11.709009009009009
+            }
+          ],
+          "isSafest": false,
+          "isFastest": false,
+          "isCheapest": true,
+          "distance_km": 4112.04,
+          "time_hours": 185.03,
+          "fuel_percent_vs_fastest": 88.0,
+          "risk_score": 25,
+          "distanceKm": 4112.04,
+          "timeDays": 7.7,
+          "fuelIndex": 2056,
+          "riskPercent": 25
+        }
+      ],
+      "risk": {
+        "level": "YELLOW",
+        "distance_km": 18.2,
+        "nearest_iceberg": "A81",
+        "reasons": [
+          "Iceberg A81 drifting closer: 18.2 km",
+          "Moderate risk - Maintain awareness",
+          "Monitor drift trajectory"
+        ],
+        "timestamp": "2026-10-29T00:00:00"
+      },
+      "explanation": {
+        "route_id": "safest_20261029",
+        "route_type": "safest",
+        "summary": "This route maximizes distance from icebergs and ice fields.",
+        "reasons": [
+          "Maintains >15 km safety buffer from all predicted iceberg positions",
+          "Avoids areas with ice concentration >40%",
+          "Routes through well-monitored shipping lanes",
+          "Adds 8% distance but reduces collision risk by 85%"
+        ],
+        "trade_offs": {
+          "extra_distance_km": 12.4,
+          "extra_time_hours": 1.2,
+          "extra_fuel_percent": 8,
+          "risk_reduction_percent": 85
+        },
+        "confidence": "High",
+        "data_sources": [
+          "BYU Antarctic Iceberg Tracking Database (real positions)",
+          "Copernicus Marine Service ocean currents (monthly, Oct 2025 - Aug 2026)",
+          "Physics-based drift model with Monte Carlo uncertainty",
+          "SIMULATED ice concentration field (demo data)"
+        ]
+      },
+      "message": "24 hours into voyage. Iceberg A81 drifting toward route. Monitoring closely.",
+      "alert_sent": false
+    },
+    {
+      "id": 3,
+      "time": "T+48h New Iceberg Detected",
+      "title": "New Iceberg Near Route",
+      "shipPosition": {
+        "lat": -58.5,
+        "lon": 18.2,
+        "time": "T+48h New Iceberg Detected"
+      },
+      "icebergs": [
+        {
+          "Iceberg": "A81",
+          "Lat": -55.2,
+          "Lon": 20.1,
+          "Length_km": 8.5,
+          "Width_km": 4.2,
+          "Area_km2": 35.7
+        },
+        {
+          "Iceberg": "A83",
+          "Lat": -52.8,
+          "Lon": 15.3,
+          "Length_km": 12.3,
+          "Width_km": 6.8,
+          "Area_km2": 83.6
+        },
+        {
+          "Iceberg": "A85-NEW",
+          "Lat": -57.8,
+          "Lon": 18.5,
+          "Length_km": 15.2,
+          "Width_km": 8.1,
+          "Area_km2": 123.1
+        }
+      ],
+      "routes": [
+        {
+          "id": "safest_20261030",
+          "type": "safest",
+          "name": "Safest",
+          "color": "green",
+          "waypoints": [
+            {
+              "lat": -33.9694027027027,
+              "lon": 18.420720720720723
+            },
+            {
+              "lat": -35.7712045045045,
+              "lon": 16.618918918918922
+            },
+            {
+              "lat": -37.57300630630631,
+              "lon": 14.817117117117121
+            },
+            {
+              "lat": -39.37480810810811,
+              "lon": 13.01531531531532
+            },
+            {
+              "lat": -41.176609909909914,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -42.978411711711715,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -44.780213513513516,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -46.58201531531532,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -48.38381711711712,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -50.18561891891892,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -51.98742072072072,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -53.78922252252252,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -55.59102432432432,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -57.392826126126124,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -59.194627927927925,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -60.996429729729726,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -62.798231531531535,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -64.60003333333333,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -66.40183513513513,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -68.20363693693693,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -70.77120450450451,
+              "lon": 11.709009009009009
+            }
+          ],
+          "isSafest": true,
+          "isFastest": false,
+          "isCheapest": false,
+          "distance_km": 4290.12,
+          "time_hours": 193.04,
+          "fuel_percent_vs_fastest": 108.0,
+          "risk_score": 15,
+          "distanceKm": 4290.12,
+          "timeDays": 8.0,
+          "fuelIndex": 2145,
+          "riskPercent": 15
+        },
+        {
+          "id": "fastest_20261030",
+          "type": "fastest",
+          "name": "Fastest",
+          "color": "yellow",
+          "waypoints": [
+            {
+              "lat": -33.9694027027027,
+              "lon": 18.420720720720723
+            },
+            {
+              "lat": -70.77120450450451,
+              "lon": 11.709009009009009
+            }
+          ],
+          "isSafest": false,
+          "isFastest": true,
+          "isCheapest": false,
+          "distance_km": 4112.04,
+          "time_hours": 185.03,
+          "fuel_percent_vs_fastest": 100.0,
+          "risk_score": 40,
+          "distanceKm": 4112.04,
+          "timeDays": 7.7,
+          "fuelIndex": 2056,
+          "riskPercent": 40
+        },
+        {
+          "id": "fuel_efficient_20261030",
+          "type": "fuel_efficient",
+          "name": "Fuel Efficient",
+          "color": "orange",
+          "waypoints": [
+            {
+              "lat": -33.9694027027027,
+              "lon": 18.420720720720723
+            },
+            {
+              "lat": -70.77120450450451,
+              "lon": 11.709009009009009
+            }
+          ],
+          "isSafest": false,
+          "isFastest": false,
+          "isCheapest": true,
+          "distance_km": 4112.04,
+          "time_hours": 185.03,
+          "fuel_percent_vs_fastest": 88.0,
+          "risk_score": 25,
+          "distanceKm": 4112.04,
+          "timeDays": 7.7,
+          "fuelIndex": 2056,
+          "riskPercent": 25
+        }
+      ],
+      "risk": {
+        "level": "ORANGE",
+        "distance_km": 9.3,
+        "nearest_iceberg": "A85-NEW",
+        "reasons": [
+          "Iceberg A85-NEW within 10 km (distance: 9.3 km)",
+          "High risk - Monitor closely",
+          "Predicted drift cone blocks planned route",
+          "IMMEDIATE: Reroute recommended"
+        ],
+        "timestamp": "2026-10-30T00:00:00"
+      },
+      "explanation": {
+        "route_id": "safest_20261030",
+        "route_type": "safest",
+        "summary": "This route maximizes distance from icebergs and ice fields.",
+        "reasons": [
+          "Maintains >15 km safety buffer from all predicted iceberg positions",
+          "Avoids areas with ice concentration >40%",
+          "Routes through well-monitored shipping lanes",
+          "Adds 8% distance but reduces collision risk by 85%"
+        ],
+        "trade_offs": {
+          "extra_distance_km": 12.4,
+          "extra_time_hours": 1.2,
+          "extra_fuel_percent": 8,
+          "risk_reduction_percent": 85
+        },
+        "confidence": "High",
+        "data_sources": [
+          "BYU Antarctic Iceberg Tracking Database (real positions)",
+          "Copernicus Marine Service ocean currents (monthly, Oct 2025 - Aug 2026)",
+          "Physics-based drift model with Monte Carlo uncertainty",
+          "SIMULATED ice concentration field (demo data)"
+        ]
+      },
+      "message": "CRITICAL: New iceberg A85-NEW detected ahead. Risk RED. Drift model shows collision risk in 6 hours.",
+      "alert_sent": true
+    },
+    {
+      "id": 4,
+      "time": "T+60h Crisis Averted - Rerouted",
+      "title": "Crisis Averted - Rerouted",
+      "shipPosition": {
+        "lat": -62.0,
+        "lon": 15.5,
+        "time": "T+60h Crisis Averted - Rerouted"
+      },
+      "icebergs": [
+        {
+          "Iceberg": "A81",
+          "Lat": -58.5,
+          "Lon": 19.2,
+          "Length_km": 8.5,
+          "Width_km": 4.2,
+          "Area_km2": 35.7
+        },
+        {
+          "Iceberg": "A83",
+          "Lat": -52.8,
+          "Lon": 15.3,
+          "Length_km": 12.3,
+          "Width_km": 6.8,
+          "Area_km2": 83.6
+        },
+        {
+          "Iceberg": "A85-NEW",
+          "Lat": -59.1,
+          "Lon": 17.8,
+          "Length_km": 15.2,
+          "Width_km": 8.1,
+          "Area_km2": 123.1
+        }
+      ],
+      "routes": [
+        {
+          "id": "safest_20261031",
+          "type": "safest",
+          "name": "Safest",
+          "color": "green",
+          "waypoints": [
+            {
+              "lat": -33.9694027027027,
+              "lon": 18.420720720720723
+            },
+            {
+              "lat": -35.7712045045045,
+              "lon": 16.618918918918922
+            },
+            {
+              "lat": -37.57300630630631,
+              "lon": 14.817117117117121
+            },
+            {
+              "lat": -39.37480810810811,
+              "lon": 13.01531531531532
+            },
+            {
+              "lat": -41.176609909909914,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -42.978411711711715,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -44.780213513513516,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -46.58201531531532,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -48.38381711711712,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -50.18561891891892,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -51.98742072072072,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -53.78922252252252,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -55.59102432432432,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -57.392826126126124,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -59.194627927927925,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -60.996429729729726,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -62.798231531531535,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -64.60003333333333,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -66.40183513513513,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -68.20363693693693,
+              "lon": 11.709009009009009
+            },
+            {
+              "lat": -70.77120450450451,
+              "lon": 11.709009009009009
+            }
+          ],
+          "isSafest": true,
+          "isFastest": false,
+          "isCheapest": false,
+          "distance_km": 4290.12,
+          "time_hours": 193.04,
+          "fuel_percent_vs_fastest": 108.0,
+          "risk_score": 15,
+          "distanceKm": 4290.12,
+          "timeDays": 8.0,
+          "fuelIndex": 2145,
+          "riskPercent": 15
+        },
+        {
+          "id": "fastest_20261031",
+          "type": "fastest",
+          "name": "Fastest",
+          "color": "yellow",
+          "waypoints": [
+            {
+              "lat": -33.9694027027027,
+              "lon": 18.420720720720723
+            },
+            {
+              "lat": -70.77120450450451,
+              "lon": 11.709009009009009
+            }
+          ],
+          "isSafest": false,
+          "isFastest": true,
+          "isCheapest": false,
+          "distance_km": 4112.04,
+          "time_hours": 185.03,
+          "fuel_percent_vs_fastest": 100.0,
+          "risk_score": 40,
+          "distanceKm": 4112.04,
+          "timeDays": 7.7,
+          "fuelIndex": 2056,
+          "riskPercent": 40
+        },
+        {
+          "id": "fuel_efficient_20261031",
+          "type": "fuel_efficient",
+          "name": "Fuel Efficient",
+          "color": "orange",
+          "waypoints": [
+            {
+              "lat": -33.9694027027027,
+              "lon": 18.420720720720723
+            },
+            {
+              "lat": -70.77120450450451,
+              "lon": 11.709009009009009
+            }
+          ],
+          "isSafest": false,
+          "isFastest": false,
+          "isCheapest": true,
+          "distance_km": 4112.04,
+          "time_hours": 185.03,
+          "fuel_percent_vs_fastest": 88.0,
+          "risk_score": 25,
+          "distanceKm": 4112.04,
+          "timeDays": 7.7,
+          "fuelIndex": 2056,
+          "riskPercent": 25
+        }
+      ],
+      "risk": {
+        "level": "RED",
+        "distance_km": 22.1,
+        "nearest_iceberg": "A81",
+        "reasons": [
+          "Successfully rerouted to safer corridor",
+          "Clear navigation - Nearest iceberg: 22.1 km",
+          "Low risk - Route adds 12 km but maintains safety buffer"
+        ],
+        "timestamp": "2026-10-31T00:00:00"
+      },
+      "explanation": {
+        "route_id": "safest_20261031",
+        "route_type": "safest",
+        "summary": "This route maximizes distance from icebergs and ice fields.",
+        "reasons": [
+          "Maintains >15 km safety buffer from all predicted iceberg positions",
+          "Avoids areas with ice concentration >40%",
+          "Routes through well-monitored shipping lanes",
+          "Adds 8% distance but reduces collision risk by 85%"
+        ],
+        "trade_offs": {
+          "extra_distance_km": 12.4,
+          "extra_time_hours": 1.2,
+          "extra_fuel_percent": 8,
+          "risk_reduction_percent": 85
+        },
+        "confidence": "High",
+        "data_sources": [
+          "BYU Antarctic Iceberg Tracking Database (real positions)",
+          "Copernicus Marine Service ocean currents (monthly, Oct 2025 - Aug 2026)",
+          "Physics-based drift model with Monte Carlo uncertainty",
+          "SIMULATED ice concentration field (demo data)"
+        ]
+      },
+      "message": "Successfully rerouted to eastern corridor. Risk reduced to GREEN. ETA adjusted +1.5 hours. Crisis averted.",
+      "alert_sent": false
+    }
+  ]
+}
