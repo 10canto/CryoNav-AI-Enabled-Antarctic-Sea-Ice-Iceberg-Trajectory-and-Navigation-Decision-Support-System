@@ -89,3 +89,9 @@ coverage/
 # Large ocean current yearly JSON files (too big for GitHub)
 iceberg-trajectory-ml/data/ocean_currents_yearly/
 iceberg-trajectory-ml/data/ocean_currents_yearly/*.json
+
+.env
+*.nc
+credentials*
+.copernicusmarine*
+.cdsapirc
