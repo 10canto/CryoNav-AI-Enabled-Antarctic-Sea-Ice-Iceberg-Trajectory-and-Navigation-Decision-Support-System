@@ -73,6 +73,9 @@ Thumbs.db
 # Large data files
 DATA/consolidated_database_v8.0/
 ICEBERG_TRAJECTORY_PREDICTION/
+data/sic/
+data/sic/
+data/sic/
 
 # Test files
 *.test.js
