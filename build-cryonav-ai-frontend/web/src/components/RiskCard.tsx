@@ -1,5 +1,6 @@
 import { currentStep, useStore } from '../store/useStore';
 import type { RiskLevel } from '../domain/types';
+import { levelFromScore } from '../utils/risk';
 
 const SeverityMeter = ({ level }: { level: RiskLevel }) => {
   const segments = ['GREEN', 'YELLOW', 'ORANGE', 'RED'];
@@ -30,6 +31,10 @@ export function RiskCard() {
   // Show original plan risk if it differs from selected
   const showOriginal = originalRoute && selectedRoute && originalRoute.id !== selectedRoute.id;
 
+  // Compute risk levels from scores
+  const selectedLevel = selectedRoute ? levelFromScore(selectedRoute.risk_score) : 'GREEN';
+  const originalLevel = originalRoute ? levelFromScore(originalRoute.risk_score) : 'GREEN';
+
   return (
     <div className="risk-card">
       <h2>Risk Assessment</h2>
@@ -37,20 +42,28 @@ export function RiskCard() {
       {showOriginal && (
         <div className="risk-row">
           <span className="risk-label">Original plan:</span>
-          <div className={`risk-badge ${originalRoute.risk_level}`}>
-            <span>{originalRoute.risk_level}</span>
-            <SeverityMeter level={originalRoute.risk_level} />
+          <div className={`risk-badge ${originalLevel}`}>
+            <span>{originalLevel}</span>
+            <SeverityMeter level={originalLevel} />
           </div>
         </div>
       )}
       
       <div className="risk-row">
         <span className="risk-label">Selected route:</span>
-        <div className={`risk-badge ${selectedRoute?.risk_level || 'GREEN'}`}>
-          <span>{selectedRoute?.risk_level || 'GREEN'}</span>
-          <SeverityMeter level={selectedRoute?.risk_level || 'GREEN'} />
+        <div className={`risk-badge ${selectedLevel}`}>
+          <span>{selectedLevel}</span>
+          <SeverityMeter level={selectedLevel} />
         </div>
       </div>
+      
+      {selectedRoute && selectedRoute.reasons && selectedRoute.reasons.length > 0 && (
+        <div style={{ marginTop: '12px', fontSize: '12px', color: 'var(--text-muted)' }}>
+          {selectedRoute.reasons.map((reason, i) => (
+            <div key={i} style={{ marginBottom: '4px' }}>• {reason}</div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

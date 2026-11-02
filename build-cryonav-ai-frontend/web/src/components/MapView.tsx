@@ -12,7 +12,30 @@ export function MapView() {
   useEffect(() => {
     const c = new MapController(el.current!, useStore);
     MapController.current = c;
+    
+    // Ensure map renders at correct size
+    requestAnimationFrame(() => {
+      c.map.invalidateSize();
+      
+      // Dev check: log map container height
+      if (import.meta.env.DEV) {
+        const height = el.current?.clientHeight || 0;
+        if (height < 300) {
+          console.warn(`[MapView] Map container height is ${height}px (< 300px). Layout may be broken.`);
+        } else {
+          console.log(`[MapView] Map container height: ${height}px`);
+        }
+      }
+    });
+    
+    // Re-invalidate on window resize
+    const handleResize = () => {
+      c.map.invalidateSize();
+    };
+    window.addEventListener('resize', handleResize);
+    
     return () => {
+      window.removeEventListener('resize', handleResize);
       c.destroy();
       if (MapController.current === c) MapController.current = null;
     };

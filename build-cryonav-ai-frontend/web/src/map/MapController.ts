@@ -133,10 +133,10 @@ export class MapController {
         interactive: false,
         style: (feature) => {
           // Detect Antarctica: check if max latitude < -60
-          const coords = feature?.geometry?.coordinates;
-          if (coords) {
+          const geom = feature?.geometry;
+          if (geom && 'coordinates' in geom) {
             let maxLat = -90;
-            const checkCoords = (arr: any) => {
+            const checkCoords = (arr: any): void => {
               if (Array.isArray(arr[0])) {
                 arr.forEach(checkCoords);
               } else {
@@ -144,7 +144,7 @@ export class MapController {
                 maxLat = Math.max(maxLat, arr[1]);
               }
             };
-            checkCoords(coords);
+            checkCoords(geom.coordinates);
             
             if (maxLat < -60) {
               // Antarctica: no outline
@@ -205,7 +205,7 @@ export class MapController {
       const m = L.marker(ll(p.pos), {
         icon: L.divIcon({
           className: 'port-marker',
-          html: `<div style="width:10px;height:10px;background:${tokens.lineStrong};border:2px solid white;box-shadow:${tokens.shadow}"></div>`,
+          html: `<div style="width:10px;height:10px;background:${tokens.lineStrong};border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.25)"></div>`,
           iconSize: [14, 14],
           iconAnchor: [7, 7],
         }),
@@ -371,7 +371,6 @@ export class MapController {
 
   private routeLabels = new Map<string, L.Marker>();
   private routeCasings = new Map<string, L.Polyline>();
-  private blockedMarkers = new Map<string, L.Marker>();
 
   private syncRoutes(routes: Route[], selectedId: string | null) {
     const tokens = readTokens();
@@ -408,21 +407,6 @@ export class MapController {
           interactive: false
         }).addTo(this.routeGroup);
         this.routeLabels.set(r.id, label);
-        
-        // Add blocked marker if blocked
-        if (r.blocked) {
-          const lastPoint = latlngs[latlngs.length - 1];
-          const blockedMarker = L.marker(lastPoint, {
-            icon: L.divIcon({
-              className: 'blocked-marker',
-              html: '<div style="width:20px;height:20px;line-height:20px;text-align:center;font-weight:bold;color:' + tokens.accentCritical + ';font-size:18px;">×</div>',
-              iconSize: [20, 20],
-              iconAnchor: [10, 10],
-            }),
-            interactive: false,
-          }).addTo(this.routeGroup);
-          this.blockedMarkers.set(r.id, blockedMarker);
-        }
       } else {
         if (have.sig !== sig) {
           have.line.setLatLngs(latlngs);
@@ -435,31 +419,6 @@ export class MapController {
           if (label) {
             const mid = Math.floor(latlngs.length / 2);
             label.setLatLng(latlngs[mid]);
-          }
-          // Update blocked marker
-          if (r.blocked) {
-            const lastPoint = latlngs[latlngs.length - 1];
-            let blockedMarker = this.blockedMarkers.get(r.id);
-            if (!blockedMarker) {
-              blockedMarker = L.marker(lastPoint, {
-                icon: L.divIcon({
-                  className: 'blocked-marker',
-                  html: '<div style="width:20px;height:20px;line-height:20px;text-align:center;font-weight:bold;color:' + tokens.accentCritical + ';font-size:18px;">×</div>',
-                  iconSize: [20, 20],
-                  iconAnchor: [10, 10],
-                }),
-                interactive: false,
-              }).addTo(this.routeGroup);
-              this.blockedMarkers.set(r.id, blockedMarker);
-            } else {
-              blockedMarker.setLatLng(lastPoint);
-            }
-          } else {
-            const blockedMarker = this.blockedMarkers.get(r.id);
-            if (blockedMarker) {
-              this.routeGroup.removeLayer(blockedMarker);
-              this.blockedMarkers.delete(r.id);
-            }
           }
         }
         have.line.setTooltipContent(r.name);
@@ -478,11 +437,6 @@ export class MapController {
         if (label) {
           this.routeGroup.removeLayer(label);
           this.routeLabels.delete(id);
-        }
-        const blockedMarker = this.blockedMarkers.get(id);
-        if (blockedMarker) {
-          this.routeGroup.removeLayer(blockedMarker);
-          this.blockedMarkers.delete(id);
         }
       }
     }
