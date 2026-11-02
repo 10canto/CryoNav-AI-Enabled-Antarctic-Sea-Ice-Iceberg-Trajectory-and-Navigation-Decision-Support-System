@@ -4,6 +4,7 @@ import { createClusterGroup } from './leafletCluster';
 import type { Iceberg, Route, Step } from '../domain/types';
 import { currentStep, type AppState, type useStore } from '../store/useStore';
 import { PORTS } from './ports';
+import { readTokens } from '../theme/tokens';
 
 type Store = typeof useStore;
 type IcebergLayer = L.LayerGroup | L.MarkerClusterGroup;
@@ -31,7 +32,8 @@ export class MapController {
   private destroyed = false;
 
   private landLayer: L.GeoJSON | null = null;
-  private portLayers = new Map<string, L.CircleMarker>();
+  private portLayers = new Map<string, L.Marker>();
+  private oceanLabels: L.Marker[] = [];
 
   private routeGroup = L.layerGroup();
   private routeLines = new Map<string, { line: L.Polyline; sig: string }>();
@@ -97,6 +99,7 @@ export class MapController {
     this.map.on('click', () => this.store.getState().selectIceberg(null));
 
     void this.loadLand();
+    this.addMapLabels();
     this.unsub = this.store.subscribe((s, p) => this.sync(s, p));
     this.sync(this.store.getState(), null);
   }
@@ -125,9 +128,32 @@ export class MapController {
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
       const gj = await r.json();
       if (this.destroyed) return;
+      const tokens = readTokens();
       this.landLayer = L.geoJSON(gj, {
         interactive: false,
-        style: { color: '#4a6a94', weight: 1, fillColor: '#1d3558', fillOpacity: 1 },
+        style: (feature) => {
+          // Detect Antarctica: check if max latitude < -60
+          const coords = feature?.geometry?.coordinates;
+          if (coords) {
+            let maxLat = -90;
+            const checkCoords = (arr: any) => {
+              if (Array.isArray(arr[0])) {
+                arr.forEach(checkCoords);
+              } else {
+                // arr is [lon, lat]
+                maxLat = Math.max(maxLat, arr[1]);
+              }
+            };
+            checkCoords(coords);
+            
+            if (maxLat < -60) {
+              // Antarctica: no outline
+              return { fillColor: tokens.antarctica, fillOpacity: 1, weight: 0, stroke: false };
+            }
+          }
+          // Other land: with outline
+          return { fillColor: tokens.land, fillOpacity: 1, color: tokens.landOutline, weight: 1 };
+        },
       }).addTo(this.map);
       this.landLayer.bringToBack();
     } catch (e) {
@@ -135,14 +161,55 @@ export class MapController {
     }
   }
 
+  private addMapLabels() {
+    const labels = [
+      { text: 'Southern Ocean', pos: [-55, 10] as L.LatLngTuple, className: 'ocean-label' },
+      { text: 'South Atlantic Ocean', pos: [-45, -10] as L.LatLngTuple, className: 'ocean-label' },
+      { text: 'Indian Ocean', pos: [-50, 50] as L.LatLngTuple, className: 'ocean-label' },
+      { text: 'South Africa', pos: [-29, 25] as L.LatLngTuple, className: 'place-label' },
+      { text: 'ANTARCTICA', pos: [-75, 20] as L.LatLngTuple, className: 'antarctica-label' },
+    ];
+    
+    for (const label of labels) {
+      const marker = L.marker(label.pos, {
+        icon: L.divIcon({
+          className: label.className,
+          html: `<span>${label.text}</span>`,
+          iconSize: [0, 0],
+        }),
+        interactive: false,
+      }).addTo(this.map);
+      this.oceanLabels.push(marker);
+    }
+    
+    // Hide ocean labels when zoomed in
+    this.map.on('zoomend', () => {
+      const zoom = this.map.getZoom();
+      this.oceanLabels.forEach((marker, idx) => {
+        // Hide ocean labels (first 3) when zoom > 4
+        if (idx < 3) {
+          if (zoom > 4) {
+            marker.setOpacity(0);
+          } else {
+            marker.setOpacity(1);
+          }
+        }
+      });
+    });
+  }
+
   private addPorts() {
+    const tokens = readTokens();
     for (const p of PORTS) {
-      const m = L.circleMarker(ll(p.pos), {
-        radius: 7,
-        color: '#0a1428',
-        weight: 2,
-        fillColor: p.color,
-        fillOpacity: 1,
+      // Black square markers with white outline
+      const m = L.marker(ll(p.pos), {
+        icon: L.divIcon({
+          className: 'port-marker',
+          html: `<div style="width:10px;height:10px;background:${tokens.lineStrong};border:2px solid white;box-shadow:${tokens.shadow}"></div>`,
+          iconSize: [14, 14],
+          iconAnchor: [7, 7],
+        }),
+        keyboard: false,
       })
         .bindTooltip(p.name, { permanent: true, direction: p.tooltipDir, className: 'port-label', offset: p.tooltipDir === 'left' ? [-8, 0] : [8, 0] })
         .bindPopup(`<strong>${p.name}</strong><br/>${p.note}`)
@@ -152,7 +219,7 @@ export class MapController {
     const edge = PORTS.find((p) => p.id === 'ice-edge')!;
     const maitri = PORTS.find((p) => p.id === 'maitri')!;
     L.polyline([ll(edge.pos), ll(maitri.pos)], {
-      color: '#f78fb3',
+      color: tokens.lineMid,
       weight: 2,
       dashArray: '4 6',
       interactive: false,
@@ -302,7 +369,12 @@ export class MapController {
 
   // ---------------------------------------------------------------- routes
 
+  private routeLabels = new Map<string, L.Marker>();
+  private routeCasings = new Map<string, L.Polyline>();
+  private blockedMarkers = new Map<string, L.Marker>();
+
   private syncRoutes(routes: Route[], selectedId: string | null) {
+    const tokens = readTokens();
     const seen = new Set<string>();
     for (const r of routes) {
       seen.add(r.id);
@@ -310,7 +382,13 @@ export class MapController {
       const sig = latlngs.map((p) => p.join(',')).join(';');
       const have = this.routeLines.get(r.id);
       if (!have) {
-        const line = L.polyline(latlngs, { color: r.color, weight: 3, opacity: 0.6, lineJoin: 'round' })
+        // White casing line (drawn first, underneath)
+        const casing = L.polyline(latlngs, { color: 'white', weight: 7, opacity: 1, lineJoin: 'round', interactive: false })
+          .addTo(this.routeGroup);
+        this.routeCasings.set(r.id, casing);
+        
+        // Colored line on top
+        const line = L.polyline(latlngs, { color: tokens.lineStrong, weight: 4, opacity: 1, lineJoin: 'round' })
           .bindTooltip(r.name, { sticky: true })
           .on('click', (ev) => {
             L.DomEvent.stopPropagation(ev);
@@ -318,12 +396,72 @@ export class MapController {
           })
           .addTo(this.routeGroup);
         this.routeLines.set(r.id, { line, sig });
+        
+        // Add route label pill at midpoint
+        const mid = Math.floor(latlngs.length / 2);
+        const label = L.marker(latlngs[mid], {
+          icon: L.divIcon({
+            className: 'route-label-pill',
+            html: `<span>${r.name}</span>`,
+            iconSize: [0, 0]
+          }),
+          interactive: false
+        }).addTo(this.routeGroup);
+        this.routeLabels.set(r.id, label);
+        
+        // Add blocked marker if blocked
+        if (r.blocked) {
+          const lastPoint = latlngs[latlngs.length - 1];
+          const blockedMarker = L.marker(lastPoint, {
+            icon: L.divIcon({
+              className: 'blocked-marker',
+              html: '<div style="width:20px;height:20px;line-height:20px;text-align:center;font-weight:bold;color:' + tokens.accentCritical + ';font-size:18px;">×</div>',
+              iconSize: [20, 20],
+              iconAnchor: [10, 10],
+            }),
+            interactive: false,
+          }).addTo(this.routeGroup);
+          this.blockedMarkers.set(r.id, blockedMarker);
+        }
       } else {
         if (have.sig !== sig) {
           have.line.setLatLngs(latlngs);
           have.sig = sig;
+          // Update casing
+          const casing = this.routeCasings.get(r.id);
+          if (casing) casing.setLatLngs(latlngs);
+          // Update label position
+          const label = this.routeLabels.get(r.id);
+          if (label) {
+            const mid = Math.floor(latlngs.length / 2);
+            label.setLatLng(latlngs[mid]);
+          }
+          // Update blocked marker
+          if (r.blocked) {
+            const lastPoint = latlngs[latlngs.length - 1];
+            let blockedMarker = this.blockedMarkers.get(r.id);
+            if (!blockedMarker) {
+              blockedMarker = L.marker(lastPoint, {
+                icon: L.divIcon({
+                  className: 'blocked-marker',
+                  html: '<div style="width:20px;height:20px;line-height:20px;text-align:center;font-weight:bold;color:' + tokens.accentCritical + ';font-size:18px;">×</div>',
+                  iconSize: [20, 20],
+                  iconAnchor: [10, 10],
+                }),
+                interactive: false,
+              }).addTo(this.routeGroup);
+              this.blockedMarkers.set(r.id, blockedMarker);
+            } else {
+              blockedMarker.setLatLng(lastPoint);
+            }
+          } else {
+            const blockedMarker = this.blockedMarkers.get(r.id);
+            if (blockedMarker) {
+              this.routeGroup.removeLayer(blockedMarker);
+              this.blockedMarkers.delete(r.id);
+            }
+          }
         }
-        have.line.setStyle({ color: r.color });
         have.line.setTooltipContent(r.name);
       }
     }
@@ -331,6 +469,21 @@ export class MapController {
       if (!seen.has(id)) {
         this.routeGroup.removeLayer(v.line);
         this.routeLines.delete(id);
+        const casing = this.routeCasings.get(id);
+        if (casing) {
+          this.routeGroup.removeLayer(casing);
+          this.routeCasings.delete(id);
+        }
+        const label = this.routeLabels.get(id);
+        if (label) {
+          this.routeGroup.removeLayer(label);
+          this.routeLabels.delete(id);
+        }
+        const blockedMarker = this.blockedMarkers.get(id);
+        if (blockedMarker) {
+          this.routeGroup.removeLayer(blockedMarker);
+          this.blockedMarkers.delete(id);
+        }
       }
     }
     this.currentRoutes = routes;
@@ -340,15 +493,42 @@ export class MapController {
   private currentRoutes: Route[] = [];
 
   private styleRoutes(selectedId: string | null) {
-    for (const r of this.currentRoutes) {
+    const tokens = readTokens();
+    const routeStyles = [
+      { color: tokens.lineStrong, dash: undefined },     // solid
+      { color: tokens.lineMid, dash: '8 6' },            // dashed
+      { color: tokens.lineSoft, dash: '2 6' }            // dotted
+    ];
+    
+    for (let i = 0; i < this.currentRoutes.length; i++) {
+      const r = this.currentRoutes[i];
       const v = this.routeLines.get(r.id);
+      const casing = this.routeCasings.get(r.id);
       if (!v) continue;
       const sel = r.id === selectedId;
-      v.line.setStyle({ weight: sel ? 5 : 3, opacity: sel ? 1 : 0.55, dashArray: sel ? undefined : '8 6' });
+      const style = sel ? routeStyles[0] : routeStyles[(i % 2) + 1];
+      
+      // Update colored line
+      v.line.setStyle({ 
+        weight: sel ? 4 : 2, 
+        opacity: 1, 
+        color: style.color,
+        dashArray: sel ? undefined : style.dash
+      });
+      
+      // Update casing (always white, adjust width)
+      if (casing) {
+        casing.setStyle({
+          weight: sel ? 7 : 5,
+          opacity: 1,
+        });
+      }
+      
       if (sel) {
         v.line.bringToFront();
+        if (casing) casing.bringToBack();
         this.halo.setLatLngs(v.line.getLatLngs() as L.LatLng[]);
-        this.halo.setStyle({ color: r.color });
+        this.halo.setStyle({ color: 'white', opacity: 0.15 });
       }
     }
     if (!this.currentRoutes.some((r) => r.id === selectedId)) this.halo.setLatLngs([]);
@@ -363,6 +543,7 @@ export class MapController {
   }
 
   private syncIcebergs(list: Iceberg[]) {
+    const tokens = readTokens();
     const wantCluster = list.length > CLUSTER_THRESHOLD;
     if (wantCluster !== this.clustered) {
       // container type flips: rebuild markers into the new container
@@ -382,10 +563,10 @@ export class MapController {
       if (!have) {
         const m = L.circleMarker(ll(b), {
           radius,
-          color: '#e8f6ff',
-          weight: 1.5,
-          fillColor: '#8fd3ff',
-          fillOpacity: 0.85,
+          color: tokens.lineMid,
+          weight: 2,
+          fillColor: tokens.textOnDark,
+          fillOpacity: 1,
           bubblingMouseEvents: false,
         })
           .bindPopup(() => this.popupFor(b.id), { closeButton: true })
@@ -407,9 +588,15 @@ export class MapController {
   }
 
   private styleIcebergs(selectedId: string | null) {
+    const tokens = readTokens();
     for (const [id, m] of this.icebergMarkers) {
       const sel = id === selectedId;
-      m.setStyle({ color: sel ? '#ffffff' : '#e8f6ff', weight: sel ? 3 : 1.5, fillColor: sel ? '#4cc9f0' : '#8fd3ff' });
+      m.setStyle({ 
+        color: sel ? tokens.lineStrong : tokens.lineMid, 
+        weight: sel ? 3 : 2, 
+        fillColor: tokens.textOnDark,
+        fillOpacity: 1
+      });
       if (sel) m.bringToFront();
     }
   }
@@ -437,29 +624,35 @@ export class MapController {
   // ---------------------------------------------------------------- drift
 
   private drawDrift(step: Step, icebergId: string | null) {
+    const tokens = readTokens();
     const wanted = new Map<string, () => L.Path | L.CircleMarker>();
     const b = icebergId ? step.icebergs.find((x) => x.id === icebergId) : undefined;
     if (b && b.drift_path.length) {
       const pts = [...b.drift_path].sort((x, y) => x.hours - y.hours);
       wanted.set(`${b.id}:path`, () =>
-        L.polyline([ll(b), ...pts.map(ll)], { color: '#4cc9f0', weight: 2.5, dashArray: '6 5', interactive: false }),
+        L.polyline([ll(b), ...pts.map(ll)], { color: tokens.lineMid, weight: 2.5, dashArray: '6 5', interactive: false }),
       );
       // one uncertainty circle per 24 / 48 / 72 h (nearest available point if the backend uses other hours)
       const marks = new Set(DRIFT_HOURS.map((h) => pts.reduce((best, q) => (Math.abs(q.hours - h) < Math.abs(best.hours - h) ? q : best), pts[0])));
       for (const pt of marks) {
         const hasRadius = pt.uncertainty_radius_km > 0;
-        if (hasRadius) wanted.set(`${b.id}:circle:${pt.hours}`, () =>
-          L.circle(ll(pt), {
-            radius: pt.uncertainty_radius_km * 1000,
-            color: '#4cc9f0',
-            weight: 1.5,
-            fillColor: '#4cc9f0',
-            fillOpacity: 0.12 + (pt.hours / 72) * 0.06,
-            interactive: false,
-          }).bindTooltip(`+${pt.hours} h, uncertainty radius ${pt.uncertainty_radius_km} km`, { sticky: true }),
-        );
+        if (hasRadius) {
+          // Opacity based on hours: 24h=6%, 48h=10%, 72h=14%
+          const opacityMap: Record<number, number> = { 24: 0.06, 48: 0.10, 72: 0.14 };
+          const opacity = opacityMap[pt.hours] || 0.10;
+          wanted.set(`${b.id}:circle:${pt.hours}`, () =>
+            L.circle(ll(pt), {
+              radius: pt.uncertainty_radius_km * 1000,
+              color: tokens.lineMid,
+              weight: 1.5,
+              fillColor: 'white',
+              fillOpacity: opacity,
+              interactive: false,
+            }).bindTooltip(`+${pt.hours} h, uncertainty radius ${pt.uncertainty_radius_km} km`, { sticky: true }),
+          );
+        }
         wanted.set(`${b.id}:dot:${pt.hours}`, () =>
-          L.circleMarker(ll(pt), { radius: 3, color: '#4cc9f0', fillColor: '#fff', fillOpacity: 1, weight: 1.5 }).bindTooltip(`+${pt.hours} h`, {
+          L.circleMarker(ll(pt), { radius: 3, color: tokens.lineMid, fillColor: tokens.textOnDark, fillOpacity: 1, weight: 1.5 }).bindTooltip(`+${pt.hours} h`, {
             permanent: true,
             direction: 'top',
             className: 'drift-label',
@@ -487,15 +680,17 @@ export class MapController {
   // ---------------------------------------------------------------- predicted crossing marker
 
   private syncPredictedCrossing(step: Step) {
+    const tokens = readTokens();
     const crossing = (step as any).predicted_crossing;
     if (crossing && crossing.lat && crossing.lon && crossing.label) {
       if (!this.predictionMarker) {
         this.predictionMarker = L.circleMarker([crossing.lat, crossing.lon], {
           radius: 10,
-          color: '#da3633',
-          weight: 3,
-          fillColor: '#da3633',
-          fillOpacity: 0.3,
+          color: tokens.lineMid,
+          weight: 2,
+          dashArray: '4 4',
+          fillColor: 'transparent',
+          fillOpacity: 0,
         })
           .bindTooltip(crossing.label, { permanent: true, direction: 'top', className: 'prediction-label', offset: [0, -12] })
           .addTo(this.map);
