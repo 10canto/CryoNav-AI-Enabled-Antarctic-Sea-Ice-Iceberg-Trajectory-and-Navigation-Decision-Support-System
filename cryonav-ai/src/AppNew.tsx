@@ -6,6 +6,8 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { AppStoreProvider, useAppStore } from './store/AppStore';
 import { apiClient } from './api/client';
 import { loadOfflineCache, getCachedIcebergs, getCachedRoutes, getCachedRisk, getCachedExplanation, getCachedPrediction, hasCachedData } from './api/offlineCache';
+import { startNetworkMonitoring } from './utils/networkMonitor';
+import { fetchOnce } from './utils/resourceCache';
 import { MapView } from './components/Map/MapView';
 import { RiskCard } from './components/RiskCard';
 import { ExplainPanel } from './components/ExplainPanel';
@@ -37,12 +39,28 @@ const AppContent: React.FC = () => {
   const [currentDemoStep, setCurrentDemoStep] = useState(0);
   const [backendOnline, setBackendOnline] = useState(true);
   const [offlineMode, setOfflineMode] = useState(false);
+  const [showDevOverlay, setShowDevOverlay] = useState(false);
+  const [routePulse, setRoutePulse] = useState(false);
 
   // Load offline cache and demo scenario on mount
   useEffect(() => {
+    // Start network monitoring in dev mode
+    if (import.meta.env.DEV) {
+      startNetworkMonitoring();
+    }
+    
     loadOfflineCache();
     loadDemoScenario();
     checkBackendHealth();
+    
+    // D key to toggle dev overlay (dev mode only)
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (import.meta.env.DEV && e.key === 'd' && !e.ctrlKey && !e.metaKey) {
+        setShowDevOverlay(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
   }, []);
 
   const checkBackendHealth = async () => {
@@ -58,12 +76,10 @@ const AppContent: React.FC = () => {
 
   const loadDemoScenario = async () => {
     try {
-      const response = await fetch('/demo/scenario.json');
-      if (response.ok) {
-        const data = await response.json();
-        setDemoScenario(data);
-        console.log('[Demo] Scenario loaded:', data.steps?.length, 'steps');
-      }
+      // Use cached fetch to prevent repeated requests
+      const data = await fetchOnce('/demo/scenario.json');
+      setDemoScenario(data);
+      console.log('[Demo] Scenario loaded:', data.steps?.length, 'steps');
     } catch (error) {
       console.warn('[Demo] Scenario not available');
     }
@@ -188,6 +204,10 @@ const AppContent: React.FC = () => {
       // Still mark as sent in demo mode
       store.setAlertSent(true);
     }
+    
+    // Trigger route pulse after alert acknowledged
+    setRoutePulse(true);
+    setTimeout(() => setRoutePulse(false), 1000);
   };
 
   // Demo mode handlers
@@ -263,6 +283,9 @@ const AppContent: React.FC = () => {
             routes={store.routes}
             selectedRoute={store.selectedRoute}
             shipPosition={shipPosition}
+            shipTrail={demoMode && store.demoStep ? store.demoStep.ship_trail || [] : []}
+            demoStep={currentDemoStep}
+            routePulse={routePulse}
             onIcebergClick={handleIcebergClick}
             onRouteSelect={handleRouteSelect}
           />
@@ -326,51 +349,59 @@ const AppContent: React.FC = () => {
           </div>
         </div>
 
-        {/* Right sidebar - 30% width */}
+        {/* Right sidebar - 30% width with sticky risk card */}
         <div className="sidebar-container">
-          <div className="panel-section">
+          {/* Sticky Risk Card */}
+          <div className="panel-section sticky-risk">
             <RiskCard
               risk={store.riskAssessment}
               loading={store.loading.risk}
             />
           </div>
 
-          <div className="panel-section">
-            <ExplainPanel routeId={store.selectedRoute} />
-          </div>
-
-          {/* Route stats table */}
-          {store.routes.length > 0 && (
-            <div className="panel-section routes-panel">
-              <h3 className="panel-title">Route Options</h3>
-              <div className="routes-table">
-                {store.routes.map(route => (
-                  <div
-                    key={route.id}
-                    className={`route-row ${store.selectedRoute === route.id ? 'selected' : ''}`}
-                    onClick={() => handleRouteSelect(route.id)}
-                  >
-                    <div className="route-color" style={{ backgroundColor: route.color }} />
-                    <div className="route-info">
-                      <div className="route-name">{route.type.replace('_', ' ').toUpperCase()}</div>
-                      <div className="route-stats">
-                        <span>{route.distanceKm.toFixed(0)} km</span>
-                        <span>{route.timeDays.toFixed(1)} days</span>
-                        <span>Fuel: {route.fuelIndex}</span>
-                        <span className="risk-badge">{route.riskPercent}% risk</span>
+          {/* Scrollable content */}
+          <div className="sidebar-scrollable">
+            {/* Route stats table */}
+            {store.routes.length > 0 && (
+              <div className="panel-section routes-panel">
+                <h3 className="panel-title">Selected Route</h3>
+                <div className="routes-table">
+                  {store.routes.filter(r => r.id === store.selectedRoute).map(route => (
+                    <div key={route.id} className="route-row selected">
+                      <div className="route-color" style={{ backgroundColor: route.color }} />
+                      <div className="route-info">
+                        <div className="route-name">{route.type.replace('_', ' ').toUpperCase()}</div>
+                        <div className="route-stats">
+                          <span>{route.distanceKm.toFixed(0)} km</span>
+                          <span>{route.timeDays.toFixed(1)} days</span>
+                          <span>Fuel: {route.fuelIndex}</span>
+                          <span className="risk-badge">{route.riskPercent}% risk</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {!demoMode && (
-            <div className="panel-section">
-              <WhatIfPanel />
-            </div>
-          )}
+            {/* Collapsible Explain Panel */}
+            <details className="panel-section collapsible" open>
+              <summary className="collapsible-header">Route Explanation</summary>
+              <div className="collapsible-content">
+                <ExplainPanel routeId={store.selectedRoute} />
+              </div>
+            </details>
+
+            {/* Collapsible What-If Panel */}
+            {!demoMode && (
+              <details className="panel-section collapsible">
+                <summary className="collapsible-header">What-If Analysis</summary>
+                <div className="collapsible-content">
+                  <WhatIfPanel />
+                </div>
+              </details>
+            )}
+          </div>
         </div>
       </div>
 
@@ -396,6 +427,24 @@ const AppContent: React.FC = () => {
         ]}
         familyAuthorized={false}
       />
+
+      {/* Dev Overlay - Hidden by default, D key toggles */}
+      {showDevOverlay && import.meta.env.DEV && (
+        <div className="dev-overlay">
+          <div className="dev-overlay-header">
+            <strong>Dev Overlay</strong>
+            <button onClick={() => setShowDevOverlay(false)}>×</button>
+          </div>
+          <div className="dev-overlay-content">
+            <div>Demo Mode: {demoMode ? 'Yes' : 'No'}</div>
+            <div>Backend: {backendOnline ? 'Online' : 'Offline'}</div>
+            <div>Step: {currentDemoStep + 1}/{demoScenario?.steps?.length || 0}</div>
+            <div>Risk: {store.riskLevel}</div>
+            <div>Icebergs: {store.icebergs.length}</div>
+            <div>Routes: {store.routes.length}</div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

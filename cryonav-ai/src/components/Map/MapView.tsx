@@ -58,6 +58,9 @@ interface MapViewProps {
   routes: Route[];
   selectedRoute: string | null;
   shipPosition: { lat: number; lon: number };
+  shipTrail?: Array<{ lat: number; lon: number }>;
+  demoStep?: number;
+  routePulse?: boolean;
   onIcebergClick: (id: string) => void;
   onRouteSelect: (id: string) => void;
 }
@@ -78,6 +81,9 @@ export const MapView: React.FC<MapViewProps> = ({
   routes,
   selectedRoute,
   shipPosition,
+  shipTrail = [],
+  demoStep = 0,
+  routePulse = false,
   onIcebergClick,
   onRouteSelect,
 }) => {
@@ -166,8 +172,35 @@ export const MapView: React.FC<MapViewProps> = ({
 
         {/* End marker - Maitri Station */}
         <Marker position={[MAITRI.lat, MAITRI.lon]} icon={endIcon}>
-          <Popup>Maitri Station (Destination)</Popup>
+          <Popup>
+            <div style={{ fontSize: '0.875rem' }}>
+              <strong>Maitri Station</strong><br/>
+              Destination
+            </div>
+          </Popup>
         </Marker>
+
+        {/* Ice Edge marker with offset label */}
+        <Marker position={[ICE_EDGE.lat, ICE_EDGE.lon]} icon={L.divIcon({
+          className: 'ice-edge-marker',
+          html: '<div class="ice-edge-icon" style="font-size: 12px; color: #38bdf8;">❄️</div>',
+          iconSize: [20, 20],
+          iconAnchor: [10, 10],
+        })}>
+          <Popup>
+            <div style={{ fontSize: '0.75rem' }}>
+              Ice edge (approx.)
+            </div>
+          </Popup>
+        </Marker>
+
+        {/* Ship trail (thin line from past positions) */}
+        {shipTrail && shipTrail.length > 1 && (
+          <Polyline
+            positions={shipTrail.map(p => [p.lat, p.lon])}
+            pathOptions={{ color: '#64748b', weight: 2, opacity: 0.7, dashArray: '5, 5' }}
+          />
+        )}
 
         {/* Ship position */}
         <Marker position={[shipPosition.lat, shipPosition.lon]} icon={shipIcon}>
@@ -252,11 +285,31 @@ export const MapView: React.FC<MapViewProps> = ({
           </>
         )}
 
-        {/* Routes - consistent colors */}
+        {/* Routes - Step 1: from Cape Town; Later steps: from ship position */}
         {routes.map(route => {
           const isActive = route.id === selectedRoute;
-          const coordinates = route.coordinates || route.waypoints?.map(w => [w.lat, w.lon]);
+          let coordinates = route.coordinates || route.waypoints?.map(w => [w.lat, w.lon]);
           if (!coordinates || coordinates.length === 0) return null;
+
+          // In step 1 (demoStep === 0), routes start at Cape Town
+          // In later steps, routes start at current ship position
+          if (demoStep > 0) {
+            // Prepend ship position if not already at start
+            const firstPoint = coordinates[0];
+            const firstLat = Array.isArray(firstPoint) ? firstPoint[0] : firstPoint.lat;
+            const firstLon = Array.isArray(firstPoint) ? firstPoint[1] : firstPoint.lon;
+            if (Math.abs(firstLat - shipPosition.lat) > 0.1 || Math.abs(firstLon - shipPosition.lon) > 0.1) {
+              coordinates = [[shipPosition.lat, shipPosition.lon] as [number, number], ...coordinates as [number, number][]];
+            }
+          } else {
+            // Step 1: Ensure route starts at Cape Town
+            const firstPoint = coordinates[0];
+            const firstLat = Array.isArray(firstPoint) ? firstPoint[0] : firstPoint.lat;
+            const firstLon = Array.isArray(firstPoint) ? firstPoint[1] : firstPoint.lon;
+            if (Math.abs(firstLat - CAPE_TOWN.lat) > 0.1 || Math.abs(firstLon - CAPE_TOWN.lon) > 0.1) {
+              coordinates = [[CAPE_TOWN.lat, CAPE_TOWN.lon] as [number, number], ...coordinates as [number, number][]];
+            }
+          }
 
           // Ensure consistent route colors
           let routeColor = route.color;
@@ -273,6 +326,7 @@ export const MapView: React.FC<MapViewProps> = ({
                 weight: isActive ? 5 : 3,
                 opacity: isActive ? 1 : 0.6,
               }}
+              className={routePulse && isActive ? 'route-pulse' : ''}
               eventHandlers={{
                 click: () => onRouteSelect(route.id)
               }}
@@ -280,8 +334,8 @@ export const MapView: React.FC<MapViewProps> = ({
               <Popup>
                 <div>
                   <strong>{route.type.replace('_', ' ').toUpperCase()}</strong><br/>
-                  Distance: {route.distanceKm.toFixed(0)} km<br/>
-                  Time: {route.timeDays.toFixed(1)} days<br/>
+                  Distance: {route.distanceKm.toFixed(0)} km (remaining)<br/>
+                  Time: {route.timeDays.toFixed(1)} days (remaining)<br/>
                   Fuel Index: {route.fuelIndex}<br/>
                   Risk: {route.riskPercent}%
                 </div>

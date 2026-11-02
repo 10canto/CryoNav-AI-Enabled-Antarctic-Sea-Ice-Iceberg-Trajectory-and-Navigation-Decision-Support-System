@@ -249,10 +249,26 @@
   flex: 0 0 30%;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  padding: 1rem;
   background: #0f0f0f;
+  overflow: hidden;
+}
+
+.sticky-risk {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #0f0f0f;
+  padding: 1rem;
+  border-bottom: 2px solid #333;
+}
+
+.sidebar-scrollable {
+  flex: 1;
   overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .panel-section {
@@ -382,4 +398,125 @@
   .demo-controls-overlay {
     max-width: 500px;
   }
+}
+
+/* Collapsible sections */
+.collapsible {
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 0;
+  background: #1a1a1a;
+}
+
+.collapsible-header {
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  font-size: 1.125rem;
+  font-weight: 700;
+  user-select: none;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.collapsible-header::-webkit-details-marker {
+  display: none;
+}
+
+.collapsible-header::after {
+  content: '▼';
+  transition: transform 0.2s;
+  font-size: 0.875rem;
+  opacity: 0.6;
+}
+
+.collapsible[open] .collapsible-header::after {
+  transform: rotate(-180deg);
+}
+
+.collapsible-content {
+  padding: 0 1.25rem 1.25rem;
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Dev Overlay */
+.dev-overlay {
+  position: fixed;
+  top: 4rem;
+  right: 1rem;
+  background: rgba(0, 0, 0, 0.95);
+  border: 2px solid #6366f1;
+  border-radius: 8px;
+  padding: 0;
+  min-width: 250px;
+  z-index: 10000;
+  font-size: 0.875rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.dev-overlay-header {
+  background: #6366f1;
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+}
+
+.dev-overlay-header button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dev-overlay-content {
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dev-overlay-content > div {
+  padding: 0.25rem 0;
+  border-bottom: 1px solid #333;
+}
+
+.dev-overlay-content > div:last-child {
+  border-bottom: none;
+}
+
+/* Route pulse animation */
+@keyframes routePulse {
+  0%, 100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  50% {
+    opacity: 0.6;
+    filter: drop-shadow(0 0 10px #3b82f6);
+  }
+}
+
+.route-pulse {
+  animation: routePulse 1s ease-out;
 }
