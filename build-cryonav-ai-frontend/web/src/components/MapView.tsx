@@ -43,10 +43,12 @@ function MapOverlays() {
         </label>
       </div>
       <div className="legend" aria-label="Map legend">
-        <div className="row"><span className="dot" style={{ background: '#8fd3ff' }} /> Iceberg (click for drift path)</div>
-        <div className="row"><span className="dot" style={{ background: 'rgba(76,201,240,0.3)', border: '1.5px solid #4cc9f0' }} /> Uncertainty circle at +24 / 48 / 72 h</div>
-        <div className="row"><span className="line-sw" style={{ borderColor: '#fff' }} /> Selected route (thick); others dashed</div>
-        <div className="row"><span className="dot" style={{ background: '#fff', border: '3px solid #4cc9f0' }} /> Ship (approximate position)</div>
+        <div className="row"><span className="dot" style={{ background: 'white', border: '2px solid var(--line-mid)' }} /> Iceberg (white with dark outline)</div>
+        <div className="row"><span className="dot" style={{ background: 'rgba(255,255,255,0.1)', border: '1.5px solid var(--line-mid)' }} /> Uncertainty circle (+24/48/72h)</div>
+        <div className="row"><span className="line-sw" style={{ borderColor: 'var(--line-strong)', background: 'white' }} /> Route: white casing + color line (4px solid selected, 2px dashed/dotted others)</div>
+        <div className="row"><span className="dot" style={{ background: 'var(--line-strong)', border: '2px solid white' }} /> Ship (black triangle, white outline)</div>
+        <div className="row"><span className="dot" style={{ background: 'var(--line-strong)', border: '2px solid white', borderRadius: 0 }} /> Port (black square, white outline)</div>
+        <div className="row"><span style={{ fontSize: '10px', fontWeight: 600 }}>🟩🟨🟧🟥</span> Risk meter: GREEN outline, YELLOW light, ORANGE grey, RED critical with pulse</div>
       </div>
       {loading && (
         <div className="map-msg" role="status">

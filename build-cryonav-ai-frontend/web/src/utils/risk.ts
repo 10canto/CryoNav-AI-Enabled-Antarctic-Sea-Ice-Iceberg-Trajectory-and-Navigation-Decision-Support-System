@@ -1,10 +1,12 @@
 import type { RiskLevel } from '../domain/types';
 
+// Risk colors are now in CSS (tokens.css) and applied via className
+// This map is kept for legacy compatibility but styling uses CSS variables
 export const RISK_COLOR: Record<RiskLevel, string> = {
-  GREEN: '#2ea043',
-  YELLOW: '#d4a72c',
-  ORANGE: '#e8772e',
-  RED: '#e5484d',
+  GREEN: 'var(--surface)', // outline only
+  YELLOW: 'var(--surface-2)', // light fill
+  ORANGE: 'var(--text-muted)', // grey fill
+  RED: 'var(--accent-critical)', // critical fill with pulse
 };
 
 /** Fallback mapping from a 0-100 score (or 0-1) to a level. */

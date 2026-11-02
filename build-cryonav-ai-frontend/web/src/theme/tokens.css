@@ -1,0 +1,37 @@
+/**
+ * Design tokens - Google Maps style light theme
+ * Single source of truth for all colors
+ */
+
+:root {
+  /* Map colors */
+  --ocean: #6BCFE6;
+  --antarctica: #FCFCFC;
+  --land: #BFE7D3;
+  --land-outline: #D5DDE0;
+  --ocean-label: #14566A;
+  --place-label: #1B1B1B;
+  --antarctica-label: #3C4043;
+  
+  /* UI colors */
+  --bg: #F4F6F8;
+  --surface: #FFFFFF;
+  --surface-2: #F1F3F4;
+  --border: #DADCE0;
+  --text: #1F2328;
+  --text-muted: #5F6368;
+  
+  /* Lines and strokes */
+  --line-strong: #111111;
+  --line-mid: #3C4043;
+  --line-soft: #5F6368;
+  
+  /* Accent (set to #111111 for fully monochrome) */
+  --accent-critical: #D93025;
+  
+  /* Derived values */
+  --shadow: 0 1px 4px rgba(0,0,0,0.25);
+  --text-on-dark: #FFFFFF;
+  --pulse-glow: rgba(217, 48, 37, 0.4);
+  --backdrop: rgba(0,0,0,0.4);
+}

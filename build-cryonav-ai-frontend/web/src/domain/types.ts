@@ -44,7 +44,7 @@ export interface Waypoint {
 export interface Route {
   id: string;
   name: string;
-  /** CSS colour, e.g. "#3fb950". */
+  /** CSS color for line (ignored by MapController which uses position-based styling) */
   color: string;
   waypoints: Waypoint[];
   distance_km: number;

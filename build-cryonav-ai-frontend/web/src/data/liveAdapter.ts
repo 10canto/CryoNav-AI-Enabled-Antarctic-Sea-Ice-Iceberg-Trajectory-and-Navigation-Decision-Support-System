@@ -128,7 +128,7 @@ export function adaptDrift(raw: unknown): { drift_path: DriftPoint[]; method?: s
 
 const fin = (x: number) => (Number.isFinite(x) ? x : Infinity);
 const ROLE_NAMES = ['Safest', 'Fastest', 'Fuel-efficient'];
-const ROLE_COLORS = ['#3fb950', '#e3b341', '#f0883e'];
+const ROLE_COLORS = ['#111111', '#3C4043', '#5F6368']; // Near-black, mid-grey, soft-grey for light theme
 
 function parseWaypoints(v: unknown): Waypoint[] {
   let list: unknown[] = [];

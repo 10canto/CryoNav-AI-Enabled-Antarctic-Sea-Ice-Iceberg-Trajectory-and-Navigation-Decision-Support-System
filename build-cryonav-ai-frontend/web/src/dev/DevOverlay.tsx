@@ -9,6 +9,7 @@ import { useStore } from '../store/useStore';
  *  - FPS (requestAnimationFrame counter)
  *  - "Run 4-step demo check": reset, step through all steps, report.
  * No setInterval / polling: everything is event driven.
+ * Hidden by default, press D key to toggle visibility.
  */
 interface Result {
   requests: number;
@@ -25,7 +26,21 @@ export default function DevOverlay() {
   const [net, setNet] = useState(0);
   const [result, setResult] = useState<Result | null>(null);
   const [running, setRunning] = useState(false);
+  const [visible, setVisible] = useState(false);
   const mode = useStore((s) => s.mode);
+
+  // keyboard toggle: D key
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'd' || e.key === 'D') {
+        if (document.activeElement === document.body || document.activeElement?.tagName === 'BUTTON') {
+          setVisible((v) => !v);
+        }
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, []);
 
   // network counter, event driven
   useEffect(() => {
@@ -89,8 +104,8 @@ export default function DevOverlay() {
 
   const mapsOk = MapController.created === 1;
   return (
-    <div className="dev" aria-label="Dev checks">
-      <div><b>DEV CHECKS</b> (not in production build)</div>
+    <div className={`dev${visible ? ' visible' : ''}`} aria-label="Dev checks">
+      <div><b>DEV CHECKS</b> (press D to toggle)</div>
       <div>FPS: <span ref={fpsEl}>-</span></div>
       <div>
         Network requests since baseline:{' '}

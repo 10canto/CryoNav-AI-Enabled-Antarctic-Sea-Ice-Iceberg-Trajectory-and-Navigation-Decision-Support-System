@@ -1,66 +1,56 @@
-import { useStore, currentStep } from '../store/useStore';
+import { currentStep, useStore } from '../store/useStore';
+import type { RiskLevel } from '../domain/types';
+
+const SeverityMeter = ({ level }: { level: RiskLevel }) => {
+  const segments = ['GREEN', 'YELLOW', 'ORANGE', 'RED'];
+  const activeCount = segments.indexOf(level) + 1;
+  
+  return (
+    <div className="severity-meter">
+      {segments.map((_, i) => (
+        <div
+          key={i}
+          className="severity-segment"
+          data-active={i < activeCount}
+        />
+      ))}
+    </div>
+  );
+};
 
 export function RiskCard() {
-  const risk = useStore((s) => s.risk);
-  const mode = useStore((s) => s.mode);
-  const busy = useStore((s) => s.busy);
-  const step = useStore(currentStep);
+  const step = useStore((s) => currentStep(s));
+  const selectedRouteId = useStore((s) => s.selectedRouteId);
   
-  // Check if current step has dual risk comparison data
-  const riskOriginal = step && 'risk_original' in step ? (step as any).risk_original : null;
-  const riskSelected = step && 'risk_selected' in step ? (step as any).risk_selected : null;
-  const hasDualRisk = riskOriginal && riskSelected;
+  if (!step) return null;
+
+  const selectedRoute = step.routes.find((r) => r.id === selectedRouteId);
+  const originalRoute = step.routes.find((r) => r.id === step.selected_route_id);
   
-  if (!risk) {
-    return (
-      <section className="card">
-        <h2>Risk</h2>
-        <div className="muted">No risk rating loaded yet.</div>
-      </section>
-    );
-  }
+  // Show original plan risk if it differs from selected
+  const showOriginal = originalRoute && selectedRoute && originalRoute.id !== selectedRoute.id;
+
   return (
-    <section className={`card risk-card ${risk.level}`} aria-live="polite">
-      <h2>
-        Risk{' '}
-        <span className="pill">{mode === 'demo' ? 'scripted' : 'backend rating'}</span>
-      </h2>
-      {busy && (
-        <div className="muted small" role="status" style={{ marginBottom: 6 }}>
-          <span className="spinner" />
-          {busy}
+    <div className="risk-card">
+      <h2>Risk Assessment</h2>
+      
+      {showOriginal && (
+        <div className="risk-row">
+          <span className="risk-label">Original plan:</span>
+          <div className={`risk-badge ${originalRoute.risk_level}`}>
+            <span>{originalRoute.risk_level}</span>
+            <SeverityMeter level={originalRoute.risk_level} />
+          </div>
         </div>
       )}
-      {hasDualRisk ? (
-        <>
-          <div className="risk-head" style={{ marginBottom: 8 }}>
-            <div style={{ fontSize: '0.9em', fontWeight: 600, marginBottom: 4 }}>Original plan:</div>
-            <span className={`risk-level lv-${riskOriginal.level}`}>{riskOriginal.level}</span>
-            <span className="muted small" style={{ marginLeft: 8 }}>
-              (score {riskOriginal.score})
-            </span>
-          </div>
-          <div className="risk-head">
-            <div style={{ fontSize: '0.9em', fontWeight: 600, marginBottom: 4 }}>Selected route:</div>
-            <span className={`risk-level lv-${riskSelected.level}`}>{riskSelected.level}</span>
-            <span className="muted small" style={{ marginLeft: 8 }}>
-              (score {riskSelected.score})
-            </span>
-          </div>
-        </>
-      ) : (
-        <div className="risk-head">
-          <span className={`risk-level lv-${risk.level}`}>{risk.level}</span>
-          <span className="muted small">Rating level, not a probability.</span>
+      
+      <div className="risk-row">
+        <span className="risk-label">Selected route:</span>
+        <div className={`risk-badge ${selectedRoute?.risk_level || 'GREEN'}`}>
+          <span>{selectedRoute?.risk_level || 'GREEN'}</span>
+          <SeverityMeter level={selectedRoute?.risk_level || 'GREEN'} />
         </div>
-      )}
-      {risk.reasons.length > 0 && (
-        <ul className="reasons">
-          {risk.reasons.map((r, i) => (
-            <li key={i}>{r}</li>
-          ))}
-        </ul>
-      )}
-    </section>
+      </div>
+    </div>
   );
 }

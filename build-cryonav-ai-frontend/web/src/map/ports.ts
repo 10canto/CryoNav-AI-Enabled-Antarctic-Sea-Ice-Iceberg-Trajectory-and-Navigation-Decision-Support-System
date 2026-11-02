@@ -16,12 +16,12 @@ export interface PortSpec {
 }
 
 export const PORTS: PortSpec[] = [
-  { id: 'cape-town', name: 'Cape Town', pos: CAPE_TOWN, color: '#4cc9f0', note: 'Departure port', tooltipDir: 'right' },
+  { id: 'cape-town', name: 'Cape Town', pos: CAPE_TOWN, color: '#111111', note: 'Departure port', tooltipDir: 'right' },
   {
     id: 'ice-edge',
     name: 'Ice edge (approx.)',
     pos: ICE_EDGE,
-    color: '#ffd166',
+    color: '#111111',
     note: 'Approximate unloading point at the ice edge. Position is indicative only.',
     tooltipDir: 'left',
   },
@@ -29,7 +29,7 @@ export const PORTS: PortSpec[] = [
     id: 'maitri',
     name: 'Maitri',
     pos: MAITRI,
-    color: '#f78fb3',
+    color: '#111111',
     note: 'Maitri station: inland, overland haul from ice edge',
     tooltipDir: 'right',
   },
