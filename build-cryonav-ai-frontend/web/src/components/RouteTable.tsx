@@ -18,14 +18,29 @@ export function RouteTable() {
   const step = useStore((s) => currentStep(s));
   const selected = useStore((s) => s.selectedRouteId);
   const select = useStore((s) => s.selectRoute);
+  const loading = useStore((s) => s.loading);
   const routes = step?.routes ?? [];
   const lineStyles: Array<'solid' | 'dashed' | 'dotted'> = ['solid', 'dashed', 'dotted'];
+
+  if (loading) {
+    return (
+      <section className="card">
+        <h2>Routes</h2>
+        <div className="state-msg loading">
+          <span className="spinner" />
+          Loading routes...
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="card">
       <h2>Routes</h2>
       {routes.length === 0 ? (
-        <div className="muted">No routes available.</div>
+        <div className="state-msg empty">
+          No routes available. Check data source.
+        </div>
       ) : (
         <table>
           <thead>

@@ -73,6 +73,11 @@ export class MapController {
     this.map.attributionControl.setPrefix(false);
     this.map.attributionControl.addAttribution('Land: Natural Earth (public domain). No tile server.');
 
+    // Create custom panes for proper layering
+    // Default panes: tilePane(200), overlayPane(400), shadowPane(500), markerPane(600), tooltipPane(650), popupPane(700)
+    this.map.createPane('routes');
+    this.map.getPane('routes')!.style.zIndex = '350'; // Above overlayPane(400) but below markerPane(600)
+
     // Initial view: Cape Town to Antarctica
     this.map.fitBounds(
       [
@@ -276,23 +281,25 @@ export class MapController {
 
     if (first) {
       this.ship.setLatLng(target);
-      this.fitStep(step, false);
+      this.fitAllRoutes(step, false);
     } else {
       const follow = this.store.getState().followShip;
       const path = this.shipPath(this.ship.getLatLng(), target, this.prevSelectedRoute);
       this.animateShip(path, () => {
         if (this.store.getState().followShip) this.map.panTo(target, { animate: true, duration: CAMERA_S });
       });
-      if (!follow) this.fitStep(step, true);
+      if (!follow) this.fitAllRoutes(step, true);
     }
     this.prevSelectedRoute = newLine;
   }
 
-  /** ONE camera move per step. */
-  private fitStep(step: Step, animate: boolean) {
+  /** Fit map to show all three routes, ship, and icebergs. */
+  private fitAllRoutes(step: Step, animate: boolean) {
     const pts: L.LatLngTuple[] = [ll(step.ship)];
-    const sel = step.routes.find((r) => r.id === step.selected_route_id);
-    sel?.waypoints.forEach((w) => pts.push([w.lat, w.lon]));
+    // Include all routes, not just selected
+    step.routes.forEach((route) => {
+      route.waypoints.forEach((w) => pts.push([w.lat, w.lon]));
+    });
     step.icebergs.forEach((b) => pts.push([b.lat, b.lon]));
     const b = L.latLngBounds(pts);
     if (!b.isValid()) return;
@@ -382,12 +389,26 @@ export class MapController {
       const have = this.routeLines.get(r.id);
       if (!have) {
         // White casing line (drawn first, underneath)
-        const casing = L.polyline(latlngs, { color: 'white', weight: 7, opacity: 1, lineJoin: 'round', interactive: false })
-          .addTo(this.routeGroup);
+        const casing = L.polyline(latlngs, { 
+          color: 'white', 
+          weight: 7, 
+          opacity: 1, 
+          lineJoin: 'round', 
+          lineCap: 'round',
+          interactive: false,
+          pane: 'routes'
+        }).addTo(this.routeGroup);
         this.routeCasings.set(r.id, casing);
         
         // Colored line on top
-        const line = L.polyline(latlngs, { color: tokens.lineStrong, weight: 4, opacity: 1, lineJoin: 'round' })
+        const line = L.polyline(latlngs, { 
+          color: tokens.lineStrong, 
+          weight: 4, 
+          opacity: 1, 
+          lineJoin: 'round',
+          lineCap: 'round',
+          pane: 'routes'
+        })
           .bindTooltip(r.name, { sticky: true })
           .on('click', (ev) => {
             L.DomEvent.stopPropagation(ev);

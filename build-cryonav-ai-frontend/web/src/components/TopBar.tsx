@@ -1,6 +1,6 @@
 import { useStore } from '../store/useStore';
 
-export function TopBar() {
+export function TopBar({ onOpenShortcuts, onOpenWhatsReal }: { onOpenShortcuts: () => void; onOpenWhatsReal: () => void }) {
   const mode = useStore((s) => s.mode);
   const offline = useStore((s) => s.offline);
   const placeholder = useStore((s) => s.scenario?.placeholder);
@@ -19,6 +19,12 @@ export function TopBar() {
         </button>
       </div>
       <div className="spacer" />
+      <button className="header-btn" onClick={onOpenWhatsReal} title="What's real?">
+        What's real?
+      </button>
+      <button className="shortcut-hint" onClick={onOpenShortcuts} title="Keyboard shortcuts">
+        ? shortcuts
+      </button>
       <div className="badges">
         {mode === 'demo' && <span className="badge scripted">SCRIPTED SCENARIO</span>}
         {mode === 'demo' && placeholder && <span className="badge placeholder">PLACEHOLDER DATA</span>}

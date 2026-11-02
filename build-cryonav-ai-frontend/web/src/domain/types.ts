@@ -87,6 +87,8 @@ export interface Step {
   label?: string;
   /** ISO date (YYYY-MM-DD). */
   date: string;
+  /** Optional narration caption shown as a plain sentence below the header. */
+  narration?: string;
   ship: LatLon;
   icebergs: Iceberg[];
   routes: Route[];

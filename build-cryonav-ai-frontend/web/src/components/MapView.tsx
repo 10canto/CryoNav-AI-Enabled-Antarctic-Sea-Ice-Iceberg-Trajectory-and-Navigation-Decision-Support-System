@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MapController } from '../map/MapController';
 import { useStore } from '../store/useStore';
 
@@ -56,6 +56,7 @@ function MapOverlays() {
   const error = useStore((s) => s.error);
   const mode = useStore((s) => s.mode);
   const init = useStore((s) => s.setMode);
+  const [legendOpen, setLegendOpen] = useState(true);
 
   return (
     <>
@@ -65,13 +66,36 @@ function MapOverlays() {
           Follow ship
         </label>
       </div>
-      <div className="legend" aria-label="Map legend">
-        <div className="row"><span className="dot" style={{ background: 'white', border: '2px solid var(--line-mid)' }} /> Iceberg (white with dark outline)</div>
-        <div className="row"><span className="dot" style={{ background: 'rgba(255,255,255,0.1)', border: '1.5px solid var(--line-mid)' }} /> Uncertainty circle (+24/48/72h)</div>
-        <div className="row"><span className="line-sw" style={{ borderColor: 'var(--line-strong)', background: 'white' }} /> Route: white casing + color line (4px solid selected, 2px dashed/dotted others)</div>
-        <div className="row"><span className="dot" style={{ background: 'var(--line-strong)', border: '2px solid white' }} /> Ship (black triangle, white outline)</div>
-        <div className="row"><span className="dot" style={{ background: 'var(--line-strong)', border: '2px solid white', borderRadius: 0 }} /> Port (black square, white outline)</div>
-        <div className="row"><span style={{ fontSize: '10px', fontWeight: 600 }}>🟩🟨🟧🟥</span> Risk meter: GREEN outline, YELLOW light, ORANGE grey, RED critical with pulse</div>
+      <div className={`legend ${legendOpen ? 'open' : 'closed'}`} aria-label="Map legend">
+        <div className="legend-header" onClick={() => setLegendOpen(!legendOpen)}>
+          <span className="legend-title">Map Legend</span>
+          <span className="legend-toggle">{legendOpen ? '▼' : '▶'}</span>
+        </div>
+        {legendOpen && (
+          <div className="legend-content">
+            <div className="row">
+              <span className="line-sample safest" /> Safest route (green)
+            </div>
+            <div className="row">
+              <span className="line-sample fastest" /> Fastest route (yellow)
+            </div>
+            <div className="row">
+              <span className="line-sample fuel" /> Fuel-efficient route (orange)
+            </div>
+            <div className="row">
+              <span className="dot iceberg-marker" /> Iceberg (current position)
+            </div>
+            <div className="row">
+              <span className="dot crossing-marker" /> Predicted crossing point
+            </div>
+            <div className="row">
+              <span className="dot ship-marker" /> Ship (current position)
+            </div>
+            <div className="row">
+              <span className="dot ice-zone" /> Ice zone boundary
+            </div>
+          </div>
+        )}
       </div>
       {loading && (
         <div className="map-msg" role="status">

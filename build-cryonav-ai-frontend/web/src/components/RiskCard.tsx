@@ -22,8 +22,32 @@ const SeverityMeter = ({ level }: { level: RiskLevel }) => {
 export function RiskCard() {
   const step = useStore((s) => currentStep(s));
   const selectedRouteId = useStore((s) => s.selectedRouteId);
+  const loading = useStore((s) => s.loading);
+  const offline = useStore((s) => s.offline);
+  const mode = useStore((s) => s.mode);
   
-  if (!step) return null;
+  if (loading) {
+    return (
+      <div className="risk-card">
+        <h2>Risk Assessment</h2>
+        <div className="state-msg loading">
+          <span className="spinner" />
+          Loading...
+        </div>
+      </div>
+    );
+  }
+
+  if (!step) {
+    return (
+      <div className="risk-card">
+        <h2>Risk Assessment</h2>
+        <div className="state-msg empty">
+          No data available.
+        </div>
+      </div>
+    );
+  }
 
   const selectedRoute = step.routes.find((r) => r.id === selectedRouteId);
   const originalRoute = step.routes.find((r) => r.id === step.selected_route_id);
@@ -38,6 +62,12 @@ export function RiskCard() {
   return (
     <div className="risk-card">
       <h2>Risk Assessment</h2>
+      
+      {mode === 'live' && offline && (
+        <div className="state-msg offline">
+          Backend offline. Showing cached snapshot.
+        </div>
+      )}
       
       {showOriginal && (
         <div className="risk-row">
