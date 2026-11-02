@@ -1,4 +1,4 @@
-import * as L from 'leaflet';
+﻿import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { createClusterGroup } from './leafletCluster';
 import type { Iceberg, Route, Step } from '../domain/types';
@@ -76,7 +76,7 @@ export class MapController {
     // Create custom panes for proper layering
     // Default panes: tilePane(200), overlayPane(400), shadowPane(500), markerPane(600), tooltipPane(650), popupPane(700)
     this.map.createPane('routes');
-    this.map.getPane('routes')!.style.zIndex = '350'; // Above overlayPane(400) but below markerPane(600)
+    this.map.getPane('routes')!.style.zIndex = '450'; // Above overlayPane(400), below markerPane(600)
 
     // Initial view: Cape Town to Antarctica
     this.map.fitBounds(
