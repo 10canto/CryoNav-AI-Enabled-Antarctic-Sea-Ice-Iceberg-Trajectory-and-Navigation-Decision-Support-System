@@ -1,0 +1,124 @@
+[
+ {
+  "id": "route-a",
+  "name": "Safest - west corridor",
+  "color": "#3fb950",
+  "waypoints": [
+   {
+    "lat": -48,
+    "lon": 8.5,
+    "eta": "2026-01-16T08:00:00.000Z"
+   },
+   {
+    "lat": -56,
+    "lon": 8,
+    "eta": "2026-01-18T04:30:38.049Z"
+   },
+   {
+    "lat": -63,
+    "lon": 8.5,
+    "eta": "2026-01-19T19:27:14.588Z"
+   },
+   {
+    "lat": -67.5,
+    "lon": 10,
+    "eta": "2026-01-20T20:42:48.497Z"
+   },
+   {
+    "lat": -70.3,
+    "lon": 11.7,
+    "eta": "2026-01-21T12:38:48.177Z"
+   }
+  ],
+  "distance_km": 2493,
+  "duration_days": 5.2,
+  "risk_score": 52,
+  "reasons": [
+   "ICE-104 drift path crosses the route near 63 S within 48-72 h"
+  ],
+  "fuel_index": 105
+ },
+ {
+  "id": "route-b",
+  "name": "Fastest - direct",
+  "color": "#e3b341",
+  "waypoints": [
+   {
+    "lat": -48,
+    "lon": 8.5,
+    "eta": "2026-01-16T08:00:00.000Z"
+   },
+   {
+    "lat": -50,
+    "lon": 14,
+    "eta": "2026-01-17T03:06:25.919Z"
+   },
+   {
+    "lat": -60,
+    "lon": 12.5,
+    "eta": "2026-01-19T01:36:23.329Z"
+   },
+   {
+    "lat": -66,
+    "lon": 12,
+    "eta": "2026-01-20T05:25:29.534Z"
+   },
+   {
+    "lat": -70.3,
+    "lon": 11.7,
+    "eta": "2026-01-21T01:21:14.212Z"
+   }
+  ],
+  "distance_km": 2720,
+  "duration_days": 4.7,
+  "risk_score": 60,
+  "reasons": [
+   "ICE-104 drift path ends about 150 km west of the route"
+  ],
+  "fuel_index": 130
+ },
+ {
+  "id": "route-c",
+  "name": "Fuel-efficient - current bands",
+  "color": "#f0883e",
+  "waypoints": [
+   {
+    "lat": -48,
+    "lon": 8.5,
+    "eta": "2026-01-16T08:00:00.000Z"
+   },
+   {
+    "lat": -50,
+    "lon": 12,
+    "eta": "2026-01-17T00:55:35.897Z"
+   },
+   {
+    "lat": -57,
+    "lon": 9.5,
+    "eta": "2026-01-18T16:42:22.790Z"
+   },
+   {
+    "lat": -63,
+    "lon": 12.5,
+    "eta": "2026-01-20T03:04:55.342Z"
+   },
+   {
+    "lat": -67,
+    "lon": 10.5,
+    "eta": "2026-01-21T01:48:32.919Z"
+   },
+   {
+    "lat": -70.3,
+    "lon": 11.7,
+    "eta": "2026-01-21T20:18:55.704Z"
+   }
+  ],
+  "distance_km": 2646,
+  "duration_days": 5.5,
+  "risk_score": 55,
+  "reasons": [
+   "Close to ICE-104 and ICE-105 drift cones"
+  ],
+  "fuel_index": 100
+ }
+]
