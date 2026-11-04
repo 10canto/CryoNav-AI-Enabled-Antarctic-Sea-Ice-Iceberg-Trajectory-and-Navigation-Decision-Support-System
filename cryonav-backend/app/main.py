@@ -90,10 +90,21 @@ def read_text_file(filepath: Path) -> str:
 async def health_check():
     """Health check endpoint."""
     logger.info("GET /api/health called")
-    return HealthResponse(
-        status="CryoNav API Running",
-        timestamp=datetime.utcnow().isoformat() + "Z",
-    )
+    return {
+        "status": "CryoNav API Running",
+        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "endpoints": [
+            "/api/health",
+            "/api/ice-analysis",
+            "/api/icebergs",
+            "/api/predict-drift",
+            "/api/routes",
+            "/api/risk-assessment",
+            "/api/alert",
+            "/api/ocean-currents",
+            "/api/explanation"
+        ]
+    }
 
 
 @app.get("/api/ice-analysis", response_model=IceAnalysisResponse)
@@ -199,13 +210,17 @@ async def get_risk_assessment():
         elif current_scenario == 3:
             nearest_iceberg_km = 3.2
     
-    return RiskAssessmentResponse(
-        level=level,
-        message=message,
-        ice_concentration=ice_concentration,
-        nearest_iceberg_km=nearest_iceberg_km,
-        collision_risk_percent=collision_risk,
-    )
+    # Add simulated flag to response
+    response_data = {
+        "level": level,
+        "message": message,
+        "ice_concentration": ice_concentration,
+        "nearest_iceberg_km": nearest_iceberg_km,
+        "collision_risk_percent": collision_risk,
+        "simulated": True
+    }
+    
+    return response_data
 
 
 @app.get("/api/explanation", response_model=ExplanationResponse)
@@ -215,6 +230,48 @@ async def get_explanation():
     filepath = get_scenario_path(current_scenario) / "explanation.txt"
     explanation = read_text_file(filepath)
     return ExplanationResponse(explanation=explanation)
+
+
+@app.get("/api/ocean-currents")
+async def get_ocean_currents(
+    region: str = Query("weddell_sea", description="Region name"),
+    resolution: str = Query("low", description="Resolution: low, medium, high")
+):
+    """
+    Get ocean current vectors for visualization (SIMULATED DATA).
+    
+    This endpoint returns simulated ocean current data for demo purposes.
+    Real implementation would query Copernicus Marine Service or similar.
+    """
+    logger.info(f"GET /api/ocean-currents called (region={region}, resolution={resolution})")
+    
+    # Simulated current vectors for demo
+    # In production: integrate with real ocean current data sources
+    mock_currents = {
+        "weddell_sea": [
+            {"lat": -65.0, "lon": -64.0, "u": 0.15, "v": -0.22, "speed": 0.27},
+            {"lat": -65.1, "lon": -64.1, "u": 0.18, "v": -0.20, "speed": 0.27},
+            {"lat": -65.2, "lon": -64.2, "u": 0.12, "v": -0.25, "speed": 0.28},
+            {"lat": -65.0, "lon": -64.5, "u": 0.20, "v": -0.18, "speed": 0.27},
+            {"lat": -65.1, "lon": -64.6, "u": 0.16, "v": -0.21, "speed": 0.26},
+        ],
+        "ross_sea": [
+            {"lat": -75.0, "lon": 165.0, "u": -0.10, "v": 0.15, "speed": 0.18},
+            {"lat": -75.1, "lon": 165.1, "u": -0.12, "v": 0.14, "speed": 0.18},
+        ]
+    }
+    
+    currents = mock_currents.get(region, mock_currents["weddell_sea"])
+    
+    return {
+        "region": region,
+        "resolution": resolution,
+        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "currents": currents,
+        "count": len(currents),
+        "simulated": True,
+        "note": "SIMULATED DATA - Production would use Copernicus Marine Service or similar"
+    }
 
 
 # ============================================================================
