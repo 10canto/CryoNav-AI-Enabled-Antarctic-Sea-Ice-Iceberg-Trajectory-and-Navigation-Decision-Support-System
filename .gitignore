@@ -1,11 +1,20 @@
-# Large ocean current NetCDF files
+# Data files - NetCDF and large datasets
 iceberg-trajectory-ml/data/*.nc
+iceberg-trajectory-ml/data/**/*.nc
 iceberg-trajectory-ml/data/ocean_currents_*.nc
-DATA/*.nc
-
-# Large ocean current yearly JSON files (too big for GitHub)
+iceberg-trajectory-ml/data/era5/*.nc
+iceberg-trajectory-ml/data/validation/*.nc
 iceberg-trajectory-ml/data/ocean_currents_yearly/
 iceberg-trajectory-ml/data/ocean_currents_yearly/*.json
+DATA/*.nc
+
+# CDS API credentials (user-specific)
+.cdsapirc
+*/.cdsapirc
+
+# Copernicus Marine credentials (user-specific)
+.copernicusmarine/
+.copernicusmarine*
 
 # Python
 __pycache__/
@@ -86,12 +95,4 @@ coverage/
 *.pyc
 *.pyo
 
-# Large ocean current yearly JSON files (too big for GitHub)
-iceberg-trajectory-ml/data/ocean_currents_yearly/
-iceberg-trajectory-ml/data/ocean_currents_yearly/*.json
 
-.env
-*.nc
-credentials*
-.copernicusmarine*
-.cdsapirc
