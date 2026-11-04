@@ -1,8 +1,0 @@
-{
- "level": "ORANGE",
- "reasons": [
-  "New iceberg ICE-104 detected; few observations, so the current-based fallback is used",
-  "Its drift path crosses the selected route near 63 S within 48-72 h",
-  "Uncertainty is large (35 km at 72 h)"
- ]
-}
