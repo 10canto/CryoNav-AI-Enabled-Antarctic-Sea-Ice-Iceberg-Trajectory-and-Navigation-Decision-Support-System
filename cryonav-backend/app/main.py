@@ -274,6 +274,81 @@ async def get_ocean_currents(
     }
 
 
+@app.post("/api/alert")
+async def send_alert(
+    message: str = Query(..., description="Alert message"),
+    severity: str = Query(..., description="Alert severity: RED, ORANGE, or YELLOW"),
+    recipients: list[str] = Query(default=["bridge", "mission_control"], description="Alert recipients")
+):
+    """
+    Send simulated emergency alert (SIMULATED).
+    
+    This endpoint logs alerts to a JSON file for demo purposes.
+    Real implementation would integrate with satellite communication systems.
+    
+    Args:
+        message: Alert message text
+        severity: Alert severity level (RED, ORANGE, YELLOW)
+        recipients: List of recipients (default: ["bridge", "mission_control"])
+        
+    Returns:
+        Alert confirmation with ID, timestamp, and simulated flag
+    """
+    logger.info(f"POST /api/alert called: severity={severity}, message={message}")
+    
+    # Validate severity
+    valid_severities = ["RED", "ORANGE", "YELLOW"]
+    if severity.upper() not in valid_severities:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid severity. Must be one of: {valid_severities}"
+        )
+    
+    # Generate timestamp-based alert ID
+    timestamp = datetime.utcnow()
+    alert_id = timestamp.strftime("%Y%m%d%H%M%S")
+    
+    # Create alert record
+    alert_data = {
+        "alert_id": alert_id,
+        "timestamp": timestamp.isoformat() + "Z",
+        "message": message,
+        "severity": severity.upper(),
+        "recipients": recipients if recipients else ["bridge", "mission_control"],
+        "simulated": True
+    }
+    
+    # Path to alerts file
+    alerts_file = Path(__file__).parent / "alerts.json"
+    
+    # Load existing alerts or create new list
+    alerts = []
+    if alerts_file.exists():
+        try:
+            with open(alerts_file, "r") as f:
+                alerts = json.load(f)
+        except json.JSONDecodeError:
+            logger.warning(f"Invalid JSON in {alerts_file}, creating new file")
+            alerts = []
+    
+    # Append new alert
+    alerts.append(alert_data)
+    
+    # Save to file
+    try:
+        with open(alerts_file, "w") as f:
+            json.dump(alerts, f, indent=2)
+        logger.info(f"Alert {alert_id} saved to {alerts_file}")
+    except Exception as e:
+        logger.error(f"Failed to save alert: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to save alert: {str(e)}"
+        )
+    
+    return alert_data
+
+
 # ============================================================================
 # NEW YOLO MODEL ENDPOINTS
 # ============================================================================

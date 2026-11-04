@@ -182,40 +182,30 @@ GET http://localhost:8000/api/risk-assessment
 ### 6. Alert System
 **Spec Name:** Alert / Emergency Alert  
 **Implemented URL:** `POST /api/alert`  
-**Status:** ✅ IMPLEMENTED (MOCK/SIMULATED)  
+**Status:** ✅ IMPLEMENTED (SIMULATED)  
 **Name Match:** ✓ Exact match
 
 **Implementation Details:**
-- Accepts alert level, position, and details
-- Logs to `alerts.json` file
-- Returns simulated recipients and delivery info
-- **Honest labeling:** Response includes `"status": "SIMULATED"` and disclaimer note
+- Accepts message, severity (RED/ORANGE/YELLOW), and optional recipients list
+- Logs alerts to `cryonav-backend/app/alerts.json` file
+- Generates timestamp-based alert IDs
+- Default recipients: ["bridge", "mission_control"]
+- **Honest labeling:** Response includes `"simulated": true` flag
 
 **Example Request:**
 ```bash
-POST http://localhost:8000/api/alert
-Content-Type: application/json
-
-{
-  "level": "RED",
-  "position": {"lat": -65.234, "lon": -64.567},
-  "details": {"message": "Emergency"}
-}
+POST http://localhost:8000/api/alert?message=Iceberg%20collision%20risk&severity=RED&recipients=bridge&recipients=mission_control
 ```
 
 **Example Response:**
 ```json
 {
-  "success": true,
-  "alert_id": 1,
-  "recipients": [
-    "Mission Control - McMurdo Station",
-    "Rescue Coordination Centre - Christchurch",
-    "Ship Operator",
-    "Family (if authorized)"
-  ],
-  "timestamp": "2024-01-15T18:00:00Z",
-  "note": "SIMULATED ALERT - Not sent to real recipients"
+  "alert_id": "20261104233500",
+  "timestamp": "2026-11-04T23:35:00Z",
+  "message": "Iceberg collision risk",
+  "severity": "RED",
+  "recipients": ["bridge", "mission_control"],
+  "simulated": true
 }
 ```
 
