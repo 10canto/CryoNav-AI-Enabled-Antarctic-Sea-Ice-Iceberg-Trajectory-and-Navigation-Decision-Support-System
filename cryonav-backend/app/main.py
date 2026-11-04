@@ -24,6 +24,7 @@ from app.models import (
     AdvanceTimeResponse,
     ResetDemoResponse,
     ErrorResponse,
+    AlertRequest,
 )
 
 # Import iceberg service for AI detection
@@ -275,11 +276,7 @@ async def get_ocean_currents(
 
 
 @app.post("/api/alert")
-async def send_alert(
-    message: str = Query(..., description="Alert message"),
-    severity: str = Query(..., description="Alert severity: RED, ORANGE, or YELLOW"),
-    recipients: list[str] = Query(default=["bridge", "mission_control"], description="Alert recipients")
-):
+async def send_alert(alert: AlertRequest):
     """
     Send simulated emergency alert (SIMULATED).
     
@@ -287,18 +284,16 @@ async def send_alert(
     Real implementation would integrate with satellite communication systems.
     
     Args:
-        message: Alert message text
-        severity: Alert severity level (RED, ORANGE, YELLOW)
-        recipients: List of recipients (default: ["bridge", "mission_control"])
+        alert: AlertRequest containing message, severity, and recipients
         
     Returns:
         Alert confirmation with ID, timestamp, and simulated flag
     """
-    logger.info(f"POST /api/alert called: severity={severity}, message={message}")
+    logger.info(f"POST /api/alert called: severity={alert.severity}, message={alert.message}")
     
     # Validate severity
     valid_severities = ["RED", "ORANGE", "YELLOW"]
-    if severity.upper() not in valid_severities:
+    if alert.severity.upper() not in valid_severities:
         raise HTTPException(
             status_code=400,
             detail=f"Invalid severity. Must be one of: {valid_severities}"
@@ -312,9 +307,9 @@ async def send_alert(
     alert_data = {
         "alert_id": alert_id,
         "timestamp": timestamp.isoformat() + "Z",
-        "message": message,
-        "severity": severity.upper(),
-        "recipients": recipients if recipients else ["bridge", "mission_control"],
+        "message": alert.message,
+        "severity": alert.severity.upper(),
+        "recipients": alert.recipients if alert.recipients else ["bridge", "mission_control"],
         "simulated": True
     }
     

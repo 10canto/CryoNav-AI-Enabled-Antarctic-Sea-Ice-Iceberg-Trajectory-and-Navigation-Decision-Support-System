@@ -186,7 +186,7 @@ GET http://localhost:8000/api/risk-assessment
 **Name Match:** ✓ Exact match
 
 **Implementation Details:**
-- Accepts message, severity (RED/ORANGE/YELLOW), and optional recipients list
+- Accepts JSON body with message, severity (RED/ORANGE/YELLOW), and optional recipients list
 - Logs alerts to `cryonav-backend/app/alerts.json` file
 - Generates timestamp-based alert IDs
 - Default recipients: ["bridge", "mission_control"]
@@ -194,7 +194,14 @@ GET http://localhost:8000/api/risk-assessment
 
 **Example Request:**
 ```bash
-POST http://localhost:8000/api/alert?message=Iceberg%20collision%20risk&severity=RED&recipients=bridge&recipients=mission_control
+POST http://localhost:8000/api/alert
+Content-Type: application/json
+
+{
+  "message": "Iceberg collision risk",
+  "severity": "RED",
+  "recipients": ["bridge", "mission_control"]
+}
 ```
 
 **Example Response:**

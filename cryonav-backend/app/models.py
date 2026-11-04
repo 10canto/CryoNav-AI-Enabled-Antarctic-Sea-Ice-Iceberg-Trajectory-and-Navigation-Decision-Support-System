@@ -120,3 +120,10 @@ class ErrorResponse(BaseModel):
     """Error response."""
     error: str
     scenario: int
+
+
+class AlertRequest(BaseModel):
+    """Alert request model."""
+    message: str
+    severity: str  # RED, ORANGE, YELLOW
+    recipients: list[str] = ["bridge", "mission_control"]
