@@ -21,6 +21,7 @@ const SeverityMeter = ({ level }: { level: RiskLevel }) => {
 
 export function RiskCard() {
   const step = useStore((s) => currentStep(s));
+  const risk = useStore((s) => s.risk);
   const selectedRouteId = useStore((s) => s.selectedRouteId);
   const loading = useStore((s) => s.loading);
   const offline = useStore((s) => s.offline);
@@ -38,7 +39,7 @@ export function RiskCard() {
     );
   }
 
-  if (!step) {
+  if (!step || !risk) {
     return (
       <div className="risk-card">
         <h2>Risk Assessment</h2>
@@ -55,8 +56,10 @@ export function RiskCard() {
   // Show original plan risk if it differs from selected
   const showOriginal = originalRoute && selectedRoute && originalRoute.id !== selectedRoute.id;
 
-  // Compute risk levels from scores
-  const selectedLevel = selectedRoute ? levelFromScore(selectedRoute.risk_score) : 'GREEN';
+  // Use the risk level from the step's risk object (current step's actual risk)
+  const selectedLevel = risk.level;
+  
+  // If user selected a different route, compute its risk level from score
   const originalLevel = originalRoute ? levelFromScore(originalRoute.risk_score) : 'GREEN';
 
   return (
@@ -87,9 +90,9 @@ export function RiskCard() {
         </div>
       </div>
       
-      {selectedRoute && selectedRoute.reasons && selectedRoute.reasons.length > 0 && (
+      {risk.reasons && risk.reasons.length > 0 && (
         <div style={{ marginTop: '12px', fontSize: '12px', color: 'var(--text-muted)' }}>
-          {selectedRoute.reasons.map((reason, i) => (
+          {risk.reasons.map((reason, i) => (
             <div key={i} style={{ marginBottom: '4px' }}>• {reason}</div>
           ))}
         </div>
