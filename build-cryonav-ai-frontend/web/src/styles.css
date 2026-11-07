@@ -632,27 +632,27 @@ table {
 }
 
 .risk-badge.GREEN {
-  background: var(--surface);
-  color: var(--text);
-  border-color: var(--border);
+  background: var(--risk-green);
+  color: var(--text-on-dark);
+  border-color: var(--risk-green);
 }
 
 .risk-badge.YELLOW {
-  background: var(--surface-2);
+  background: var(--risk-yellow);
   color: var(--text);
-  border-color: var(--border);
+  border-color: var(--risk-yellow);
 }
 
 .risk-badge.ORANGE {
-  background: var(--text-muted);
+  background: var(--risk-orange);
   color: var(--text-on-dark);
-  border-color: var(--text-muted);
+  border-color: var(--risk-orange);
 }
 
 .risk-badge.RED {
-  background: var(--accent-critical);
+  background: var(--risk-red);
   color: var(--text-on-dark);
-  border-color: var(--accent-critical);
+  border-color: var(--risk-red);
   animation: pulse-red 2s infinite;
 }
 
@@ -680,12 +680,12 @@ table {
 }
 
 .risk-badge.GREEN .severity-segment:nth-child(1) {
-  background: var(--border);
+  background: var(--text-on-dark);
 }
 
 .risk-badge.YELLOW .severity-segment:nth-child(1),
 .risk-badge.YELLOW .severity-segment:nth-child(2) {
-  background: var(--border);
+  background: var(--text);
 }
 
 .risk-badge.ORANGE .severity-segment:nth-child(1),

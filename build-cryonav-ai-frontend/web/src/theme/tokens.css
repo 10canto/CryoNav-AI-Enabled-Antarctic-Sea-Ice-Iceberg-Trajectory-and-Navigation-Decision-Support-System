@@ -29,6 +29,12 @@
   /* Accent (set to #111111 for fully monochrome) */
   --accent-critical: #D93025;
   
+  /* Risk level colors */
+  --risk-green: #16A34A;
+  --risk-yellow: #EAB308;
+  --risk-orange: #F97316;
+  --risk-red: #DC2626;
+  
   /* Derived values */
   --shadow: 0 1px 4px rgba(0,0,0,0.25);
   --text-on-dark: #FFFFFF;
