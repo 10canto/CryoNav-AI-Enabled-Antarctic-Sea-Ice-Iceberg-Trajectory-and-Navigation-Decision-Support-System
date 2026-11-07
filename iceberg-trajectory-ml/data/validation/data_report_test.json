@@ -1,0 +1,30 @@
+{
+  "data_source": "REAL",
+  "sources": [
+    "BYU Antarctic Iceberg Database v8.0",
+    "Copernicus Marine GLORYS12 cmems_mod_glo_phy_my_0.083deg_P1D-m",
+    "ERA5 reanalysis-era5-single-levels"
+  ],
+  "created_utc": "2026-11-07T03:51:14.790496+00:00",
+  "n_rows": 3567,
+  "n_icebergs": 16,
+  "date_min": "2015-01-01",
+  "date_max": "2015-12-30",
+  "years_included": [
+    2015
+  ],
+  "partial": true,
+  "nan_counts": {
+    "uo": 257,
+    "vo": 257,
+    "siconc": 523,
+    "usi": 257,
+    "vsi": 257,
+    "u10": 3567,
+    "v10": 3567
+  },
+  "n_complete_case": 0,
+  "n_outliers_flagged": 2,
+  "max_dt_days": 3,
+  "synthetic": false
+}

@@ -1,16 +1,13 @@
-# Data files - Only CSV training table is persistent
+# Data files - track CSVs, JSONs, MDs in validation
 # NO .nc files should be saved (streaming architecture)
-iceberg-trajectory-ml/data/training_table.csv
-!iceberg-trajectory-ml/data/training_table.csv  # Allow tracking the final table
-
-# Temporary test files (should be cleaned up automatically)
 *.nc
 iceberg-trajectory-ml/data/**/*.nc
 
-# Legacy data directories (should be empty)
+# Ignore legacy/temp directories but NOT validation outputs
 iceberg-trajectory-ml/data/era5/
-iceberg-trajectory-ml/data/validation/
 iceberg-trajectory-ml/data/ocean_currents_yearly/
+iceberg-trajectory-ml/data/validation/*.nc
+iceberg-trajectory-ml/data/validation/temp_*
 DATA/*.nc
 
 # CDS API credentials (user-specific)
