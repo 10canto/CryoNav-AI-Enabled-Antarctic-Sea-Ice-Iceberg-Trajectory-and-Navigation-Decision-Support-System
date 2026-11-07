@@ -24,6 +24,9 @@
 | Large | 0 |
 | Very Large | 46 |
 | UNKNOWN | 13 |
+## Size-distribution limitation
+
+The BYU Antarctic Iceberg Database primarily tracks large tabular icebergs. Small and medium icebergs are underrepresented. The size classification reflects this detection bias, not the true population distribution.
 
 ## Year-wise iceberg counts
 | Year | Number of icebergs observed |
