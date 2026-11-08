@@ -1,0 +1,223 @@
+# AMA-8 Inference Module
+
+## Overview
+
+The AMA-8 inference module (`ama8_inference.py`) provides a simple, production-ready function for predicting iceberg positions using the CryoNav drift model. It works as both an **importable Python module** and a **standalone CLI tool**.
+
+## Features
+
+✅ **Dual-mode operation**: Import as module or use via CLI  
+✅ **Input validation**: Rejects NaN/None inputs with clear error messages  
+✅ **Uncertainty quantification**: Returns speed-dependent P90 uncertainty radius  
+✅ **Extrapolation warnings**: Flags forecasts beyond validated 24h horizon  
+✅ **Longitude wrapping**: Automatically wraps output to [-180, 180]  
+✅ **Data integrity**: Enforces real observational data (no synthetic)
+
+## Usage
+
+### As a Python Module
+
+```python
+from ama8_inference import predict_iceberg_position
+
+result = predict_iceberg_position(
+    lat=-65.0,          # Current latitude (degrees)
+    lon=0.0,            # Current longitude (degrees)
+    ocean_u=0.1,        # Ocean current eastward (m/s)
+    ocean_v=0.05,       # Ocean current northward (m/s)
+    wind_u=-5.0,        # Wind eastward at 10m (m/s)
+    wind_v=3.0,         # Wind northward at 10m (m/s)
+    siconc=0.3,         # Sea ice concentration (0-1)
+    ice_u=0.0,          # Sea ice velocity eastward (m/s, optional)
+    ice_v=0.0,          # Sea ice velocity northward (m/s, optional)
+    dt_hours=24.0       # Time horizon (hours, default 24)
+)
+
+# Result dictionary:
+# {
+#   'predicted_lat': -65.0089,
+#   'predicted_lon': -0.1741,
+#   'uncertainty_radius_km': 6.43,
+#   'speed_category': 'moderate',
+#   'predicted_speed_kmd': 8.23,
+#   'model_version': 'CryoNav Drift Model v1',
+#   'horizon_hours': 24.0
+# }
+```
+
+### As a Standalone Script (Test Mode)
+
+```bash
+python iceberg-trajectory-ml/scripts/ama8_inference.py
+```
+
+Runs 4 built-in test cases:
+1. Stationary iceberg (minimal forcing)
+2. Fast drift (strong current + moderate wind)
+3. Pack ice (high siconc, weak current, strong wind)
+4. 48-hour forecast (extrapolation warning)
+
+### As a CLI Tool (JSON Output)
+
+```bash
+python iceberg-trajectory-ml/scripts/ama8_inference.py \
+  --lat -65 \
+  --lon 0 \
+  --uo 0.1 \
+  --vo 0.05 \
+  --u10 -5 \
+  --v10 3 \
+  --siconc 0.3
+```
+
+Output (JSON):
+```json
+{
+  "predicted_lat": -65.00885686374026,
+  "predicted_lon": -0.1741241401804615,
+  "uncertainty_radius_km": 6.430162068324592,
+  "speed_category": "moderate",
+  "predicted_speed_kmd": 8.227222267741356,
+  "model_version": "CryoNav Drift Model v1",
+  "horizon_hours": 24.0
+}
+```
+
+## Input Parameters
+
+| Parameter | Type | Required | Description | Units |
+|-----------|------|----------|-------------|-------|
+| `lat` | float | Yes | Current latitude | degrees |
+| `lon` | float | Yes | Current longitude | degrees |
+| `ocean_u` | float | Yes | Ocean current eastward | m/s |
+| `ocean_v` | float | Yes | Ocean current northward | m/s |
+| `wind_u` | float | Yes | Wind eastward at 10m | m/s |
+| `wind_v` | float | Yes | Wind northward at 10m | m/s |
+| `siconc` | float | Yes | Sea ice concentration | 0-1 |
+| `ice_u` | float | No | Sea ice velocity eastward (default 0) | m/s |
+| `ice_v` | float | No | Sea ice velocity northward (default 0) | m/s |
+| `dt_hours` | float | No | Time horizon (default 24) | hours |
+| `model_dir` | str | No | Path to model files (auto-detected) | path |
+
+## Output Dictionary
+
+| Key | Type | Description |
+|-----|------|-------------|
+| `predicted_lat` | float | Predicted latitude after dt_hours |
+| `predicted_lon` | float | Predicted longitude (wrapped to -180..180) |
+| `uncertainty_radius_km` | float | 90th percentile position error (km) |
+| `speed_category` | str | stationary/slow/moderate/fast |
+| `predicted_speed_kmd` | float | Predicted speed (km/day) |
+| `model_version` | str | Model name from config |
+| `horizon_hours` | float | Time horizon used |
+| `warning` | str | (optional) If extrapolated beyond 24h |
+
+## Speed Categories
+
+| Category | Speed Range (km/day) | P90 Uncertainty (km) |
+|----------|---------------------|---------------------|
+| Stationary | 0-2 | 7.51 |
+| Slow | 2-5 | 6.81 |
+| Moderate | 5-10 | 6.43 |
+| Fast | >10 | 17.17 |
+
+*Note: Uncertainty values are from 2018-2021 temporal validation set*
+
+## Error Handling
+
+The function raises:
+- **ValueError**: If any input is NaN or None
+- **FileNotFoundError**: If model files don't exist
+- **ValueError**: If model was trained on synthetic data
+
+Example:
+```python
+try:
+    result = predict_iceberg_position(lat=-65, lon=np.nan, ...)
+except ValueError as e:
+    print(f"Invalid input: {e}")
+    # Output: Input 'lon' cannot be NaN or None. Got: nan
+```
+
+## Dependencies
+
+All dependencies are standard and already installed:
+- `numpy`
+- `pandas`
+- `scikit-learn` (joblib)
+- `json`, `math`, `pathlib` (stdlib)
+
+## Model Files Required
+
+The function expects these files in `iceberg-trajectory-ml/data/validation/`:
+1. `model_config.json` - Generated by `ama8_uncertainty_config.py`
+2. `drift_model.pkl` - Generated by `ama6_train_drift_model.py`
+
+## Limitations
+
+⚠️ **24-hour horizon only**: Model is validated for 24h forecasts only. Longer horizons are extrapolated with scaled uncertainty and a warning flag.
+
+⚠️ **No seasonal adjustment**: Currently uses fixed month=6 for seasonal cycle. Backend should pass actual month if available.
+
+⚠️ **Antarctic region only**: Trained on icebergs in range [-75°, -42°] latitude, [-23°, 63°] longitude.
+
+## Testing
+
+Run comprehensive tests:
+```bash
+# Built-in test cases
+python iceberg-trajectory-ml/scripts/ama8_inference.py
+
+# Module import test
+python iceberg-trajectory-ml/scripts/test_import.py
+
+# Error handling test
+python iceberg-trajectory-ml/scripts/test_error_handling.py
+```
+
+All tests pass ✓
+
+## Integration with Backend
+
+The backend can import this module:
+
+```python
+# In backend API
+import sys
+sys.path.insert(0, 'path/to/iceberg-trajectory-ml/scripts')
+from ama8_inference import predict_iceberg_position
+
+# In route handler
+@app.route('/predict', methods=['POST'])
+def predict():
+    data = request.json
+    result = predict_iceberg_position(
+        lat=data['lat'],
+        lon=data['lon'],
+        ocean_u=data['ocean_u'],
+        ocean_v=data['ocean_v'],
+        wind_u=data['wind_u'],
+        wind_v=data['wind_v'],
+        siconc=data['siconc']
+    )
+    return jsonify(result)
+```
+
+## Data Integrity
+
+✓ NO synthetic data (enforced by config check)  
+✓ NO accuracy claims (only error metrics in km)  
+✓ Validated on real BYU iceberg observations (2018-2021)
+
+## Version
+
+- **Model Version**: CryoNav Drift Model v1
+- **Inference Module**: AMA-8
+- **Generated**: 2026-11-08
+- **Data Provenance**: BYU v8.0, GLORYS12, ERA5
+
+---
+
+*For model training and uncertainty configuration, see:*
+- `ama6_train_drift_model.py` - Train drift model
+- `ama8_uncertainty_config.py` - Compute uncertainty bands
