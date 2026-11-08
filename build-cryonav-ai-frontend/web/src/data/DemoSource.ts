@@ -19,6 +19,18 @@ export class DemoSource implements DataSource {
         })
         .then((s) => {
           if (!s || !Array.isArray(s.steps) || s.steps.length === 0) throw new Error('scenario.json has no steps');
+          
+          // Ensure all drift predictions have uncertainty_radius_km (default 6.0 km)
+          for (const step of s.steps) {
+            for (const iceberg of step.icebergs) {
+              for (const driftPoint of iceberg.drift_path) {
+                if (driftPoint.uncertainty_radius_km === undefined || driftPoint.uncertainty_radius_km === 0) {
+                  driftPoint.uncertainty_radius_km = 6.0;
+                }
+              }
+            }
+          }
+          
           this.scenario = s;
           return s;
         })

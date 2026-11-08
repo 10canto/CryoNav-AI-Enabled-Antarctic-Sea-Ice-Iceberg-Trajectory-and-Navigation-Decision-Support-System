@@ -44,6 +44,9 @@ export class MapController {
   private icebergData = new Map<string, Iceberg>();
   private clustered = false;
 
+  private uncertaintyGroup = L.layerGroup();
+  private uncertaintyCircles = new Map<string, L.Circle>();
+
   private driftGroup = L.layerGroup();
   private driftLayers = new Map<string, L.Path | L.CircleMarker>();
   private predictionMarker: L.CircleMarker | null = null;
@@ -75,6 +78,9 @@ export class MapController {
 
     // Create custom panes for proper layering
     // Default panes: tilePane(200), overlayPane(400), shadowPane(500), markerPane(600), tooltipPane(650), popupPane(700)
+    this.map.createPane('uncertainty');
+    this.map.getPane('uncertainty')!.style.zIndex = '380'; // Below routes(450), above overlayPane(400)
+    
     this.map.createPane('routes');
     this.map.getPane('routes')!.style.zIndex = '450'; // Above overlayPane(400), below markerPane(600)
 
@@ -89,6 +95,7 @@ export class MapController {
 
     this.halo = L.polyline([], { weight: 11, opacity: 0.28, interactive: false }).addTo(this.map);
     this.routeGroup.addTo(this.map);
+    this.uncertaintyGroup.addTo(this.map);
     this.driftGroup.addTo(this.map);
     this.icebergLayer.addTo(this.map);
     this.addPorts();
@@ -558,6 +565,74 @@ export class MapController {
       if (!seen.has(id)) {
         this.icebergLayer.removeLayer(m);
         this.icebergMarkers.delete(id);
+      }
+    }
+    // Sync uncertainty circles for all icebergs with drift predictions
+    this.syncUncertaintyCircles(list);
+  }
+
+  private syncUncertaintyCircles(list: Iceberg[]) {
+    const step = this.store.getState().scenario?.steps[this.store.getState().stepIndex];
+    if (!step) return;
+
+    const seen = new Set<string>();
+    
+    // Color map by risk level
+    const riskColors: Record<string, string> = {
+      GREEN: '#16A34A',
+      YELLOW: '#EAB308',
+      ORANGE: '#F97316',
+      RED: '#DC2626',
+    };
+    const defaultColor = '#6366F1'; // indigo
+
+    for (const iceberg of list) {
+      // Draw uncertainty circles for predicted positions (24h predictions)
+      if (iceberg.drift_path && iceberg.drift_path.length > 0) {
+        for (const prediction of iceberg.drift_path) {
+          const key = `${iceberg.id}:${prediction.hours}h`;
+          seen.add(key);
+          
+          const radiusKm = prediction.uncertainty_radius_km || 6.0;
+          const radiusMeters = radiusKm * 1000;
+          
+          // Get risk level color (use step's risk level as default)
+          const color = riskColors[step.risk.level] || defaultColor;
+          
+          const existing = this.uncertaintyCircles.get(key);
+          if (existing) {
+            // Update existing circle
+            existing.setLatLng(ll(prediction));
+            existing.setRadius(radiusMeters);
+            existing.setStyle({
+              color,
+              fillColor: color,
+            });
+          } else {
+            // Create new circle
+            const circle = L.circle(ll(prediction), {
+              radius: radiusMeters,
+              color,
+              weight: 2,
+              opacity: 0.6,
+              dashArray: '5 5',
+              fillColor: color,
+              fillOpacity: 0.15,
+              interactive: false,
+              pane: 'uncertainty',
+            });
+            circle.addTo(this.uncertaintyGroup);
+            this.uncertaintyCircles.set(key, circle);
+          }
+        }
+      }
+    }
+
+    // Remove circles that are no longer needed
+    for (const [key, circle] of this.uncertaintyCircles) {
+      if (!seen.has(key)) {
+        this.uncertaintyGroup.removeLayer(circle);
+        this.uncertaintyCircles.delete(key);
       }
     }
   }
