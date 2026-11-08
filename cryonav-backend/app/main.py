@@ -34,6 +34,17 @@ from app.services import iceberg_service
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# Try to import ML drift prediction
+try:
+    import sys
+    sys.path.insert(0, str(Path(__file__).parent.parent.parent / "iceberg-trajectory-ml"))
+    from scripts.ama8_inference import predict_iceberg_position
+    ML_DRIFT_AVAILABLE = True
+    logger.info("ML drift prediction loaded successfully")
+except Exception as e:
+    ML_DRIFT_AVAILABLE = False
+    logger.warning(f"ML drift prediction not available: {e}. Will use mock data.")
+
 # Global state variable for demo scenarios
 current_scenario = 0
 MAX_SCENARIO = 3
@@ -140,8 +151,90 @@ async def get_icebergs():
 
 @app.get("/api/predict-drift", response_model=PredictionsResponse)
 async def get_drift_predictions(iceberg_id: Optional[str] = Query(None)):
-    """Get drift predictions for current scenario, optionally filtered by iceberg_id."""
+    """
+    Get drift predictions for current scenario, optionally filtered by iceberg_id.
+    
+    Uses real ML drift prediction (AMA-8) when available, falls back to mock data.
+    """
     logger.info(f"GET /api/predict-drift called (scenario={current_scenario}, iceberg_id={iceberg_id})")
+    
+    if ML_DRIFT_AVAILABLE:
+        # Use real ML prediction
+        try:
+            # Get icebergs from current scenario
+            iceberg_filepath = get_scenario_path(current_scenario) / "icebergs.json"
+            iceberg_data = read_json_file(iceberg_filepath)
+            
+            if "error" in iceberg_data:
+                return JSONResponse(status_code=404, content=iceberg_data)
+            
+            icebergs = iceberg_data.get("icebergs", [])
+            
+            # Filter if specific iceberg requested
+            if iceberg_id:
+                icebergs = [ib for ib in icebergs if ib.get("id") == iceberg_id]
+            
+            if not icebergs:
+                return {"predictions": []}
+            
+            # Default forcing values for demo
+            DEFAULT_OCEAN_U = 0.15
+            DEFAULT_OCEAN_V = 0.05
+            DEFAULT_WIND_U = -8.0
+            DEFAULT_WIND_V = 3.0
+            DEFAULT_SICONC = 0.4
+            
+            predictions = []
+            for iceberg in icebergs:
+                lat = iceberg.get("position", {}).get("lat")
+                lon = iceberg.get("position", {}).get("lon")
+                
+                if lat is None or lon is None:
+                    continue
+                
+                # Predict 24h position only (ML model validated for 24h)
+                try:
+                    result = predict_iceberg_position(
+                        lat=lat,
+                        lon=lon,
+                        ocean_u=DEFAULT_OCEAN_U,
+                        ocean_v=DEFAULT_OCEAN_V,
+                        wind_u=DEFAULT_WIND_U,
+                        wind_v=DEFAULT_WIND_V,
+                        siconc=DEFAULT_SICONC,
+                        dt_hours=24
+                    )
+                    
+                    trajectory = [{
+                        "time": "24h",
+                        "position": {
+                            "lat": result["predicted_lat"],
+                            "lon": result["predicted_lon"]
+                        },
+                        "uncertainty_radius_km": int(result["uncertainty_radius_km"])
+                    }]
+                    
+                    predictions.append({
+                        "iceberg_id": iceberg.get("id"),
+                        "trajectory": trajectory
+                    })
+                    
+                except Exception as e:
+                    logger.error(f"ML prediction failed for {iceberg.get('id')}: {e}")
+                    # Skip this iceberg
+                    continue
+            
+            return {
+                "predictions": predictions,
+                "simulated": False,
+                "method": "AMA-8 ML model"
+            }
+            
+        except Exception as e:
+            logger.error(f"ML drift prediction failed: {e}. Falling back to mock data.")
+            # Fall through to mock data below
+    
+    # Fallback: use mock scenario data
     filepath = get_scenario_path(current_scenario) / "predictions.json"
     data = read_json_file(filepath)
     
@@ -150,7 +243,11 @@ async def get_drift_predictions(iceberg_id: Optional[str] = Query(None)):
     
     if iceberg_id and "predictions" in data:
         filtered = [p for p in data["predictions"] if p.get("iceberg_id") == iceberg_id]
-        return {"predictions": filtered}
+        data = {"predictions": filtered}
+    
+    # Add simulated flag to mock data
+    data["simulated"] = True
+    data["method"] = "mock scenario data"
     
     return data
 
