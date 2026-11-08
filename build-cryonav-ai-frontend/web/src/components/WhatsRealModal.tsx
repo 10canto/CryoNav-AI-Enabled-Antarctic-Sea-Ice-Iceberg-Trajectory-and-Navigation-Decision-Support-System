@@ -28,6 +28,8 @@ export function WhatsRealModal({ open, onClose }: { open: boolean; onClose: () =
               <ul>
                 <li>Iceberg tracking data (647 icebergs)</li>
                 <li>Copernicus ocean currents</li>
+                <li>Iceberg drift predictions (24h, physics-informed model trained on 28,000 real observations)</li>
+                <li>Uncertainty circles (speed-dependent uncertainty bands from real validation residuals)</li>
               </ul>
             </div>
             <div className="whatsreal-col">
@@ -35,6 +37,7 @@ export function WhatsRealModal({ open, onClose }: { open: boolean; onClose: () =
               <ul>
                 <li>Alert sending</li>
                 <li>Scenario timing</li>
+                <li>Route paths (until Satvik's routing is wired)</li>
                 <li>All PLACEHOLDER DATA values</li>
                 <li>Seasonal ice model</li>
               </ul>
