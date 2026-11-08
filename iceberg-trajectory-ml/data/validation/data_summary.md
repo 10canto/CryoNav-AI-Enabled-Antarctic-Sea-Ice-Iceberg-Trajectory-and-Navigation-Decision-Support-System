@@ -1,6 +1,6 @@
 # Training Data Summary
 
-**Created**: 2026-11-07T04:09:18.362512+00:00  
+**Created**: 2026-11-08T14:28:32.229637+00:00  
 **Data Source**: REAL (observational data only)
 
 ## Sources
@@ -14,13 +14,13 @@
 - **Total rows**: 27,707
 - **Unique icebergs**: 61
 - **Date range**: 1995-09-03 to 2021-12-30
-- **Years included**: 7 years (1995-2006)
-- **Partial data**: Yes
+- **Years included**: 21 years (1995-2021)
+- **Partial data**: No
 - **Max time gap**: 3 days
 
 ## Data Completeness
 
-- **Complete cases** (all forcing available): 635 (2.3%)
+- **Complete cases** (all forcing available): 22,631 (81.7%)
 - **Outliers flagged** (speed > 2 m/s): 2 (0.0%)
 
 ### Valid Data by Variable
@@ -32,8 +32,8 @@
 | siconc | 22,631 | 5,076 | 81.7% |
 | usi | 23,532 | 4,175 | 84.9% |
 | vsi | 23,532 | 4,175 | 84.9% |
-| u10 | 949 | 26,758 | 3.4% |
-| v10 | 949 | 26,758 | 3.4% |
+| u10 | 27,707 | 0 | 100.0% |
+| v10 | 27,707 | 0 | 100.0% |
 
 ## Columns
 

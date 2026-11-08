@@ -5,7 +5,7 @@
     "Copernicus Marine GLORYS12 cmems_mod_glo_phy_my_0.083deg_P1D-m",
     "ERA5 reanalysis-era5-single-levels"
   ],
-  "created_utc": "2026-11-07T04:09:18.362512+00:00",
+  "created_utc": "2026-11-08T14:28:32.229637+00:00",
   "n_rows": 27707,
   "n_icebergs": 61,
   "date_min": "1995-09-03",
@@ -17,19 +17,33 @@
     2001,
     2004,
     2005,
-    2006
+    2006,
+    2007,
+    2008,
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021
   ],
-  "partial": true,
+  "partial": false,
   "nan_counts": {
     "uo": 2166,
     "vo": 2166,
     "siconc": 5076,
     "usi": 4175,
     "vsi": 4175,
-    "u10": 26758,
-    "v10": 26758
+    "u10": 0,
+    "v10": 0
   },
-  "n_complete_case": 635,
+  "n_complete_case": 22631,
   "n_outliers_flagged": 2,
   "max_dt_days": 3,
   "synthetic": false
