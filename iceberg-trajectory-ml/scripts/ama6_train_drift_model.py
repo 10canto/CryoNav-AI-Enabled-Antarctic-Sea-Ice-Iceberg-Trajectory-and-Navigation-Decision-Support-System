@@ -1602,7 +1602,7 @@ def print_comparison_table(results):
     """Print comprehensive comparison table."""
     print_header("FINAL COMPARISON TABLE")
     
-    print("\nAll three models across all three splits:\n")
+    print("\nAll four models across all three splits:\n")
     print("=" * 100)
     print(f"{'Split':<20} {'Model':<18} {'N':>8} {'MAE_u':>10} {'MAE_v':>10} {'RMSE_u':>10} {'Speed(km/d)':>12}")
     print("=" * 100)
@@ -1618,7 +1618,8 @@ def print_comparison_table(results):
             continue
         
         for model_name, model_label in [('ml', 'ML Model'),
-                                         ('physics', 'Physics'),
+                                         ('calib_physics', 'Calib Physics'),
+                                         ('physics', 'Textbook Physics'),
                                          ('zero', 'Zero')]:
             m = split_res[model_name]
             print(f"{split_label:<20} {model_label:<18} {m['n']:>8,} "
