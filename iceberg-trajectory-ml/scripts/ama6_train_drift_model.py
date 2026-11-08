@@ -452,6 +452,85 @@ def combined_split(df, split_year=2018, n_holdout=10):
 # BASELINE MODELS
 # ============================================================================
 
+def train_calibrated_physics(df_train):
+    """
+    Train calibrated physics baseline using OLS (no regularization).
+    
+    Args:
+        df_train: Training dataframe with forcing variables
+    
+    Returns:
+        dict with fitted models
+    """
+    from sklearn.linear_model import LinearRegression
+    
+    print_header("TRAINING CALIBRATED PHYSICS BASELINE (OLS)")
+    
+    # Build simple physics features (no ML extras)
+    ice_weight = ((df_train['siconc'] - 0.6) / 0.3).clip(0, 1)
+    
+    # For u-component: uo, usi*ice_weight, u10
+    X_u = pd.DataFrame({
+        'uo': df_train['uo'].values,
+        'usi_weighted': (df_train['usi'] * ice_weight).values,
+        'u10': df_train['u10'].values
+    }, index=df_train.index)
+    
+    # For v-component: vo, vsi*ice_weight, v10
+    X_v = pd.DataFrame({
+        'vo': df_train['vo'].values,
+        'vsi_weighted': (df_train['vsi'] * ice_weight).values,
+        'v10': df_train['v10'].values
+    }, index=df_train.index)
+    
+    # Remove NaN
+    mask_u = X_u.notna().all(axis=1) & df_train['u_obs'].notna()
+    mask_v = X_v.notna().all(axis=1) & df_train['v_obs'].notna()
+    
+    # Fit OLS
+    model_u = LinearRegression()
+    model_u.fit(X_u[mask_u], df_train.loc[mask_u, 'u_obs'])
+    
+    model_v = LinearRegression()
+    model_v.fit(X_v[mask_v], df_train.loc[mask_v, 'v_obs'])
+    
+    # Print coefficients
+    print("\nCalibrated Physics Coefficients (OLS):")
+    print(f"  u = {model_u.coef_[0]:.4f}*uo + {model_u.coef_[1]:.4f}*usi*ice_wt + {model_u.coef_[2]:.4f}*u10 + {model_u.intercept_:.4f}")
+    print(f"  v = {model_v.coef_[0]:.4f}*vo + {model_v.coef_[1]:.4f}*vsi*ice_wt + {model_v.coef_[2]:.4f}*v10 + {model_v.intercept_:.4f}")
+    print("\nTextbook coefficients for comparison:")
+    print("  u = 0.9000*uo + 0.2000*usi*ice_wt + 0.0200*u10")
+    print("  v = 0.9000*vo + 0.2000*vsi*ice_wt + 0.0200*v10")
+    print_success("Calibrated physics trained")
+    
+    return {
+        'model_u': model_u,
+        'model_v': model_v
+    }
+
+
+def predict_calibrated_physics(calibrated_model, df_test):
+    """Predict using calibrated physics baseline."""
+    ice_weight = ((df_test['siconc'] - 0.6) / 0.3).clip(0, 1)
+    
+    X_u = pd.DataFrame({
+        'uo': df_test['uo'].values,
+        'usi_weighted': (df_test['usi'] * ice_weight).values,
+        'u10': df_test['u10'].values
+    }, index=df_test.index)
+    
+    X_v = pd.DataFrame({
+        'vo': df_test['vo'].values,
+        'vsi_weighted': (df_test['vsi'] * ice_weight).values,
+        'v10': df_test['v10'].values
+    }, index=df_test.index)
+    
+    u_pred = calibrated_model['model_u'].predict(X_u)
+    v_pred = calibrated_model['model_v'].predict(X_v)
+    
+    return u_pred, v_pred
+
+
 def evaluate_zero_baseline(y_true_u, y_true_v):
     """Zero-velocity baseline: predict u=0, v=0."""
     y_pred_u = np.zeros_like(y_true_u)
@@ -467,11 +546,17 @@ def evaluate_physics_baseline(df_test, y_true_u, y_true_v):
                                  physics_pred['v_physics'].values)
 
 
+def evaluate_calibrated_physics_baseline(calibrated_model, df_test, y_true_u, y_true_v):
+    """Calibrated physics baseline with OLS-fitted coefficients."""
+    u_pred, v_pred = predict_calibrated_physics(calibrated_model, df_test)
+    return compute_error_metrics(y_true_u, y_true_v, u_pred, v_pred)
+
+
 # ============================================================================
 # FULL EVALUATION
 # ============================================================================
 
-def evaluate_all_splits(df, features, model_dict, approach_name):
+def evaluate_all_splits(df, features, model_dict, approach_name, calibrated_physics=None):
     """
     Evaluate model on all three split strategies.
     
@@ -504,23 +589,29 @@ def evaluate_all_splits(df, features, model_dict, approach_name):
     print_stat("Train samples", f"{train_mask.sum():,}")
     print_stat("Test samples", f"{test_mask.sum():,}")
     
-    # Predict
-    pred = predict_drift(model_dict, X_test, df_complete[test_mask])
-    ml_metrics = compute_error_metrics(y_u_test, y_v_test, pred['u_pred'], pred['v_pred'])
-    
-    # Baselines
-    zero_metrics = evaluate_zero_baseline(y_u_test, y_v_test)
-    physics_metrics = evaluate_physics_baseline(df_complete[test_mask], y_u_test, y_v_test)
-    
-    print_metrics(ml_metrics, "ML Model")
-    print_metrics(zero_metrics, "Zero Baseline")
-    print_metrics(physics_metrics, "Physics Baseline")
-    
-    results['temporal'] = {
-        'ml': ml_metrics,
-        'zero': zero_metrics,
-        'physics': physics_metrics
-    }
+    if test_mask.sum() > 0:
+        # Predict
+        pred = predict_drift(model_dict, X_test, df_complete[test_mask])
+        ml_metrics = compute_error_metrics(y_u_test, y_v_test, pred['u_pred'], pred['v_pred'])
+        
+        # Baselines
+        zero_metrics = evaluate_zero_baseline(y_u_test, y_v_test)
+        physics_metrics = evaluate_physics_baseline(df_complete[test_mask], y_u_test, y_v_test)
+        calib_physics_metrics = evaluate_calibrated_physics_baseline(calibrated_physics, df_complete[test_mask], y_u_test, y_v_test)
+        
+        print_metrics(ml_metrics, "ML Model")
+        print_metrics(calib_physics_metrics, "Calibrated Physics")
+        print_metrics(physics_metrics, "Textbook Physics")
+        print_metrics(zero_metrics, "Zero Baseline")
+        
+        results['temporal'] = {
+            'ml': ml_metrics,
+            'calib_physics': calib_physics_metrics,
+            'physics': physics_metrics,
+            'zero': zero_metrics
+        }
+    else:
+        results['temporal'] = None
     
     # ========== SPATIAL SPLIT ==========
     print("\n" + "-" * 80)
@@ -537,24 +628,30 @@ def evaluate_all_splits(df, features, model_dict, approach_name):
     print_stat("Test samples", f"{test_mask.sum():,}")
     print_stat("Held-out icebergs", ", ".join(holdout_icebergs[:5]) + "...")
     
-    # Predict
-    pred = predict_drift(model_dict, X_test, df_complete[test_mask])
-    ml_metrics = compute_error_metrics(y_u_test, y_v_test, pred['u_pred'], pred['v_pred'])
-    
-    # Baselines
-    zero_metrics = evaluate_zero_baseline(y_u_test, y_v_test)
-    physics_metrics = evaluate_physics_baseline(df_complete[test_mask], y_u_test, y_v_test)
-    
-    print_metrics(ml_metrics, "ML Model")
-    print_metrics(zero_metrics, "Zero Baseline")
-    print_metrics(physics_metrics, "Physics Baseline")
-    
-    results['spatial'] = {
-        'ml': ml_metrics,
-        'zero': zero_metrics,
-        'physics': physics_metrics,
-        'holdout_icebergs': holdout_icebergs
-    }
+    if test_mask.sum() > 0:
+        # Predict
+        pred = predict_drift(model_dict, X_test, df_complete[test_mask])
+        ml_metrics = compute_error_metrics(y_u_test, y_v_test, pred['u_pred'], pred['v_pred'])
+        
+        # Baselines
+        zero_metrics = evaluate_zero_baseline(y_u_test, y_v_test)
+        physics_metrics = evaluate_physics_baseline(df_complete[test_mask], y_u_test, y_v_test)
+        calib_physics_metrics = evaluate_calibrated_physics_baseline(calibrated_physics, df_complete[test_mask], y_u_test, y_v_test)
+        
+        print_metrics(ml_metrics, "ML Model")
+        print_metrics(calib_physics_metrics, "Calibrated Physics")
+        print_metrics(physics_metrics, "Textbook Physics")
+        print_metrics(zero_metrics, "Zero Baseline")
+        
+        results['spatial'] = {
+            'ml': ml_metrics,
+            'calib_physics': calib_physics_metrics,
+            'physics': physics_metrics,
+            'zero': zero_metrics,
+            'holdout_icebergs': holdout_icebergs
+        }
+    else:
+        results['spatial'] = None
     
     # ========== COMBINED SPLIT ==========
     print("\n" + "-" * 80)
@@ -581,15 +678,18 @@ def evaluate_all_splits(df, features, model_dict, approach_name):
         # Baselines
         zero_metrics = evaluate_zero_baseline(y_u_test, y_v_test)
         physics_metrics = evaluate_physics_baseline(df_complete[test_mask], y_u_test, y_v_test)
+        calib_physics_metrics = evaluate_calibrated_physics_baseline(calibrated_physics, df_complete[test_mask], y_u_test, y_v_test)
         
         print_metrics(ml_metrics, "ML Model")
+        print_metrics(calib_physics_metrics, "Calibrated Physics")
+        print_metrics(physics_metrics, "Textbook Physics")
         print_metrics(zero_metrics, "Zero Baseline")
-        print_metrics(physics_metrics, "Physics Baseline")
         
         results['combined'] = {
             'ml': ml_metrics,
-            'zero': zero_metrics,
-            'physics': physics_metrics
+            'calib_physics': calib_physics_metrics,
+            'physics': physics_metrics,
+            'zero': zero_metrics
         }
     
     return results
@@ -1045,8 +1145,12 @@ Examples:
         
         model_dict = train_approach_b(X_train, y_u_train, y_v_train, df_train_split, alpha=args.alpha)
     
+    # Train calibrated physics baseline (after model is trained)
+    df_train_for_calib = df_train[train_mask]
+    calibrated_physics = train_calibrated_physics(df_train_for_calib)
+    
     # Evaluate on all splits
-    results = evaluate_all_splits(df, features, model_dict, approach_name)
+    results = evaluate_all_splits(df, features, model_dict, approach_name, calibrated_physics)
     
     # Evaluate on moving icebergs only
     complete_mask = features.notna().all(axis=1) & df['u_obs'].notna() & df['v_obs'].notna()
