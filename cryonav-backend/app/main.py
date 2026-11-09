@@ -389,85 +389,6 @@ async def set_model_mode(use_real_model: bool = Query(..., description="True for
 
 
 # ============================================================================
-# SEA-ICE ENDPOINT
-# ============================================================================
-
-@app.get("/api/seaice")
-async def get_seaice(date: str = Query("2020-08-15", description="Date in YYYY-MM-DD format")):
-    """
-    Get sea-ice concentration data for a specific date.
-    
-    # Real data: Copernicus Marine GLORYS12 reanalysis via A-AMAR pipeline
-    
-    Args:
-        date: Date in YYYY-MM-DD format (default: 2020-08-15)
-        
-    Returns:
-        Sea-ice concentration grid with cells containing lat, lon, concentration
-    """
-    logger.info(f"GET /api/seaice called: date={date}")
-    
-    # Path to the sea-ice data file (relative to backend folder)
-    seaice_file = Path(__file__).parent.parent.parent / "iceberg-trajectory-ml" / "data" / "validation" / "demo_seaice_grid.json"
-    
-    # Check if file exists
-    if not seaice_file.exists():
-        logger.error(f"Sea-ice data file not found: {seaice_file}")
-        return JSONResponse(
-            status_code=503,
-            content={
-                "error": "Sea-ice data not available",
-                "simulated": False
-            }
-        )
-    
-    try:
-        # Read the JSON file
-        with open(seaice_file, "r") as f:
-            data = json.load(f)
-        
-        # Filter to requested date and skip null/NaN/missing concentrations
-        cells = []
-        for row in data:
-            if row.get("date") == date:
-                concentration = row.get("concentration")
-                # Skip if concentration is None, NaN, or missing
-                if concentration is not None and not (isinstance(concentration, float) and concentration != concentration):
-                    cells.append({
-                        "lat": row["lat"],
-                        "lon": row["lon"],
-                        "concentration": concentration
-                    })
-        
-        # Return response
-        return {
-            "date": date,
-            "source": "Copernicus Marine GLORYS12 reanalysis",
-            "grid_resolution_deg": 2.0,
-            "cells": cells
-        }
-        
-    except json.JSONDecodeError as e:
-        logger.error(f"Failed to parse sea-ice JSON: {e}")
-        return JSONResponse(
-            status_code=503,
-            content={
-                "error": "Sea-ice data not available",
-                "simulated": False
-            }
-        )
-    except Exception as e:
-        logger.error(f"Failed to read sea-ice data: {e}", exc_info=True)
-        return JSONResponse(
-            status_code=503,
-            content={
-                "error": "Sea-ice data not available",
-                "simulated": False
-            }
-        )
-
-
-# ============================================================================
 # EXISTING ENDPOINTS CONTINUE BELOW
 # ============================================================================
 
@@ -499,3 +420,30 @@ async def reset_demo():
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
+
+
+# SEA-ICE ENDPOINT
+# Real data: Copernicus Marine GLORYS12 reanalysis via A-AMAR pipeline
+@app.get("/api/seaice")
+async def get_seaice(date: str = Query("2020-08-15", description="Date in YYYY-MM-DD format")):
+    """Get sea-ice concentration data for a specific date."""
+    import math
+    seaice_file = Path(__file__).parent.parent.parent / "iceberg-trajectory-ml" / "data" / "validation" / "demo_seaice_grid.json"
+    if not seaice_file.exists():
+        return JSONResponse(status_code=503, content={"error": "Sea-ice data not available", "simulated": False})
+    try:
+        with open(seaice_file, "r") as f:
+            import json
+            data = json.load(f)
+        cells = []
+        for row in data:
+            if row.get("date") != date:
+                continue
+            conc = row.get("concentration")
+            if conc is None or (isinstance(conc, float) and math.isnan(conc)):
+                continue
+            cells.append({"lat": row["lat"], "lon": row["lon"], "concentration": conc})
+        return {"date": date, "source": "Copernicus Marine GLORYS12 reanalysis", "grid_resolution_deg": 2.0, "cells": cells}
+    except Exception as e:
+        logger.error(f"Failed to read sea-ice data: {e}")
+        return JSONResponse(status_code=503, content={"error": "Sea-ice data not available", "simulated": False})
