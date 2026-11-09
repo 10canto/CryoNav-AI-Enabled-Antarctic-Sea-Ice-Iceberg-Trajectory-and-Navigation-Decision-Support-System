@@ -52,6 +52,7 @@ export interface AppState {
   preAuthorized: boolean;
   alertOpen: boolean;
   alertStatus: AlertStatus;
+  showSeaIce: boolean;
 
   // live only
   allIcebergs: Iceberg[];
@@ -73,6 +74,7 @@ export interface AppState {
   closeAlert: () => void;
   sendAlert: () => Promise<void>;
   runWhatIf: (req: WhatIfRequest) => Promise<void>;
+  toggleSeaIce: () => void;
 }
 
 export const currentStep = (s: Pick<AppState, 'scenario' | 'stepIndex'>): Step | null =>
@@ -195,6 +197,7 @@ export const useStore = create<AppState>((set, get) => {
     preAuthorized: false,
     alertOpen: false,
     alertStatus: { state: 'idle', message: '' },
+    showSeaIce: true,
 
     allIcebergs: [],
     whatIfSupport: NO_SUPPORT,
@@ -344,6 +347,10 @@ export const useStore = create<AppState>((set, get) => {
       } finally {
         set({ busy: null });
       }
+    },
+
+    toggleSeaIce() {
+      set({ showSeaIce: !get().showSeaIce });
     },
   };
 });

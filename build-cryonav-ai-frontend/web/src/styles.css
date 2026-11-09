@@ -1354,3 +1354,75 @@ kbd {
 .collapsible-header.collapsed::after {
   transform: rotate(-90deg);
 }
+
+/* Sea-ice toggle button */
+.ice-toggle-btn {
+  padding: 0.5rem 1rem;
+  background: var(--surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.ice-toggle-btn:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-strong);
+}
+
+.ice-toggle-btn.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+/* Sea-ice legend */
+.sea-ice-legend {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  min-width: 200px;
+}
+
+.legend-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.legend-scale {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.legend-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.legend-color {
+  width: 40px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+
+.legend-item span {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}

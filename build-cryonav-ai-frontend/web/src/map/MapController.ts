@@ -5,6 +5,7 @@ import type { Iceberg, Route, Step } from '../domain/types';
 import { currentStep, type AppState, type useStore } from '../store/useStore';
 import { PORTS } from './ports';
 import { readTokens } from '../theme/tokens';
+import { SeaIceLayer, generatePlaceholderIceData } from './SeaIceLayer';
 
 type Store = typeof useStore;
 type IcebergLayer = L.LayerGroup | L.MarkerClusterGroup;
@@ -51,6 +52,8 @@ export class MapController {
   private driftLayers = new Map<string, L.Path | L.CircleMarker>();
   private predictionMarker: L.CircleMarker | null = null;
 
+  private seaIceLayer: SeaIceLayer | null = null;
+
   private ship: L.Marker;
   private raf = 0;
   private idleWaiters: Array<() => void> = [];
@@ -78,6 +81,9 @@ export class MapController {
 
     // Create custom panes for proper layering
     // Default panes: tilePane(200), overlayPane(400), shadowPane(500), markerPane(600), tooltipPane(650), popupPane(700)
+    this.map.createPane('seaice');
+    this.map.getPane('seaice')!.style.zIndex = '300'; // Below uncertainty(380)
+    
     this.map.createPane('uncertainty');
     this.map.getPane('uncertainty')!.style.zIndex = '380'; // Below routes(450), above overlayPane(400)
     
@@ -94,6 +100,10 @@ export class MapController {
     );
 
     this.halo = L.polyline([], { weight: 11, opacity: 0.28, interactive: false }).addTo(this.map);
+    
+    // Initialize sea-ice layer
+    this.seaIceLayer = new SeaIceLayer(this.map);
+    
     this.routeGroup.addTo(this.map);
     this.uncertaintyGroup.addTo(this.map);
     this.driftGroup.addTo(this.map);
@@ -258,6 +268,7 @@ export class MapController {
       this.syncRoutes(step.routes, s.selectedRouteId);
       this.syncIcebergs(step.icebergs);
       this.syncPredictedCrossing(step);
+      this.syncSeaIce(s.stepIndex);
       if (navigated) this.onNavigate(step, first);
     } else if (s.selectedRouteId !== prev.selectedRouteId) {
       this.styleRoutes(s.selectedRouteId);
@@ -274,6 +285,11 @@ export class MapController {
     if (prev && prev.alertOpen && !s.alertOpen && !this.alertAcknowledged) {
       this.alertAcknowledged = true;
       this.pulseSelectedRoute(s.selectedRouteId);
+    }
+    
+    // Handle sea-ice visibility toggle
+    if (prev && s.showSeaIce !== prev.showSeaIce) {
+      this.toggleSeaIce(s.showSeaIce);
     }
   }
 
@@ -597,7 +613,7 @@ export class MapController {
           const radiusMeters = radiusKm * 1000;
           
           // Get risk level color (use step's risk level as default)
-          const color = riskColors[step.risk.level] || defaultColor;
+          const circleColor = riskColors[step.risk.level] || defaultColor;
           
           const existing = this.uncertaintyCircles.get(key);
           if (existing) {
@@ -605,19 +621,22 @@ export class MapController {
             existing.setLatLng(ll(prediction));
             existing.setRadius(radiusMeters);
             existing.setStyle({
-              color,
-              fillColor: color,
+              color: circleColor,
+              fillColor: circleColor,
+              weight: 1.5,
+              opacity: 0.5,
+              fillOpacity: 0.1,
             });
           } else {
             // Create new circle
             const circle = L.circle(ll(prediction), {
               radius: radiusMeters,
-              color,
-              weight: 2,
-              opacity: 0.6,
-              dashArray: '5 5',
-              fillColor: color,
-              fillOpacity: 0.15,
+              color: circleColor,
+              weight: 1.5,
+              opacity: 0.5,
+              dashArray: '6 4',
+              fillColor: circleColor,
+              fillOpacity: 0.1,
               interactive: false,
               pane: 'uncertainty',
             });
@@ -671,6 +690,23 @@ export class MapController {
     return el;
   }
 
+  // ---------------------------------------------------------------- sea-ice layer
+
+  private syncSeaIce(stepIndex: number) {
+    if (!this.seaIceLayer) return;
+    const cells = generatePlaceholderIceData(stepIndex);
+    this.seaIceLayer.update(cells);
+  }
+
+  private toggleSeaIce(visible: boolean) {
+    if (!this.seaIceLayer) return;
+    if (visible) {
+      this.seaIceLayer.show();
+    } else {
+      this.seaIceLayer.hide();
+    }
+  }
+
   // ---------------------------------------------------------------- drift
 
   private drawDrift(step: Step, icebergId: string | null) {
@@ -682,25 +718,10 @@ export class MapController {
       wanted.set(`${b.id}:path`, () =>
         L.polyline([ll(b), ...pts.map(ll)], { color: tokens.lineMid, weight: 2.5, dashArray: '6 5', interactive: false }),
       );
-      // one uncertainty circle per 24 / 48 / 72 h (nearest available point if the backend uses other hours)
+      // Draw time markers at 24 / 48 / 72 h (uncertainty circles are drawn by syncUncertaintyCircles)
       const marks = new Set(DRIFT_HOURS.map((h) => pts.reduce((best, q) => (Math.abs(q.hours - h) < Math.abs(best.hours - h) ? q : best), pts[0])));
       for (const pt of marks) {
-        const hasRadius = pt.uncertainty_radius_km > 0;
-        if (hasRadius) {
-          // Opacity based on hours: 24h=6%, 48h=10%, 72h=14%
-          const opacityMap: Record<number, number> = { 24: 0.06, 48: 0.10, 72: 0.14 };
-          const opacity = opacityMap[pt.hours] || 0.10;
-          wanted.set(`${b.id}:circle:${pt.hours}`, () =>
-            L.circle(ll(pt), {
-              radius: pt.uncertainty_radius_km * 1000,
-              color: tokens.lineMid,
-              weight: 1.5,
-              fillColor: 'white',
-              fillOpacity: opacity,
-              interactive: false,
-            }).bindTooltip(`+${pt.hours} h, uncertainty radius ${pt.uncertainty_radius_km} km`, { sticky: true }),
-          );
-        }
+        // Only draw the dot marker, not duplicate uncertainty circles
         wanted.set(`${b.id}:dot:${pt.hours}`, () =>
           L.circleMarker(ll(pt), { radius: 3, color: tokens.lineMid, fillColor: tokens.textOnDark, fillOpacity: 1, weight: 1.5 }).bindTooltip(`+${pt.hours} h`, {
             permanent: true,
