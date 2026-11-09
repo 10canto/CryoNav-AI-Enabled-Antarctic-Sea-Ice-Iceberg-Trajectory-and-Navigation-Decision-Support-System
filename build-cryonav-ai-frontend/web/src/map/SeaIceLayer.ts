@@ -11,6 +11,7 @@ export class SeaIceLayer {
   private map: LeafletMap;
   private iceGroup: L.LayerGroup;
   private visible: boolean = true;
+  private selectedDate: string = "2020-08-15";
 
   constructor(map: LeafletMap) {
     this.map = map;
@@ -44,7 +45,7 @@ export class SeaIceLayer {
         color: color,
         weight: 0,
         fillColor: color,
-        fillOpacity: 0.4,
+        fillOpacity: 0.7,
         pane: 'seaice',
         interactive: false
       });
@@ -85,6 +86,14 @@ export class SeaIceLayer {
     return this.visible;
   }
 
+  setSeason(date: string) {
+    this.selectedDate = date;
+  }
+
+  getSelectedDate(): string {
+    return this.selectedDate;
+  }
+
   destroy() {
     this.iceGroup.clearLayers();
     this.iceGroup.remove();
@@ -92,40 +101,33 @@ export class SeaIceLayer {
 }
 
 /**
- * Generate placeholder sea-ice concentration data based on latitude
- * PLACEHOLDER DATA - to be replaced with real sea-ice grids
+ * Load real sea-ice concentration data from Copernicus Marine
+ * Real data: Copernicus Marine GLORYS12 reanalysis via A-AMAR pipeline
  */
-export function generatePlaceholderIceData(stepIndex: number): IceCell[] {
-  const cells: IceCell[] = [];
+export async function loadRealSeaIceData(selectedDate: string): Promise<IceCell[]> {
+  const targetDate = selectedDate;
   
-  // Seasonal variation: 0-based step index affects ice extent
-  const seasonalShift = (stepIndex % 4) * 5; // 0, 5, 10, 15% variation
-  
-  // Grid resolution: 2° x 2°
-  const resolution = 2.0;
-  
-  // Antarctic region: -75° to -50° latitude, -180° to 180° longitude
-  for (let lat = -75; lat <= -50; lat += resolution) {
-    for (let lon = -180; lon <= 180; lon += resolution) {
-      let concentration = 0;
-      
-      if (lat < -65) {
-        // Pack ice zone: 60-90% ice
-        concentration = 60 + Math.random() * 30 + seasonalShift;
-      } else if (lat >= -65 && lat < -60) {
-        // Marginal ice zone: 20-60% ice
-        concentration = 20 + Math.random() * 40 + seasonalShift * 0.5;
-      } else {
-        // Open ocean: 0-20% ice
-        concentration = Math.random() * 20;
-      }
-      
-      // Clamp to 0-100%
-      concentration = Math.max(0, Math.min(100, concentration));
-      
-      cells.push({ lat, lon, concentration });
+  try {
+    const response = await fetch('/data/seaice_grid.json');
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
     }
+    
+    const data: Array<{ lat: number; lon: number; date: string; concentration: number | null }> = await response.json();
+    
+    // Filter to target date and skip null/NaN/undefined concentrations (land/ice-shelf cells)
+    const cells: IceCell[] = data
+      .filter(row => row.date === targetDate)
+      .filter(row => row.concentration != null && !isNaN(row.concentration))
+      .map(row => ({
+        lat: row.lat,
+        lon: row.lon,
+        concentration: row.concentration as number
+      }));
+    
+    return cells;
+  } catch (error) {
+    console.error('Failed to load sea-ice data:', error);
+    return [];
   }
-  
-  return cells;
 }

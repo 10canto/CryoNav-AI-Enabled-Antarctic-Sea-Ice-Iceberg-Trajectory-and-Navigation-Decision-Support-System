@@ -82,11 +82,11 @@ export const currentStep = (s: Pick<AppState, 'scenario' | 'stepIndex'>): Step |
 
 const errMsg = (e: unknown) => (e instanceof Error ? e.message : String(e));
 
-function stepPatch(step: Step, index: number, seq: number): Partial<AppState> {
+function stepPatch(step: Step, index: number, seq: number, currentSelectedRouteId: string | null): Partial<AppState> {
   return {
     stepIndex: index,
     navSeq: seq,
-    selectedRouteId: step.selected_route_id,
+    selectedRouteId: step.routes.some((r) => r.id === currentSelectedRouteId) ? currentSelectedRouteId : step.selected_route_id,
     selectedIcebergId: null,
     risk: step.risk,
     alert: step.alert,
@@ -223,7 +223,7 @@ export const useStore = create<AppState>((set, get) => {
           allIcebergs: res.allIcebergs ?? [],
           whatIfSupport: support,
           loading: false,
-          ...stepPatch(res.scenario.steps[0], 0, get().navSeq + 1),
+          ...stepPatch(res.scenario.steps[0], 0, get().navSeq + 1, get().selectedRouteId),
         });
       } catch (e) {
         if (get().mode !== mode) return;
@@ -236,7 +236,7 @@ export const useStore = create<AppState>((set, get) => {
       if (!sc) return;
       const idx = Math.min(Math.max(i, 0), sc.steps.length - 1);
       if (idx === get().stepIndex) return;
-      set(stepPatch(sc.steps[idx], idx, get().navSeq + 1));
+      set(stepPatch(sc.steps[idx], idx, get().navSeq + 1, get().selectedRouteId));
     },
     next() {
       get().goToStep(get().stepIndex + 1);
@@ -248,7 +248,7 @@ export const useStore = create<AppState>((set, get) => {
       const sc = get().scenario;
       if (!sc) return;
       // always re-apply step 0 (also clears decision / modal)
-      if (get().stepIndex === 0) set(stepPatch(sc.steps[0], 0, get().navSeq + 1));
+      if (get().stepIndex === 0) set(stepPatch(sc.steps[0], 0, get().navSeq + 1, get().selectedRouteId));
       else get().goToStep(0);
     },
 

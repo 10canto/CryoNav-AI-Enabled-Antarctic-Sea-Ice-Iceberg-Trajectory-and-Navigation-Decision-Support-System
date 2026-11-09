@@ -1,4 +1,5 @@
 import { useStore } from '../store/useStore';
+import { MapController } from '../map/MapController';
 
 export function TopBar({ onOpenShortcuts, onOpenWhatsReal }: { onOpenShortcuts: () => void; onOpenWhatsReal: () => void }) {
   const mode = useStore((s) => s.mode);
@@ -8,6 +9,11 @@ export function TopBar({ onOpenShortcuts, onOpenWhatsReal }: { onOpenShortcuts: 
   const loading = useStore((s) => s.loading);
   const showSeaIce = useStore((s) => s.showSeaIce);
   const toggleSeaIce = useStore((s) => s.toggleSeaIce);
+
+  const handleSeasonChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const date = e.target.value;
+    MapController.current?.setSeaIceSeason(date);
+  };
 
   return (
     <header className="topbar">
@@ -34,6 +40,16 @@ export function TopBar({ onOpenShortcuts, onOpenWhatsReal }: { onOpenShortcuts: 
       >
         🧊 Ice
       </button>
+      {showSeaIce && (
+        <div className="ice-season-selector">
+          <label className="season-label">Ice Season</label>
+          <select className="season-select" onChange={handleSeasonChange} defaultValue="2020-08-15">
+            <option value="2020-01-15">Summer (Jan)</option>
+            <option value="2020-05-15">Autumn (May)</option>
+            <option value="2020-08-15">Winter (Aug)</option>
+          </select>
+        </div>
+      )}
       <div className="badges">
         {mode === 'demo' && <span className="badge scripted">SCRIPTED SCENARIO</span>}
         {mode === 'demo' && placeholder && <span className="badge placeholder">PLACEHOLDER DATA</span>}
@@ -42,7 +58,7 @@ export function TopBar({ onOpenShortcuts, onOpenWhatsReal }: { onOpenShortcuts: 
       </div>
       {showSeaIce && (
         <div className="sea-ice-legend">
-          <div className="legend-title">Sea-ice concentration (PLACEHOLDER)</div>
+          <div className="legend-title">Sea-ice concentration</div>
           <div className="legend-scale">
             <div className="legend-item">
               <div className="legend-color" style={{ background: 'rgb(0, 105, 148)' }}></div>

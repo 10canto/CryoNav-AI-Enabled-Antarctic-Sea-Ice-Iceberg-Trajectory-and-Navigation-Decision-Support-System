@@ -5,7 +5,7 @@ import type { Iceberg, Route, Step } from '../domain/types';
 import { currentStep, type AppState, type useStore } from '../store/useStore';
 import { PORTS } from './ports';
 import { readTokens } from '../theme/tokens';
-import { SeaIceLayer, generatePlaceholderIceData } from './SeaIceLayer';
+import { SeaIceLayer, loadRealSeaIceData } from './SeaIceLayer';
 
 type Store = typeof useStore;
 type IcebergLayer = L.LayerGroup | L.MarkerClusterGroup;
@@ -268,7 +268,7 @@ export class MapController {
       this.syncRoutes(step.routes, s.selectedRouteId);
       this.syncIcebergs(step.icebergs);
       this.syncPredictedCrossing(step);
-      this.syncSeaIce(s.stepIndex);
+      void this.syncSeaIce(s.stepIndex);
       if (navigated) this.onNavigate(step, first);
     } else if (s.selectedRouteId !== prev.selectedRouteId) {
       this.styleRoutes(s.selectedRouteId);
@@ -299,7 +299,7 @@ export class MapController {
     this.alertAcknowledged = false;
     
     const target = L.latLng(step.ship.lat, step.ship.lon);
-    const selected = step.routes.find((r) => r.id === step.selected_route_id);
+    const selected = step.routes.find((r) => r.id === this.store.getState().selectedRouteId) ?? step.routes.find((r) => r.id === step.selected_route_id);
     const newLine = selected ? selected.waypoints.map((w) => L.latLng(w.lat, w.lon)) : null;
 
     if (first) {
@@ -692,10 +692,18 @@ export class MapController {
 
   // ---------------------------------------------------------------- sea-ice layer
 
-  private syncSeaIce(stepIndex: number) {
+  private async syncSeaIce(stepIndex: number) {
     if (!this.seaIceLayer) return;
-    const cells = generatePlaceholderIceData(stepIndex);
+    const cells = await loadRealSeaIceData(this.seaIceLayer.getSelectedDate());
     this.seaIceLayer.update(cells);
+  }
+
+  setSeaIceSeason(date: string) {
+    if (!this.seaIceLayer) return;
+    this.seaIceLayer.setSeason(date);
+    // Reload sea-ice data for current step
+    const state = this.store.getState();
+    void this.syncSeaIce(state.stepIndex);
   }
 
   private toggleSeaIce(visible: boolean) {

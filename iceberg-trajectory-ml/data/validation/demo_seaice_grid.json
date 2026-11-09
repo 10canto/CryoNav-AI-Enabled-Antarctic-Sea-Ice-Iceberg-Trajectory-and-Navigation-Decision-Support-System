@@ -1,0 +1,1298 @@
+[
+  {
+    "lat": -69.0,
+    "lon": 11.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -69.0,
+    "lon": 13.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -69.0,
+    "lon": 15.0,
+    "date": "2020-01-15",
+    "concentration": 0.1
+  },
+  {
+    "lat": -69.0,
+    "lon": 17.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -67.0,
+    "lon": 11.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -67.0,
+    "lon": 13.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -67.0,
+    "lon": 15.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -67.0,
+    "lon": 17.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -65.0,
+    "lon": 11.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -65.0,
+    "lon": 13.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -65.0,
+    "lon": 15.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -65.0,
+    "lon": 17.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -63.0,
+    "lon": 11.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -63.0,
+    "lon": 13.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -63.0,
+    "lon": 15.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -63.0,
+    "lon": 17.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -61.0,
+    "lon": 11.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -61.0,
+    "lon": 13.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -61.0,
+    "lon": 15.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -61.0,
+    "lon": 17.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -59.0,
+    "lon": 11.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -59.0,
+    "lon": 13.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -59.0,
+    "lon": 15.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -59.0,
+    "lon": 17.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -57.0,
+    "lon": 11.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -57.0,
+    "lon": 13.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -57.0,
+    "lon": 15.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -57.0,
+    "lon": 17.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -55.0,
+    "lon": 11.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -55.0,
+    "lon": 13.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -55.0,
+    "lon": 15.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -55.0,
+    "lon": 17.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -53.0,
+    "lon": 11.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -53.0,
+    "lon": 13.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -53.0,
+    "lon": 15.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -53.0,
+    "lon": 17.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -51.0,
+    "lon": 11.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -51.0,
+    "lon": 13.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -51.0,
+    "lon": 15.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -51.0,
+    "lon": 17.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -49.0,
+    "lon": 11.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -49.0,
+    "lon": 13.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -49.0,
+    "lon": 15.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -49.0,
+    "lon": 17.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -47.0,
+    "lon": 11.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -47.0,
+    "lon": 13.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -47.0,
+    "lon": 15.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -47.0,
+    "lon": 17.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -45.0,
+    "lon": 11.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -45.0,
+    "lon": 13.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -45.0,
+    "lon": 15.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -45.0,
+    "lon": 17.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -43.0,
+    "lon": 11.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -43.0,
+    "lon": 13.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -43.0,
+    "lon": 15.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -43.0,
+    "lon": 17.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -41.0,
+    "lon": 11.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -41.0,
+    "lon": 13.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -41.0,
+    "lon": 15.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -41.0,
+    "lon": 17.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -39.0,
+    "lon": 11.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -39.0,
+    "lon": 13.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -39.0,
+    "lon": 15.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -39.0,
+    "lon": 17.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -37.0,
+    "lon": 11.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -37.0,
+    "lon": 13.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -37.0,
+    "lon": 15.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -37.0,
+    "lon": 17.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -35.0,
+    "lon": 11.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -35.0,
+    "lon": 13.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -35.0,
+    "lon": 15.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -35.0,
+    "lon": 17.0,
+    "date": "2020-01-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -69.0,
+    "lon": 11.0,
+    "date": "2020-05-15",
+    "concentration": 81.8
+  },
+  {
+    "lat": -69.0,
+    "lon": 13.0,
+    "date": "2020-05-15",
+    "concentration": 81.0
+  },
+  {
+    "lat": -69.0,
+    "lon": 15.0,
+    "date": "2020-05-15",
+    "concentration": 89.8
+  },
+  {
+    "lat": -69.0,
+    "lon": 17.0,
+    "date": "2020-05-15",
+    "concentration": 89.1
+  },
+  {
+    "lat": -67.0,
+    "lon": 11.0,
+    "date": "2020-05-15",
+    "concentration": 69.5
+  },
+  {
+    "lat": -67.0,
+    "lon": 13.0,
+    "date": "2020-05-15",
+    "concentration": 66.4
+  },
+  {
+    "lat": -67.0,
+    "lon": 15.0,
+    "date": "2020-05-15",
+    "concentration": 56.0
+  },
+  {
+    "lat": -67.0,
+    "lon": 17.0,
+    "date": "2020-05-15",
+    "concentration": 44.1
+  },
+  {
+    "lat": -65.0,
+    "lon": 11.0,
+    "date": "2020-05-15",
+    "concentration": 13.9
+  },
+  {
+    "lat": -65.0,
+    "lon": 13.0,
+    "date": "2020-05-15",
+    "concentration": 14.7
+  },
+  {
+    "lat": -65.0,
+    "lon": 15.0,
+    "date": "2020-05-15",
+    "concentration": 13.0
+  },
+  {
+    "lat": -65.0,
+    "lon": 17.0,
+    "date": "2020-05-15",
+    "concentration": 8.8
+  },
+  {
+    "lat": -63.0,
+    "lon": 11.0,
+    "date": "2020-05-15",
+    "concentration": 5.1
+  },
+  {
+    "lat": -63.0,
+    "lon": 13.0,
+    "date": "2020-05-15",
+    "concentration": 7.1
+  },
+  {
+    "lat": -63.0,
+    "lon": 15.0,
+    "date": "2020-05-15",
+    "concentration": 5.3
+  },
+  {
+    "lat": -63.0,
+    "lon": 17.0,
+    "date": "2020-05-15",
+    "concentration": 4.1
+  },
+  {
+    "lat": -61.0,
+    "lon": 11.0,
+    "date": "2020-05-15",
+    "concentration": 2.0
+  },
+  {
+    "lat": -61.0,
+    "lon": 13.0,
+    "date": "2020-05-15",
+    "concentration": 1.7
+  },
+  {
+    "lat": -61.0,
+    "lon": 15.0,
+    "date": "2020-05-15",
+    "concentration": 1.6
+  },
+  {
+    "lat": -61.0,
+    "lon": 17.0,
+    "date": "2020-05-15",
+    "concentration": 1.2
+  },
+  {
+    "lat": -59.0,
+    "lon": 11.0,
+    "date": "2020-05-15",
+    "concentration": 0.5
+  },
+  {
+    "lat": -59.0,
+    "lon": 13.0,
+    "date": "2020-05-15",
+    "concentration": 0.6
+  },
+  {
+    "lat": -59.0,
+    "lon": 15.0,
+    "date": "2020-05-15",
+    "concentration": 0.4
+  },
+  {
+    "lat": -59.0,
+    "lon": 17.0,
+    "date": "2020-05-15",
+    "concentration": 0.3
+  },
+  {
+    "lat": -57.0,
+    "lon": 11.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -57.0,
+    "lon": 13.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -57.0,
+    "lon": 15.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -57.0,
+    "lon": 17.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -55.0,
+    "lon": 11.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -55.0,
+    "lon": 13.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -55.0,
+    "lon": 15.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -55.0,
+    "lon": 17.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -53.0,
+    "lon": 11.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -53.0,
+    "lon": 13.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -53.0,
+    "lon": 15.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -53.0,
+    "lon": 17.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -51.0,
+    "lon": 11.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -51.0,
+    "lon": 13.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -51.0,
+    "lon": 15.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -51.0,
+    "lon": 17.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -49.0,
+    "lon": 11.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -49.0,
+    "lon": 13.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -49.0,
+    "lon": 15.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -49.0,
+    "lon": 17.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -47.0,
+    "lon": 11.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -47.0,
+    "lon": 13.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -47.0,
+    "lon": 15.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -47.0,
+    "lon": 17.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -45.0,
+    "lon": 11.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -45.0,
+    "lon": 13.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -45.0,
+    "lon": 15.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -45.0,
+    "lon": 17.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -43.0,
+    "lon": 11.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -43.0,
+    "lon": 13.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -43.0,
+    "lon": 15.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -43.0,
+    "lon": 17.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -41.0,
+    "lon": 11.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -41.0,
+    "lon": 13.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -41.0,
+    "lon": 15.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -41.0,
+    "lon": 17.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -39.0,
+    "lon": 11.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -39.0,
+    "lon": 13.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -39.0,
+    "lon": 15.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -39.0,
+    "lon": 17.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -37.0,
+    "lon": 11.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -37.0,
+    "lon": 13.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -37.0,
+    "lon": 15.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -37.0,
+    "lon": 17.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -35.0,
+    "lon": 11.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -35.0,
+    "lon": 13.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -35.0,
+    "lon": 15.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -35.0,
+    "lon": 17.0,
+    "date": "2020-05-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -69.0,
+    "lon": 11.0,
+    "date": "2020-08-15",
+    "concentration": 93.5
+  },
+  {
+    "lat": -69.0,
+    "lon": 13.0,
+    "date": "2020-08-15",
+    "concentration": 85.0
+  },
+  {
+    "lat": -69.0,
+    "lon": 15.0,
+    "date": "2020-08-15",
+    "concentration": 94.0
+  },
+  {
+    "lat": -69.0,
+    "lon": 17.0,
+    "date": "2020-08-15",
+    "concentration": 96.5
+  },
+  {
+    "lat": -67.0,
+    "lon": 11.0,
+    "date": "2020-08-15",
+    "concentration": 94.7
+  },
+  {
+    "lat": -67.0,
+    "lon": 13.0,
+    "date": "2020-08-15",
+    "concentration": 95.2
+  },
+  {
+    "lat": -67.0,
+    "lon": 15.0,
+    "date": "2020-08-15",
+    "concentration": 95.4
+  },
+  {
+    "lat": -67.0,
+    "lon": 17.0,
+    "date": "2020-08-15",
+    "concentration": 94.7
+  },
+  {
+    "lat": -65.0,
+    "lon": 11.0,
+    "date": "2020-08-15",
+    "concentration": 94.3
+  },
+  {
+    "lat": -65.0,
+    "lon": 13.0,
+    "date": "2020-08-15",
+    "concentration": 93.8
+  },
+  {
+    "lat": -65.0,
+    "lon": 15.0,
+    "date": "2020-08-15",
+    "concentration": 93.8
+  },
+  {
+    "lat": -65.0,
+    "lon": 17.0,
+    "date": "2020-08-15",
+    "concentration": 93.4
+  },
+  {
+    "lat": -63.0,
+    "lon": 11.0,
+    "date": "2020-08-15",
+    "concentration": 93.7
+  },
+  {
+    "lat": -63.0,
+    "lon": 13.0,
+    "date": "2020-08-15",
+    "concentration": 93.8
+  },
+  {
+    "lat": -63.0,
+    "lon": 15.0,
+    "date": "2020-08-15",
+    "concentration": 94.1
+  },
+  {
+    "lat": -63.0,
+    "lon": 17.0,
+    "date": "2020-08-15",
+    "concentration": 93.9
+  },
+  {
+    "lat": -61.0,
+    "lon": 11.0,
+    "date": "2020-08-15",
+    "concentration": 93.9
+  },
+  {
+    "lat": -61.0,
+    "lon": 13.0,
+    "date": "2020-08-15",
+    "concentration": 93.9
+  },
+  {
+    "lat": -61.0,
+    "lon": 15.0,
+    "date": "2020-08-15",
+    "concentration": 94.4
+  },
+  {
+    "lat": -61.0,
+    "lon": 17.0,
+    "date": "2020-08-15",
+    "concentration": 94.5
+  },
+  {
+    "lat": -59.0,
+    "lon": 11.0,
+    "date": "2020-08-15",
+    "concentration": 93.4
+  },
+  {
+    "lat": -59.0,
+    "lon": 13.0,
+    "date": "2020-08-15",
+    "concentration": 94.0
+  },
+  {
+    "lat": -59.0,
+    "lon": 15.0,
+    "date": "2020-08-15",
+    "concentration": 94.0
+  },
+  {
+    "lat": -59.0,
+    "lon": 17.0,
+    "date": "2020-08-15",
+    "concentration": 92.4
+  },
+  {
+    "lat": -57.0,
+    "lon": 11.0,
+    "date": "2020-08-15",
+    "concentration": 92.6
+  },
+  {
+    "lat": -57.0,
+    "lon": 13.0,
+    "date": "2020-08-15",
+    "concentration": 92.8
+  },
+  {
+    "lat": -57.0,
+    "lon": 15.0,
+    "date": "2020-08-15",
+    "concentration": 88.1
+  },
+  {
+    "lat": -57.0,
+    "lon": 17.0,
+    "date": "2020-08-15",
+    "concentration": 76.8
+  },
+  {
+    "lat": -55.0,
+    "lon": 11.0,
+    "date": "2020-08-15",
+    "concentration": 71.6
+  },
+  {
+    "lat": -55.0,
+    "lon": 13.0,
+    "date": "2020-08-15",
+    "concentration": 51.7
+  },
+  {
+    "lat": -55.0,
+    "lon": 15.0,
+    "date": "2020-08-15",
+    "concentration": 24.6
+  },
+  {
+    "lat": -55.0,
+    "lon": 17.0,
+    "date": "2020-08-15",
+    "concentration": 8.4
+  },
+  {
+    "lat": -53.0,
+    "lon": 11.0,
+    "date": "2020-08-15",
+    "concentration": 6.0
+  },
+  {
+    "lat": -53.0,
+    "lon": 13.0,
+    "date": "2020-08-15",
+    "concentration": 8.8
+  },
+  {
+    "lat": -53.0,
+    "lon": 15.0,
+    "date": "2020-08-15",
+    "concentration": 2.4
+  },
+  {
+    "lat": -53.0,
+    "lon": 17.0,
+    "date": "2020-08-15",
+    "concentration": 1.6
+  },
+  {
+    "lat": -51.0,
+    "lon": 11.0,
+    "date": "2020-08-15",
+    "concentration": 0.5
+  },
+  {
+    "lat": -51.0,
+    "lon": 13.0,
+    "date": "2020-08-15",
+    "concentration": 0.6
+  },
+  {
+    "lat": -51.0,
+    "lon": 15.0,
+    "date": "2020-08-15",
+    "concentration": 0.4
+  },
+  {
+    "lat": -51.0,
+    "lon": 17.0,
+    "date": "2020-08-15",
+    "concentration": 0.2
+  },
+  {
+    "lat": -49.0,
+    "lon": 11.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -49.0,
+    "lon": 13.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -49.0,
+    "lon": 15.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -49.0,
+    "lon": 17.0,
+    "date": "2020-08-15",
+    "concentration": 0.0
+  },
+  {
+    "lat": -47.0,
+    "lon": 11.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -47.0,
+    "lon": 13.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -47.0,
+    "lon": 15.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -47.0,
+    "lon": 17.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -45.0,
+    "lon": 11.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -45.0,
+    "lon": 13.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -45.0,
+    "lon": 15.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -45.0,
+    "lon": 17.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -43.0,
+    "lon": 11.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -43.0,
+    "lon": 13.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -43.0,
+    "lon": 15.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -43.0,
+    "lon": 17.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -41.0,
+    "lon": 11.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -41.0,
+    "lon": 13.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -41.0,
+    "lon": 15.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -41.0,
+    "lon": 17.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -39.0,
+    "lon": 11.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -39.0,
+    "lon": 13.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -39.0,
+    "lon": 15.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -39.0,
+    "lon": 17.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -37.0,
+    "lon": 11.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -37.0,
+    "lon": 13.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -37.0,
+    "lon": 15.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -37.0,
+    "lon": 17.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -35.0,
+    "lon": 11.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -35.0,
+    "lon": 13.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -35.0,
+    "lon": 15.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  },
+  {
+    "lat": -35.0,
+    "lon": 17.0,
+    "date": "2020-08-15",
+    "concentration": NaN
+  }
+]

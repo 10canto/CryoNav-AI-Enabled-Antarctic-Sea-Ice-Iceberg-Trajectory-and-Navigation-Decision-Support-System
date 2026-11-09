@@ -1,0 +1,24 @@
+region:
+  minimum_latitude: -74.0
+  maximum_latitude: -43.25
+  minimum_longitude: -21.9853
+  maximum_longitude: 61.9979
+date_range:
+  start: '1995-08-20'
+  end: '2021-12-31'
+estimated_size_gb: 25.3
+variables:
+  ocean:
+  - uo
+  - vo
+  - thetao
+  - so
+  atmosphere:
+  - 10m_u_component_of_wind
+  - 10m_v_component_of_wind
+notes:
+- This configuration is for STREAMING data, not downloading to disk
+- Use helpers/stream_ocean_data.py and helpers/stream_era5_data.py
+- 'Process year-by-year to manage memory (target: < 8 GB RAM)'
+- Only training_table.csv will be saved permanently
+generated: '2026-11-05 14:21:11'
