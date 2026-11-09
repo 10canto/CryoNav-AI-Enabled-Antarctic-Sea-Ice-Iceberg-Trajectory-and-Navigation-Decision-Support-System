@@ -644,3 +644,29 @@ async def reset_demo():
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
+
+
+# SEA-ICE ENDPOINT
+# Real data: Copernicus Marine GLORYS12 reanalysis via A-AMAR pipeline
+@app.get("/api/seaice")
+async def get_seaice(date: str = Query("2020-08-15", description="Date in YYYY-MM-DD format")):
+    """Get sea-ice concentration data for a specific date."""
+    import math, json
+    seaice_file = Path(__file__).parent.parent.parent / "iceberg-trajectory-ml" / "data" / "validation" / "demo_seaice_grid.json"
+    if not seaice_file.exists():
+        return JSONResponse(status_code=503, content={"error": "Sea-ice data not available", "simulated": False})
+    try:
+        with open(seaice_file, "r") as f:
+            data = json.load(f)
+        cells = []
+        for row in data:
+            if row.get("date") != date:
+                continue
+            conc = row.get("concentration")
+            if conc is None or (isinstance(conc, float) and math.isnan(conc)):
+                continue
+            cells.append({"lat": row["lat"], "lon": row["lon"], "concentration": conc})
+        return {"date": date, "source": "Copernicus Marine GLORYS12 reanalysis", "grid_resolution_deg": 2.0, "cells": cells}
+    except Exception as e:
+        logger.error(f"Failed to read sea-ice data: {e}")
+        return JSONResponse(status_code=503, content={"error": "Sea-ice data not available", "simulated": False})
