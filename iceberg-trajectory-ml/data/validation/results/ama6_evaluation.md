@@ -45,7 +45,7 @@ v = 0.9000*vo + 0.2000*vsi*ice_wt + 0.0200*v10
 | Textbook Physics | 14,024 | 0.1924 | 0.1000 | 0.2443 | 19.17 |
 | Zero Baseline | 14,024 | 0.0104 | 0.0050 | 0.0407 | 1.06 |
 
-**Held-out icebergs**: D20A, B09G, B15G, B15AB, B15T, D26, B15R, D20B, D21A, B17A
+**Held-out icebergs**: D20A, B09G, B15G, B15AB, B15T (originally intended)[^1], plus D26, B15R, D20B, D21A, B17A (substitutes to reach 10 total)
 
 ### Combined Split (≤2017 excl. holdouts → 2018+ for holdouts)
 
