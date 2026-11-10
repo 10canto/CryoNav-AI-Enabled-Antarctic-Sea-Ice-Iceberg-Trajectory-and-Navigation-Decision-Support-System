@@ -174,5 +174,5 @@
     "spatial_safe": "Any iceberg NOT in spatial_held_out was in AMA-6 spatial training. Hold out different IDs for independent spatial evaluation."
   },
   "generated_from": "training_table.csv",
-  "generated_at": "2026-11-10T14:12:01.844624Z"
+  "generated_at": "2026-11-10T14:12:23.974187Z"
 }
