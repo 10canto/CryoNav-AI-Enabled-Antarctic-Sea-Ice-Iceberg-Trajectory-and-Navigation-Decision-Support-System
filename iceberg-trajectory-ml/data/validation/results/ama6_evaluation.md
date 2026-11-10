@@ -36,7 +36,7 @@ v = 0.9000*vo + 0.2000*vsi*ice_wt + 0.0200*v10
 | Textbook Physics | 6,227 | 0.2044 | 0.1109 | 0.2621 | 20.14 |
 | Zero Baseline | 6,227 | 0.0331 | 0.0133 | 0.0740 | 3.24 |
 
-### Spatial Split (hold out 10 icebergs)
+### Spatial Split (hold out 5 held-out icebergs: B15T, B09G, B15G, D20A, B15AB)[^1]
 
 | Model | N | MAE u (m/s) | MAE v (m/s) | RMSE u (m/s) | MAE speed (km/day) |
 |-------|---|-------------|-------------|--------------|-------------------|
@@ -109,7 +109,7 @@ Position error (km) at different time horizons using temporal split (train ≤20
 
 ## Per-Iceberg Breakdown (Spatial Split)
 
-Individual results for the 10 held-out icebergs:
+Individual results for the 5 held-out icebergs (B15T, B09G, B15G, D20A, B15AB)[^1]:
 
 | Iceberg | N | Obs Speed (km/day) | ML MAE | Calib Phys MAE | Textbook MAE | Zero MAE |
 |---------|---|-------------------|--------|----------------|--------------|----------|
@@ -205,6 +205,10 @@ Performance by observed speed category:
 ✓ NO accuracy claims (raw error metrics only: MAE, RMSE in physical units)  
 ✓ NO random splits (temporal/spatial strategies prevent leakage)  
 ✓ Data gate enforced at training start
+
+---
+
+[^1]: Note: 5 additional IDs (C19A, D15A, A23A, C16A, B09B) were intended for spatial holdout but were not present in the training table after AMA-2 filtering.
 
 ---
 
