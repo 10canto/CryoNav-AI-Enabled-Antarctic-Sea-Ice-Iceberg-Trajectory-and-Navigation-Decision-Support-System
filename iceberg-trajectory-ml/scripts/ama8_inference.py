@@ -31,6 +31,7 @@ from pathlib import Path
 from math import cos, radians, sqrt
 
 import numpy as np
+import pandas as pd
 import joblib
 
 
@@ -125,6 +126,8 @@ def predict_iceberg_position(
     model_dict = joblib.load(model_path)
     model_u = model_dict['model_u']
     model_v = model_dict['model_v']
+    scaler = model_dict['scaler']
+    feature_names = model_dict['feature_names']
     
     # Compute derived features
     dt_days = dt_hours / 24.0
@@ -152,9 +155,8 @@ def predict_iceberg_position(
     month_sin = np.sin(month_rad)
     month_cos = np.cos(month_rad)
     
-    # Build feature vector in exact order from config
-    features = config['features']
-    feature_values = {
+    # Build feature dictionary with all possible features
+    feature_dict = {
         'ocean_u': ocean_u,
         'ocean_v': ocean_v,
         'ice_weight': ice_wt,
@@ -168,11 +170,15 @@ def predict_iceberg_position(
         'month_cos': month_cos
     }
     
-    X = np.array([[feature_values[f] for f in features]])
+    # Build feature vector in exact order from model's feature_names
+    X = pd.DataFrame([[feature_dict[f] for f in feature_names]], columns=feature_names)
     
-    # Predict velocity
-    u_pred = model_u.predict(X)[0]
-    v_pred = model_v.predict(X)[0]
+    # Apply scaler transform (CRITICAL: model was trained on scaled features)
+    X_scaled = scaler.transform(X)
+    
+    # Predict velocity using scaled features
+    u_pred = model_u.predict(X_scaled)[0]
+    v_pred = model_v.predict(X_scaled)[0]
     
     # Convert to position
     dt_sec = dt_hours * 3600
