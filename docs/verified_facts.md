@@ -158,25 +158,22 @@ Iceberg trajectory physics model outperforms simple baselines.
 iceberg-trajectory-ml/results/physics_vs_baselines.md reports validation on only 3 unique icebergs (603 test sequences). Constant velocity had lower mean error than the physics predictor at 24h, 48h and 72h.
 “In this limited evaluation using only 3 icebergs, the constant-velocity baseline performed better than the physics predictor. This result is based on only 3 icebergs and is not a general conclusion about iceberg prediction.”
 2 Nov 2026
-LSTM is the best trajectory model.
 iceberg-trajectory-ml/results/lstm_honest_metrics.md reports 23 training icebergs, 6 test icebergs and 3,526 test sequences. The reported mean errors are 6.93 km for Stay at Position, 5.40 km for Constant Velocity and 18.18 km for Simple Predictor (average of last 3 displacements). The file reports no LSTM metric.
-“The evaluation used an iceberg-ID split with 23 training icebergs, 6 unseen test icebergs and 3,526 test sequences. It reports three baselines only: Stay at Position (mean 6.93 km, median 2.81 km, standard deviation 26.27 km), Constant Velocity (mean 5.40 km, median 0.58 km, standard deviation 34.63 km), and Simple Predictor averaging the last 3 displacement vectors (mean 18.18 km, median 1.29 km, standard deviation 249.93 km). The file contains no LSTM row or LSTM score; therefore, it does not establish LSTM performance. No ocean-current features were used because 98% of the available current data had the wrong date.”
+“The evaluation used an iceberg-ID split with 23 training icebergs, 6 unseen test icebergs and 3,526 test sequences. It reports three baselines only: Stay at Position (mean 6.93 km, median 2.81 km, standard deviation 26.27 km), Constant Velocity (mean 5.40 km, median 0.58 km, standard deviation 34.63 km), and Simple Predictor averaging the last 3 displacement vectors (mean 18.18 km, median 1.29 km, standard deviation 249.93 km). The file contains no LSTM row or LSTM score; therefore, it does not establish LSTM performance. No ocean-current features were used because 98% of the available current data had the wrong date.” No valid LSTM result exists; earlier score removed due to data leakage.
 2 Nov 2026
-The demo works offline.
-build-cryonav-ai-frontend/web/README.md says demo mode reads public/demo/scenario.json once and makes zero network calls; the scenario is labelled placeholder data in that README.
-“The frontend includes an offline demo mode using a pre-generated scenario file; its scenario data is scripted/placeholder and is not live operational data.”
+Offline demo confirmed: zero external network requests in dev and production. All data served locally. Demo scenario uses scripted data clearly labelled as PLACEHOLDER.
 2 Nov 2026
-The prototype is production-ready or guarantees safe navigation.
+The prototype is not production-ready and does not guarantee safe navigation.
 The supplied documentation does not establish operational validation, certification or guaranteed safety.
 “CryoNav is a prototype decision-support/advisory system that requires further validation before operational use.”
 2 Nov 2026
-8. Items requiring team confirmation
+9. Items requiring team confirmation
 Confirm which exact research papers the team intended to cite in the PPT.
 Confirm the final frozen frontend/demo build.
 Confirm whether the final demo scenario is scripted/placeholder or generated from backend responses.
 Ensure all performance numbers in slides match the committed result files and include dataset limitations.
 Do not restore CO2 figures unless the team explicitly reopens that decision and provides a defensible source and calculation.
-9. Sources
+10. Sources
 Australian Antarctic Program – Akademik Shokalskiy assistance, 26 December 2013: https://www.antarctica.gov.au/news/2013/icebreaker-aurora-australis-called-to-assist-russian-flagged-ship-in-sea-ice/
 UNSW – Australasian Antarctic Expedition FAQ: https://www.unsw.edu.au/news/2014/01/faq--australasian-antarctic-expedition-2013-2014
 Australian Maritime Safety Authority (AMSA) – “Search and rescue incidents 2013–14” (includes the Akademik Shokalskiy incident): https://www.amsa.gov.au/safety-navigation/search-and-rescue/search-and-rescue-incidents-2013-14
