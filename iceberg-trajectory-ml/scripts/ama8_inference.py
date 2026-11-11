@@ -46,7 +46,9 @@ def predict_iceberg_position(
     ice_u: float = 0.0,  # m/s sea ice velocity eastward (default 0)
     ice_v: float = 0.0,  # m/s sea ice velocity northward (default 0)
     dt_hours: float = 24.0,
-    model_dir: str = None  # defaults to iceberg-trajectory-ml/data/validation/
+    model_dir: str = None,  # defaults to iceberg-trajectory-ml/data/validation/
+    month: int = None,   # month 1-12, defaults to 6 (June) if date not provided
+    date: str = None     # optional "YYYY-MM-DD" to auto-extract month
 ) -> dict:
     """
     Predict iceberg position after dt_hours.
@@ -63,6 +65,8 @@ def predict_iceberg_position(
         ice_v: Sea ice velocity northward (m/s, default 0)
         dt_hours: Time horizon in hours (default 24)
         model_dir: Path to model files (default: auto-detect)
+        month: Month 1-12 for seasonal features (default 6 if date not provided)
+        date: Optional "YYYY-MM-DD" to auto-extract month (overrides month param)
     
     Returns:
         dict with keys:
@@ -73,12 +77,25 @@ def predict_iceberg_position(
             predicted_speed_kmd: Predicted speed (km/day)
             model_version: Model name from config
             horizon_hours: Time horizon used
+            month: Month used for seasonal features
             warning: (optional) If extrapolated beyond 24h
     
     Raises:
         ValueError: If any input is NaN or invalid
         FileNotFoundError: If model files don't exist
     """
+    
+    # Determine month for seasonal features
+    if date is not None:
+        # Extract month from date string "YYYY-MM-DD"
+        month = int(date.split("-")[1])
+    elif month is None:
+        # Default to June for backward compatibility
+        month = 6
+    
+    # Validate month
+    if not (1 <= month <= 12):
+        raise ValueError(f"Month must be 1-12, got: {month}")
     
     # Validate inputs
     inputs = {
@@ -147,13 +164,10 @@ def predict_iceberg_position(
     lat_norm = (lat + 58.5) / 21.0   # [-75, -42] -> ~[-1, 1]
     lon_norm = (lon - 20.0) / 43.0   # [-23, 63] -> ~[-1, 1]
     
-    # Seasonal cycle (use current month - for real-time would need actual month)
-    # For simplicity, use middle of year (month=6) as default
-    # Backend should pass actual month if available
-    month = 6  # TODO: Backend should compute this from current date
-    month_rad = month * 2 * np.pi / 12
-    month_sin = np.sin(month_rad)
-    month_cos = np.cos(month_rad)
+    # Seasonal cycle (computed from month parameter)
+    import math
+    month_sin = math.sin(2 * math.pi * month / 12)
+    month_cos = math.cos(2 * math.pi * month / 12)
     
     # Build feature dictionary with all possible features
     feature_dict = {
@@ -227,7 +241,8 @@ def predict_iceberg_position(
         'speed_category': speed_category,
         'predicted_speed_kmd': float(predicted_speed_kmd),
         'model_version': config['model_name'],
-        'horizon_hours': float(dt_hours)
+        'horizon_hours': float(dt_hours),
+        'month': int(month)
     }
     
     # Add warning if extrapolated
@@ -246,6 +261,7 @@ def print_result(label: str, result: dict):
     print(f"  Predicted speed............................... {result['predicted_speed_kmd']:.2f} km/day")
     print(f"  Speed category................................ {result['speed_category']}")
     print(f"  Horizon....................................... {result['horizon_hours']:.1f} hours")
+    print(f"  Month (seasonal features)..................... {result['month']}")
     print(f"  Model version................................. {result['model_version']}")
     if 'warning' in result:
         print(f"  WARNING:...................................... {result['warning']}")
@@ -258,8 +274,8 @@ def run_tests():
     print("=" + " " * 20 + "CryoNav AI - Iceberg Trajectory ML" + " " * 24 + "=")
     print("=" * 80)
     
-    # Test 1: Stationary iceberg
-    print("\n[TEST 1] Stationary iceberg (minimal forcing)")
+    # Test 1: Stationary iceberg (January - summer)
+    print("\n[TEST 1] Stationary iceberg (minimal forcing, January summer)")
     result1 = predict_iceberg_position(
         lat=-65.0,
         lon=0.0,
@@ -269,12 +285,13 @@ def run_tests():
         wind_v=1.0,
         siconc=0.3,
         ice_u=0.0,
-        ice_v=0.0
+        ice_v=0.0,
+        month=1
     )
     print_result("Test 1 Result", result1)
     
-    # Test 2: Fast drift
-    print("\n[TEST 2] Fast drift (strong current + moderate wind)")
+    # Test 2: Fast drift (July - winter)
+    print("\n[TEST 2] Fast drift (strong current + moderate wind, July winter)")
     result2 = predict_iceberg_position(
         lat=-60.0,
         lon=30.0,
@@ -284,12 +301,13 @@ def run_tests():
         wind_v=-5.0,
         siconc=0.1,
         ice_u=0.0,
-        ice_v=0.0
+        ice_v=0.0,
+        month=7
     )
     print_result("Test 2 Result", result2)
     
-    # Test 3: Pack ice
-    print("\n[TEST 3] Pack ice (high siconc, weak current, strong wind)")
+    # Test 3: Pack ice (August - peak ice)
+    print("\n[TEST 3] Pack ice (high siconc, weak current, strong wind, August peak ice)")
     result3 = predict_iceberg_position(
         lat=-70.0,
         lon=-10.0,
@@ -299,12 +317,13 @@ def run_tests():
         wind_v=8.0,
         siconc=0.9,
         ice_u=0.1,
-        ice_v=0.05
+        ice_v=0.05,
+        month=8
     )
     print_result("Test 3 Result", result3)
     
-    # Test 4: Extrapolation warning (48h)
-    print("\n[TEST 4] 48-hour forecast (extrapolation warning)")
+    # Test 4: Extrapolation warning (48h, December)
+    print("\n[TEST 4] 48-hour forecast (extrapolation warning, December)")
     result4 = predict_iceberg_position(
         lat=-65.0,
         lon=0.0,
@@ -313,7 +332,8 @@ def run_tests():
         wind_u=5.0,
         wind_v=5.0,
         siconc=0.5,
-        dt_hours=48.0
+        dt_hours=48.0,
+        month=12
     )
     print_result("Test 4 Result", result4)
     
@@ -350,6 +370,8 @@ Examples:
     parser.add_argument('--usi', type=float, default=0.0, help='Sea ice velocity eastward (m/s, default 0)')
     parser.add_argument('--vsi', type=float, default=0.0, help='Sea ice velocity northward (m/s, default 0)')
     parser.add_argument('--dt', type=float, default=24.0, help='Time horizon (hours, default 24)')
+    parser.add_argument('--month', type=int, help='Month 1-12 for seasonal features (default 6 if --date not provided)')
+    parser.add_argument('--date', type=str, help='Date YYYY-MM-DD to auto-extract month (overrides --month)')
     parser.add_argument('--model-dir', type=str, help='Path to model files (optional)')
     
     args = parser.parse_args()
@@ -378,7 +400,9 @@ Examples:
             ice_u=args.usi,
             ice_v=args.vsi,
             dt_hours=args.dt,
-            model_dir=args.model_dir
+            model_dir=args.model_dir,
+            month=args.month,
+            date=args.date
         )
         
         # Output as JSON for backend parsing
