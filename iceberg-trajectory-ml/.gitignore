@@ -85,3 +85,9 @@ Thumbs.db
 # Large CSV files (optional - uncomment if needed)
 # data/iceberg_dataset_sample.csv
 # data/processed_icebergs_sample.csv
+
+# AMA-3/4 downloaded NetCDF data in validation folder — large files, do not commit (Team Rule 2)
+data/validation/*.nc
+
+# AMA-3 ocean forcing cache — potentially large, do not commit (Team Rule 2)
+data/validation/ocean_forcing_cache.csv
