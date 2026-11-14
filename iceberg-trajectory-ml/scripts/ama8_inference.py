@@ -35,6 +35,49 @@ import pandas as pd
 import joblib
 
 
+def load_speed_dependent_uncertainty() -> dict:
+    """
+    Load speed-dependent P75 uncertainty radii from AMA-8 handoff config.
+    
+    Returns:
+        dict mapping speed categories to P75 radius (km)
+        Falls back to default values if config file is missing.
+    """
+    # Default P75 values from Srilatha's AMA-7 evaluation
+    default_p75 = {
+        'stationary': 7.288610,
+        'slow': 8.150273,
+        'moderate': 7.749929,
+        'fast': 12.578111,
+        'overall': 9.681  # fallback for unknown categories
+    }
+    
+    # Try to load from handoff config
+    script_dir = Path(__file__).parent
+    handoff_config_path = script_dir.parent / "ama8_handoff" / "ama8_uncertainty_config.json"
+    
+    if handoff_config_path.exists():
+        try:
+            with open(handoff_config_path, 'r') as f:
+                config = json.load(f)
+            
+            # Extract P75 values from config if available
+            if 'uncertainty_km' in config:
+                p75_values = {}
+                for category, metrics in config['uncertainty_km'].items():
+                    if 'p75' in metrics:
+                        p75_values[category] = metrics['p75']
+                
+                # Use loaded values if complete
+                if all(cat in p75_values for cat in ['stationary', 'slow', 'moderate', 'fast']):
+                    p75_values['overall'] = config.get('uncertainty_km', {}).get('overall', {}).get('p75', default_p75['overall'])
+                    return p75_values
+        except Exception:
+            pass  # Fall through to defaults
+    
+    return default_p75
+
+
 def predict_iceberg_position(
     lat: float,
     lon: float,
@@ -72,7 +115,7 @@ def predict_iceberg_position(
         dict with keys:
             predicted_lat: Predicted latitude
             predicted_lon: Predicted longitude (wrapped to -180..180)
-            uncertainty_radius_km: 90th percentile error (km)
+            uncertainty_radius_km: P75 error radius (km), speed-dependent
             speed_category: stationary/slow/moderate/fast
             predicted_speed_kmd: Predicted speed (km/day)
             model_version: Model name from config
@@ -226,18 +269,19 @@ def predict_iceberg_position(
     else:
         speed_category = 'fast'
     
-    # Get uncertainty radius (P90)
-    uncertainty_p90_km = config['uncertainty_km'][speed_category]['p90']
+    # Speed-dependent P75 from AMA-7 evaluation (Srilatha), mapped to predicted speed
+    p75_radii = load_speed_dependent_uncertainty()
+    uncertainty_p75_km = p75_radii.get(speed_category, p75_radii['overall'])
     
     # Scale uncertainty if extrapolating beyond 24h
     if dt_hours > 24:
-        uncertainty_p90_km *= (dt_hours / 24.0)
+        uncertainty_p75_km *= (dt_hours / 24.0)
     
     # Build result
     result = {
         'predicted_lat': float(predicted_lat),
         'predicted_lon': float(predicted_lon),
-        'uncertainty_radius_km': float(uncertainty_p90_km),
+        'uncertainty_radius_km': float(uncertainty_p75_km),
         'speed_category': speed_category,
         'predicted_speed_kmd': float(predicted_speed_kmd),
         'model_version': config['model_name'],
@@ -257,7 +301,7 @@ def print_result(label: str, result: dict):
     print(f"\n{label}")
     print("=" * 80)
     print(f"  Predicted position............................ {result['predicted_lat']:.4f}°, {result['predicted_lon']:.4f}°")
-    print(f"  Uncertainty radius (P90)...................... {result['uncertainty_radius_km']:.2f} km")
+    print(f"  Uncertainty radius (P75)...................... {result['uncertainty_radius_km']:.2f} km")
     print(f"  Predicted speed............................... {result['predicted_speed_kmd']:.2f} km/day")
     print(f"  Speed category................................ {result['speed_category']}")
     print(f"  Horizon....................................... {result['horizon_hours']:.1f} hours")
