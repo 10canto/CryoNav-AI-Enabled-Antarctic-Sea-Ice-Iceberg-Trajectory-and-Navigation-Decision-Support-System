@@ -1,0 +1,60 @@
+{
+  "model_version": "CryoNav Drift Model v1",
+  "horizon_hours": 24,
+  "overall_p75_km": 9.68,
+  "speed_basis": "predicted_speed_kmd",
+  "speed_bands": {
+    "stationary": {
+      "max_speed_kmd": 2.0,
+      "p75_km": 12.64,
+      "sample_count": 30
+    },
+    "slow": {
+      "min_speed_kmd": 2.0,
+      "max_speed_kmd": 5.0,
+      "p75_km": 10.59,
+      "sample_count": 267
+    },
+    "moderate": {
+      "min_speed_kmd": 5.0,
+      "max_speed_kmd": 10.0,
+      "p75_km": 9.14,
+      "sample_count": 1138
+    },
+    "fast": {
+      "min_speed_kmd": 10.0,
+      "p75_km": 10.77,
+      "sample_count": 342
+    }
+  },
+  "evaluation": {
+    "icebergs": 11,
+    "iceberg_ids": [
+      "A78",
+      "B09I",
+      "B39",
+      "D21B",
+      "D27",
+      "D28",
+      "D29A",
+      "D29B",
+      "D29C",
+      "D30A",
+      "D30B"
+    ],
+    "predictions": 1777,
+    "period": "2018-2021",
+    "first_observation": "2018-07-06",
+    "last_target": "2021-12-31",
+    "leakage": "none",
+    "error_metric": "Haversine ML prediction error (km)",
+    "uncertainty_metric": "Empirical P75 within each predicted-speed band"
+  },
+  "limitations": {
+    "validated_horizon_hours": 24,
+    "48h_72h_ml": "not validated",
+    "lstm": "experimental; did not outperform the baselines; not production",
+    "calibration_note": "P75 values are empirical summaries on the AMA-7 evaluation set; they are not an independent calibration-set coverage guarantee."
+  },
+  "generated_at_utc": "2026-11-14T15:02:38.350454+00:00"
+}
